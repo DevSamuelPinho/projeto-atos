@@ -1,0 +1,519 @@
+/* ==========================================================================
+   PROJETO ATOS — MANUAL DE IDENTIDADE VISUAL & ESTILOS OFICIAIS
+   Pregação do Evangelho e Obras Sociais
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+:root {
+  /* Paleta Oficial do Manual de Identidade Visual */
+  --color-chama: #F57C00;      /* Laranja Chama */
+  --color-chama-dark: #D86900;
+  --color-chama-light: #FFF3E0;
+  --color-cacto: #2E7D32;      /* Verde Cacto */
+  --color-cacto-dark: #1B5E20;
+  --color-cacto-light: #E8F5E9;
+  --color-terra: #6B4E2E;      /* Marrom Terra */
+  --color-terra-dark: #4E3620;
+  --color-terra-light: #EFEBE9;
+  --color-areia: #F2E6D0;      /* Bege Areia */
+  --color-areia-light: #FAF6F0;
+  --color-carvao: #1A1A1A;     /* Preto Carvão */
+  --color-branco: #FFFFFF;
+
+  /* Fontes Oficiais */
+  --font-display: 'Bebas Neue', Impact, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  color: var(--color-carvao);
+  background-color: var(--color-areia-light);
+}
+
+body {
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Tipografia */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Utilitários de Cores da Marca */
+.text-chama { color: var(--color-chama); }
+.bg-chama { background-color: var(--color-chama); }
+.border-chama { border-color: var(--color-chama); }
+
+.text-cacto { color: var(--color-cacto); }
+.bg-cacto { background-color: var(--color-cacto); }
+.border-cacto { border-color: var(--color-cacto); }
+
+.text-terra { color: var(--color-terra); }
+.bg-terra { background-color: var(--color-terra); }
+.border-terra { border-color: var(--color-terra); }
+
+.text-areia { color: var(--color-areia); }
+.bg-areia { background-color: var(--color-areia); }
+.bg-areia-light { background-color: var(--color-areia-light); }
+.border-areia { border-color: var(--color-areia); }
+
+.text-carvao { color: var(--color-carvao); }
+.bg-carvao { background-color: var(--color-carvao); }
+
+/* Gradientes Customizados com a Identidade */
+.hero-gradient {
+  background: radial-gradient(circle at 80% 20%, rgba(245, 124, 0, 0.12) 0%, transparent 50%),
+              radial-gradient(circle at 10% 80%, rgba(46, 125, 50, 0.10) 0%, transparent 50%),
+              var(--color-areia-light);
+}
+
+.card-gradient-chama {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFF8F0 100%);
+}
+
+.card-gradient-cacto {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F1F8F1 100%);
+}
+
+.banner-atos-gradient {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2118 50%, #1A1A1A 100%);
+}
+
+/* Badges Institucionais */
+.badge-cidade {
+  background-color: var(--color-cacto);
+  color: #FFFFFF;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.badge-cidade:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.35);
+  background-color: var(--color-cacto-dark);
+}
+
+.badge-chama {
+  background-color: rgba(245, 124, 0, 0.15);
+  color: #D86900;
+  border: 1px solid rgba(245, 124, 0, 0.3);
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+}
+
+/* Efeito de Card com borda viva */
+.card-atos {
+  background-color: #FFFFFF;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(107, 78, 46, 0.12);
+  box-shadow: 0 10px 25px -5px rgba(26, 26, 26, 0.05), 0 8px 10px -6px rgba(26, 26, 26, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-atos:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 35px -10px rgba(245, 124, 0, 0.12), 0 10px 15px -5px rgba(46, 125, 50, 0.08);
+  border-color: rgba(245, 124, 0, 0.3);
+}
+
+/* Moldura de Fotos dos Pastores */
+.photo-frame {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -15px rgba(26, 26, 26, 0.25);
+}
+
+.photo-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  border: 2px solid rgba(245, 124, 0, 0.4);
+  pointer-events: none;
+}
+
+.photo-frame-accent {
+  position: relative;
+}
+
+.photo-frame-accent::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 15px;
+  left: 15px;
+  background: linear-gradient(135deg, var(--color-chama), var(--color-cacto));
+  border-radius: 1.5rem;
+  z-index: 0;
+  opacity: 0.85;
+  transition: all 0.3s ease;
+}
+
+.photo-frame-accent:hover::before {
+  top: 10px;
+  left: 10px;
+  opacity: 1;
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(26, 26, 26, 0.92);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.lightbox-modal.active {
+  display: flex;
+}
+
+/* ==========================================================================
+   BOTÃO FLUTUANTE: "LEVE O ATOS PARA SUA CIDADE"
+   ========================================================================== */
+.floating-btn-atos {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, var(--color-chama) 0%, var(--color-chama-dark) 100%);
+  color: #FFFFFF;
+  padding: 0.85rem 1.4rem;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 30px -5px rgba(245, 124, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.floating-btn-atos:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 16px 36px -5px rgba(245, 124, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #FF8F00 0%, var(--color-chama) 100%);
+  color: #FFFFFF;
+}
+
+/* Responsividade do Botão Flutuante em Telas Pequenas */
+@media (max-width: 640px) {
+  .floating-btn-atos {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    padding: 0.75rem 1.15rem;
+    font-size: 0.75rem;
+    gap: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   MODAIS & FORMULÁRIOS
+   ========================================================================== */
+.modal-atos-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-atos-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-atos-content {
+  background: #FFFFFF;
+  border-radius: 1.75rem;
+  max-width: 42rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--color-areia);
+  transform: scale(0.95);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-atos-backdrop.active .modal-atos-content {
+  transform: scale(1);
+}
+
+/* Checkboxes estilizados como botões de seleção de profissão */
+.profession-pill-checkbox input:checked + label {
+  background-color: var(--color-cacto);
+  color: #FFFFFF;
+  border-color: var(--color-cacto);
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.25);
+}
+
+/* Animações e Efeitos */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+/* Scrollbar Personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-areia-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-terra);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-chama);
+}
+
+/* Foco acessível */
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--color-chama);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   DROPDOWNS E NAVEGAÇÃO REORGANIZADA (DESKTOP & MOBILE)
+   ========================================================================== */
+
+/* Dropdowns Desktop */
+.nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  color: rgba(26, 26, 26, 0.9);
+  font-weight: 500;
+  transition: color 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-dropdown-btn:hover,
+.nav-dropdown:hover .nav-dropdown-btn,
+.nav-dropdown:focus-within .nav-dropdown-btn {
+  color: var(--color-chama);
+}
+
+.nav-chevron {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-dropdown:hover .nav-chevron,
+.nav-dropdown:focus-within .nav-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 0.65rem; /* Ponte de cursor invisível */
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 60;
+  min-width: 15.5rem;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.nav-dropdown-inner {
+  background: #FFFFFF;
+  border-radius: 1.15rem;
+  border: 1px solid var(--color-areia);
+  box-shadow: 0 16px 36px -4px rgba(26, 26, 26, 0.12), 0 6px 12px -2px rgba(26, 26, 26, 0.05);
+  padding: 0.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-carvao);
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+
+.nav-dropdown-item:hover {
+  background-color: var(--color-areia-light);
+  color: var(--color-chama);
+  transform: translateX(3px);
+}
+
+.nav-dropdown-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 0.55rem;
+  background-color: var(--color-areia-light);
+  color: var(--color-terra);
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.nav-dropdown-item:hover .nav-dropdown-item-icon {
+  background-color: var(--color-chama-light);
+  color: var(--color-chama);
+}
+
+/* Acordeões Mobile */
+.mobile-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+}
+
+.mobile-accordion-content.open {
+  max-height: 500px;
+  transition: max-height 0.35s ease-in-out;
+}
+
+.accordion-chevron {
+  transition: transform 0.25s ease;
+}
+
+.mobile-accordion-btn[aria-expanded="true"] .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+/* ==========================================================================
+   BOTÃO FLUTUANTE - OCULTAÇÃO SUAVE PRÓXIMO AO FOOTER
+   ========================================================================== */
+.floating-btn-atos.btn-oculto {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(24px) scale(0.9) !important;
+}
+
+/* ==========================================================================
+   CARROSSEL COMO ATUAMOS (INFINITO COM FOCO CENTRAL)
+   ========================================================================== */
+.como-atuamos-carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 1.5rem 0;
+  cursor: grab;
+  user-select: none;
+}
+
+.como-atuamos-carousel:active {
+  cursor: grabbing;
+}
+
+.como-atuamos-track {
+  display: flex;
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1);
+  will-change: transform;
+}
+
+.como-atuamos-slide {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 0.85rem;
+  transition: all 0.45s cubic-bezier(0.2, 0.9, 0.3, 1);
+  opacity: 0.55;
+  transform: scale(0.92);
+  filter: blur(0.3px);
+}
+
+@media (min-width: 640px) {
+  .como-atuamos-slide {
+    flex: 0 0 65%;
+    max-width: 65%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .como-atuamos-slide {
+    flex: 0 0 46%;
+    max-width: 46%;
+  }
+}
+
+.como-atuamos-slide.is-active {
+  opacity: 1;
+  transform: scale(1.03);
+  filter: none;
+  z-index: 10;
+}
+
+.carousel-dot.active {
+  background-color: var(--color-chama) !important;
+  width: 1.75rem !important;
+  border-radius: 9999px !important;
+}
+
+
+

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leve o Projeto ATOS para sua Cidade — Assessoria Oficial</title>
+  <meta name="description" content="Saiba como receber o Projeto ATOS em sua igreja ou cidade. Entre em contato com nossa assessoria e venha construir essa missão de amor e pregação conosco." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+
+  <!-- Google Fonts: Bebas Neue e Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN com Configuração Personalizada -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            chama: {
+              DEFAULT: '#F57C00',
+              dark: '#D86900',
+              light: '#FFF3E0'
+            },
+            cacto: {
+              DEFAULT: '#2E7D32',
+              dark: '#1B5E20',
+              light: '#E8F5E9'
+            },
+            terra: {
+              DEFAULT: '#6B4E2E',
+              dark: '#4E3620',
+              light: '#EFEBE9'
+            },
+            areia: {
+              DEFAULT: '#F2E6D0',
+              light: '#FAF6F0'
+            },
+            carvao: {
+              DEFAULT: '#1A1A1A'
+            }
+          },
+          fontFamily: {
+            display: ['"Bebas Neue"', 'Impact', 'sans-serif'],
+            body: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Estilos Personalizados do Projeto ATOS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-areia-light text-carvao font-body selection:bg-chama selection:text-white">
+
+  <!-- =========================================================================
+       TOP BAR INSTITUCIONAL
+       ========================================================================= -->
+  <div class="bg-carvao text-areia text-xs sm:text-sm py-2 px-4 border-b border-terra/30">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-2 sm:gap-4">
+        <span class="inline-flex items-center gap-1.5 font-medium text-chama">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+          Sede: ADPB Palmeira
+        </span>
+        <span class="hidden sm:inline text-terra/60">|</span>
+        <span class="hidden sm:inline text-white/90">
+          Coordenação: Pr. Melque Silva &amp; Monique Freitas
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://wa.me/5583996713578" target="_blank" rel="noopener noreferrer" class="hover:text-chama transition-colors flex items-center gap-1">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5 text-cacto"></i>
+          <span>Assessoria: (83) 99671-3578</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       HEADER & NAVBAR FIXA
+       ========================================================================= -->
+  <header id="main-navbar" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-areia transition-all duration-300">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2 lg:gap-4">
+      
+      <!-- [ LADO ESQUERDO ]: Logo Oficial -->
+      <a href="index.html" class="flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="Página Inicial do Projeto ATOS">
+        <img src="assets/images/logo.png" alt="Logotipo Oficial do Projeto ATOS" class="h-12 sm:h-13 w-auto object-contain rounded-2xl shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:shadow-md" />
+        <div class="flex flex-col">
+          <span class="font-display text-2xl sm:text-3xl text-carvao leading-none tracking-wider group-hover:text-chama transition-colors">
+            PROJETO ATOS
+          </span>
+          <span class="text-[0.65rem] sm:text-[0.68rem] tracking-wider font-semibold text-cacto uppercase leading-tight">
+            Pregação &bull; Ação Social
+          </span>
+        </div>
+      </a>
+
+      <!-- [ CENTRO ]: Navegação Desktop com Dropdowns -->
+      <div class="hidden lg:flex items-center gap-4 xl:gap-6 text-xs xl:text-sm font-medium text-carvao/90 whitespace-nowrap">
+        <!-- 1. Início -->
+        <a href="index.html#inicio" class="hover:text-chama transition-colors py-2">Início</a>
+
+        <!-- 2. O Projeto ▾ (Dropdown) -->
+        <div class="nav-dropdown group">
+          <button type="button" class="nav-dropdown-btn py-2 focus:outline-none" aria-expanded="false" aria-haspopup="true">
+            <span>O Projeto</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-chevron text-carvao/60"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="nav-dropdown-inner">
+              <a href="index.html#projeto" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Sobre o Projeto</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Missão, visão e pilares de atuação</span>
+                </div>
+              </a>
+              <a href="index.html#nossa-historia" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Nossa História</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">A trajetória ministerial</span>
+                </div>
+              </a>
+              <a href="index.html#fundadores" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Fundadores</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Pr. Melque Silva &amp; Monique Freitas</span>
+                </div>
+              </a>
+              <a href="index.html#como-atuamos" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="heart-handshake" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Como Atuamos</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Ruas, presídios, escolas e leitos</span>
+                </div>
+              </a>
+              <a href="index.html#valores" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Transparência</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Nossos 8 valores institucionais</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Impacto -->
+        <a href="index.html#impacto" class="hover:text-chama transition-colors py-2">Impacto</a>
+
+        <!-- 4. Edições -->
+        <a href="index.html#proximas-edicoes" class="hover:text-chama transition-colors py-2">Edições</a>
+
+        <!-- 5. Agenda -->
+        <a href="index.html#agenda-assessoria" class="hover:text-chama transition-colors py-2">Agenda</a>
+
+        <!-- 6. Vídeos -->
+        <a href="index.html#acoes-videos" class="hover:text-chama transition-colors py-2">Vídeos</a>
+
+        <!-- 7. Faça Parte ▾ (Dropdown) -->
+        <div class="nav-dropdown group">
+          <button type="button" class="nav-dropdown-btn py-2 focus:outline-none" aria-expanded="false" aria-haspopup="true">
+            <span>Faça Parte</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-chevron text-carvao/60"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="nav-dropdown-inner">
+              <a href="index.html#faca-parte" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Seja Voluntário</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Cadastre-se para servir em campo</span>
+                </div>
+              </a>
+              <a href="index.html#apoie" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="handshake" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Seja Parceiro</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Apoie com recursos e oração</span>
+                </div>
+              </a>
+              <a href="levar-o-atos.html" class="nav-dropdown-item bg-cacto-light/40">
+                <span class="nav-dropdown-item-icon text-cacto bg-cacto-light">
+                  <i data-lucide="church" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-cacto font-semibold">Leve o ATOS para sua cidade</span>
+                  <span class="block text-[0.7rem] text-cacto/70 font-normal">Página atual • Parceria pastoral</span>
+                </div>
+              </a>
+              <a href="index.html#apoie" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="gift" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Outras Formas de Apoiar</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Doação PIX e intercessão</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [ LADO DIREITO ]: Ações Rápidas (Desktop) -->
+      <div class="hidden lg:flex items-center gap-2.5 xl:gap-3 flex-shrink-0">
+        <!-- Ação Secundária: Fale com Monique / WhatsApp -->
+        <a href="https://wa.me/5583996713578?text=Ol%C3%A1%2C%20Monique!%20Gostaria%20de%20saber%20como%20posso%20levar%20o%20Projeto%20ATOS%20para%20minha%20igreja%2Fcidade." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-cacto hover:text-cacto-dark font-semibold text-xs xl:text-sm px-3.5 py-2 rounded-full border border-cacto/30 hover:bg-cacto-light transition-all duration-200" title="Conversar diretamente com a coordenação no WhatsApp">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>Fale com Monique</span>
+        </a>
+
+        <!-- Ação Principal (CTA): Apoiar o Projeto -->
+        <a href="index.html#apoie" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-semibold text-xs xl:text-sm px-4 xl:px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 whitespace-nowrap" aria-label="Apoiar o Projeto ATOS financeiramente ou com recursos">
+          <i data-lucide="heart" class="w-4 h-4 fill-white/20"></i>
+          <span>Apoiar o Projeto</span>
+        </a>
+      </div>
+
+      <!-- Botão Menu Mobile (Hambúrguer) -->
+      <button id="mobile-menu-btn" type="button" aria-label="Abrir menu de navegação" aria-expanded="false" class="lg:hidden p-2 rounded-xl text-carvao hover:text-chama hover:bg-areia/50 transition-colors focus:outline-none flex-shrink-0">
+        <i id="mobile-menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </nav>
+
+    <!-- Menu Mobile (Gaveta Expansível com Acordeões) -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-areia px-5 py-5 shadow-2xl transition-all duration-300 max-h-[calc(100vh-5rem)] overflow-y-auto">
+      <div class="flex flex-col gap-1 text-base font-medium text-carvao">
+        <!-- Início -->
+        <a href="index.html#inicio" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light">Início</a>
+
+        <!-- Acordeão: O Projeto -->
+        <div class="border-t border-areia/40 pt-1">
+          <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between py-2.5 px-3 rounded-lg text-left hover:text-chama hover:bg-areia-light transition-colors" aria-expanded="false">
+            <span class="font-semibold">O Projeto</span>
+            <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-carvao/60"></i>
+          </button>
+          <div class="mobile-accordion-content pl-4 pr-1 space-y-1">
+            <div class="border-l-2 border-areia pl-3 py-1 my-1 space-y-2">
+              <a href="index.html#projeto" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Sobre o Projeto</span>
+              </a>
+              <a href="index.html#fundadores" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Nossa História</span>
+              </a>
+              <a href="index.html#fundadores" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Fundadores</span>
+              </a>
+              <a href="index.html#impacto" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="heart-handshake" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Como Atuamos</span>
+              </a>
+              <a href="index.html#valores" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Transparência &amp; Valores</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Impacto -->
+        <a href="index.html#impacto" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light border-t border-areia/40">Impacto</a>
+
+        <!-- Edições -->
+        <a href="index.html#proximas-edicoes" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light border-t border-areia/40">Próximas Edições</a>
+
+        <!-- Agenda -->
+        <a href="index.html#agenda-assessoria" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light border-t border-areia/40">Agenda &amp; Assessoria</a>
+
+        <!-- Vídeos -->
+        <a href="index.html#acoes-videos" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light border-t border-areia/40">Galeria do Projeto</a>
+
+        <!-- Acordeão: Faça Parte -->
+        <div class="border-t border-areia/40 pt-1">
+          <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between py-2.5 px-3 rounded-lg text-left hover:text-chama hover:bg-areia-light transition-colors" aria-expanded="false">
+            <span class="font-semibold">Faça Parte</span>
+            <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-carvao/60"></i>
+          </button>
+          <div class="mobile-accordion-content pl-4 pr-1 space-y-1">
+            <div class="border-l-2 border-areia pl-3 py-1 my-1 space-y-2">
+              <a href="index.html#faca-parte" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="user-plus" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Seja Voluntário</span>
+              </a>
+              <a href="index.html#apoie" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="handshake" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Seja Parceiro</span>
+              </a>
+              <a href="levar-o-atos.html" class="flex items-center gap-2 py-1.5 text-sm text-cacto font-bold hover:text-cacto-dark transition-colors bg-cacto-light/40 px-2 rounded-md">
+                <i data-lucide="church" class="w-3.5 h-3.5 text-cacto"></i>
+                <span>Leve o ATOS para sua cidade (Atual)</span>
+              </a>
+              <a href="index.html#apoie" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="gift" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Outras formas de participar</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rodapé de Ações Mobile -->
+        <div class="pt-4 mt-2 border-t border-areia flex flex-col gap-2.5">
+          <a href="https://wa.me/5583996713578?text=Ol%C3%A1%2C%20Monique!%20Gostaria%20de%20saber%20como%20posso%20levar%20o%20Projeto%20ATOS%20para%20minha%20igreja%2Fcidade." target="_blank" rel="noopener noreferrer" class="w-full text-center bg-cacto hover:bg-cacto-dark text-white font-bold px-4 py-3 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 text-sm">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>Conversar no WhatsApp com Monique</span>
+          </a>
+          <a href="index.html#apoie" class="w-full text-center bg-chama hover:bg-chama-dark text-white font-bold px-5 py-3 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 text-sm">
+            <i data-lucide="heart" class="w-4 h-4 fill-white/20"></i>
+            <span>Apoiar o Projeto</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       HERO & CONVITE INSTITUCIONAL
+       ========================================================================= -->
+  <main>
+    <section class="relative hero-gradient pt-16 pb-20 md:py-24 border-b border-terra/10 overflow-hidden">
+      <!-- Elementos Decorativos de Fundo -->
+      <div class="absolute top-10 right-10 w-96 h-96 bg-chama/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-10 left-10 w-96 h-96 bg-cacto/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+        
+        <!-- Badge Superior -->
+        <div class="inline-flex items-center gap-2 bg-cacto/15 text-cacto-dark font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full border border-cacto/30 shadow-sm">
+          <i data-lucide="church" class="w-4 h-4 text-cacto"></i>
+          Parceria Pastoral &bull; Missões no Sertão
+        </div>
+
+        <!-- Título Principal em Bebas Neue -->
+        <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-carvao leading-none tracking-wide">
+          LEVE O ATOS PARA <span class="text-chama">SUA CIDADE</span>
+        </h1>
+
+        <!-- Frase de Destaque -->
+        <div class="max-w-3xl mx-auto py-2">
+          <p class="text-xl sm:text-2xl md:text-3xl text-terra font-semibold italic border-y-2 border-areia/80 py-4">
+            “Deus pode usar a sua igreja para transformar vidas.”
+          </p>
+        </div>
+
+        <!-- Texto Explicativo -->
+        <p class="text-base sm:text-lg md:text-xl text-carvao/85 max-w-3xl mx-auto leading-relaxed font-normal">
+          Se você deseja receber o <strong>Projeto ATOS</strong> em sua igreja ou cidade, entre em contato com nossa assessoria. Vamos conversar sobre a possibilidade de construirmos essa missão juntos.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ÁREA DE ASSESSORIA — APRESENTAÇÃO DE MONIQUE
+         ========================================================================= -->
+    <section class="py-16 md:py-24 bg-white border-b border-areia">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="bg-gradient-to-br from-white via-areia-light to-areia/40 rounded-3xl p-8 sm:p-12 shadow-xl border border-areia relative overflow-hidden">
+          
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <!-- Foto da Monique com Moldura Oficial -->
+            <div class="md:col-span-5 flex justify-center">
+              <div class="relative w-full max-w-xs">
+                <div class="photo-frame-accent">
+                  <div class="photo-frame bg-white relative z-10">
+                    <img src="assets/images/monique.jpg" alt="Monique Freitas — Assessoria do Projeto ATOS" class="w-full h-auto object-cover rounded-2xl shadow-lg" />
+                  </div>
+                </div>
+                <div class="absolute -bottom-3 right-4 bg-cacto text-white px-3.5 py-1 rounded-full font-display text-sm tracking-wider shadow z-20">
+                  Assessoria Oficial
+                </div>
+              </div>
+            </div>
+
+            <!-- Informações de Contato e Apresentação -->
+            <div class="md:col-span-7 space-y-5 text-left">
+              
+              <div class="space-y-1">
+                <span class="text-xs font-bold uppercase tracking-widest text-cacto">Fale com Nossa Assessoria</span>
+                <h2 class="font-display text-4xl sm:text-5xl text-carvao leading-tight">
+                  MONIQUE
+                </h2>
+                <p class="text-terra font-semibold text-base">
+                  Assessoria Projeto ATOS
+                </p>
+              </div>
+
+              <p class="text-sm sm:text-base text-carvao/80 leading-relaxed">
+                Nossa assessoria está pronta para conversar com você sobre como levar o Projeto ATOS para sua igreja e cidade. Vamos esclarecer dúvidas sobre estrutura, logística e planejamento pastoral.
+              </p>
+
+              <!-- Card de Contato Direto -->
+              <div class="bg-white rounded-2xl p-4 border border-areia shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-cacto/15 flex items-center justify-center text-cacto flex-shrink-0">
+                  <i data-lucide="phone-call" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <span class="text-[0.7rem] uppercase font-bold text-carvao/60 block">WhatsApp Oficial</span>
+                  <span class="font-display text-2xl text-carvao tracking-wider block">(83) 99671-3578</span>
+                </div>
+              </div>
+
+              <!-- Botão Principal: Fale Conosco (WhatsApp) -->
+              <div class="pt-2">
+                <a 
+                  href="https://wa.me/5583996713578?text=Ol%C3%A1%2C%20Monique!%20Gostaria%20de%20saber%20como%20posso%20levar%20o%20Projeto%20ATOS%20para%20minha%20igreja%2Fcidade."
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="w-full inline-flex items-center justify-center gap-3 bg-cacto hover:bg-cacto-dark text-white font-semibold text-base px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5">
+                  <i data-lucide="message-circle" class="w-5 h-5"></i>
+                  <span>FALE CONOSCO NO WHATSAPP</span>
+                </a>
+              </div>
+
+              <p class="text-xs text-carvao/60 text-center sm:text-left flex items-center gap-1.5">
+                <i data-lucide="shield-check" class="w-4 h-4 text-cacto"></i>
+                Atendimento direto e acolhedor com a coordenação do Projeto.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Pilares de Como Funciona a Missão na sua Cidade -->
+        <div class="mt-16 space-y-6">
+          <div class="text-center max-w-2xl mx-auto space-y-2">
+            <span class="text-xs font-bold uppercase tracking-widest text-terra">Como Atuamos em Conjunto</span>
+            <h3 class="font-display text-3xl sm:text-4xl text-carvao">O QUE LEVAMOS PARA SUA CIDADE</h3>
+            <p class="text-sm text-carvao/75">
+              Uma ação integrada de evangelismo de poder e amor ao próximo em parceria com a igreja local.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+            
+            <div class="bg-areia/30 rounded-2xl p-6 border border-areia flex flex-col items-start space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-chama/10 text-chama flex items-center justify-center">
+                <i data-lucide="hand-heart" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display text-2xl text-carvao">ATENDIMENTOS SOCIAIS</h4>
+              <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+                Voluntários de saúde (médicos, enfermeiros, dentistas), beleza (cortes de cabelo) e apoio emocional acolhendo a população.
+              </p>
+            </div>
+
+            <div class="bg-areia/30 rounded-2xl p-6 border border-areia flex flex-col items-start space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-cacto/10 text-cacto flex items-center justify-center">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display text-2xl text-carvao">PREGAÇÃO NAS RUAS</h4>
+              <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+                Evangelismo corpo a corpo nas praças, feiras, colégios e visitas hospitalares levando a palavra de salvação.
+              </p>
+            </div>
+
+            <div class="bg-areia/30 rounded-2xl p-6 border border-areia flex flex-col items-start space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-terra/15 text-terra flex items-center justify-center">
+                <i data-lucide="flame" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display text-2xl text-carvao">CRUZADA EVANGELÍSTICA</h4>
+              <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+                Grande concentração ao ar livre com louvor, ministração bíblica com o Pastor Melque Silva e colheita de vidas para Jesus.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Botão de Retorno -->
+        <div class="mt-14 text-center">
+          <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-carvao/70 hover:text-chama transition-colors">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Voltar para a Página Principal do Projeto ATOS</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       RODAPÉ OFICIAL
+       ========================================================================= -->
+  <footer class="bg-carvao text-areia border-t border-terra/30 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-terra/20">
+        
+        <!-- Coluna 1: Marca e Sede -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="assets/images/logo.png" alt="Projeto ATOS Logo" class="h-16 w-auto object-contain rounded-2xl shadow-md border border-white/10" />
+            <div>
+              <span class="font-display text-3xl text-white tracking-wider block">PROJETO ATOS</span>
+              <span class="text-xs font-semibold text-chama uppercase tracking-widest">Pregação do Evangelho e Obras Sociais</span>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-areia/80 leading-relaxed max-w-md">
+            “Pregando o Evangelho. Servindo vidas. Transformando realidades.”<br />
+            Levando o amor de Cristo às ruas, hospitais, presídios e colégios pelo Brasil.
+          </p>
+          <div class="text-xs space-y-1 text-areia/70">
+            <p class="flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-cacto"></i>
+              <strong>Sede:</strong> ADPB Palmeira (Assembleia de Deus na Paraíba)
+            </p>
+            <p class="flex items-center gap-2">
+              <i data-lucide="user" class="w-4 h-4 text-chama"></i>
+              <strong>Coordenação:</strong> Pr. Melque Silva &amp; Monique Freitas
+            </p>
+          </div>
+        </div>
+
+        <!-- Coluna 2: Navegação Rápida -->
+        <div class="lg:col-span-3 space-y-3">
+          <h4 class="font-display text-xl text-white tracking-wider">LINKS RÁPIDOS</h4>
+          <ul class="space-y-2 text-xs sm:text-sm text-areia/80">
+            <li><a href="index.html#inicio" class="hover:text-chama transition-colors">Início</a></li>
+            <li><a href="index.html#proximas-edicoes" class="hover:text-chama transition-colors">Próximas Edições</a></li>
+            <li><a href="index.html#faca-parte" class="hover:text-chama transition-colors">Faça Parte do Projeto</a></li>
+            <li><a href="index.html#fundadores" class="hover:text-chama transition-colors">Sobre os Fundadores</a></li>
+            <li><a href="index.html#projeto" class="hover:text-chama transition-colors">O Projeto &amp; Cidades</a></li>
+            <li><a href="levar-o-atos.html" class="hover:text-chama transition-colors">Leve o ATOS para sua Cidade</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Redes Sociais & Contato -->
+        <div class="lg:col-span-4 space-y-4">
+          <h4 class="font-display text-xl text-white tracking-wider">ASSESSORIA OFICIAL</h4>
+          <p class="text-xs sm:text-sm text-areia/80">
+            Monique &bull; Assessoria Projeto ATOS<br />
+            Telefone / WhatsApp: (83) 99671-3578
+          </p>
+          
+          <div class="pt-2">
+            <a href="https://wa.me/5583996713578?text=Ol%C3%A1%2C%20Monique!%20Gostaria%20de%20saber%20como%20posso%20levar%20o%20Projeto%20ATOS%20para%20minha%20igreja%2Fcidade." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-cacto hover:bg-cacto-dark text-white font-semibold text-xs px-5 py-2.5 rounded-full shadow transition-colors">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+              <span>Conversar com a Assessoria</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra de Copyright -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-areia/60">
+        <p>
+          &copy; 2026 PROJETO ATOS — Pregação do Evangelho e Obras Sociais. Todos os direitos reservados.
+        </p>
+        <p class="flex items-center gap-1 text-areia/70">
+          Feito com <i data-lucide="heart" class="w-3 h-3 text-chama"></i> para o Reino de Deus.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Inicialização dos Ícones Lucide & Lógica de Navegação -->
+  <script>
+    lucide.createIcons();
+
+    // Controle da Navbar e Menu Mobile
+    const navbar = document.getElementById('main-navbar');
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+    const accordionBtns = mobileMenu ? mobileMenu.querySelectorAll('.mobile-accordion-btn') : [];
+
+    // Sombra da navbar ao rolar
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-md');
+        navbar.classList.remove('bg-white/90');
+      } else {
+        navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-md');
+        navbar.classList.add('bg-white/90');
+      }
+    });
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExpanded = mobileBtn.getAttribute('aria-expanded') === 'true';
+        mobileBtn.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          mobileBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      accordionBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const content = btn.nextElementSibling;
+          const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', !isExpanded);
+          if (content) {
+            content.classList.toggle('open');
+          }
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+          mobileBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          mobileMenu.classList.add('hidden');
+          mobileBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  <!-- SDK Oficial Supabase & Banco de Dados -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/db.js"></script>
+
+</body>
+</html>

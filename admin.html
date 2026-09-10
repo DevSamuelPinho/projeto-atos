@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Administrativo — PROJETO ATOS</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+
+  <!-- Google Fonts: Bebas Neue e Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN com Identidade Oficial da Marca -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            chama: {
+              DEFAULT: '#F57C00',
+              dark: '#D86900',
+              light: '#FFF3E0'
+            },
+            cacto: {
+              DEFAULT: '#2E7D32',
+              dark: '#1B5E20',
+              light: '#E8F5E9'
+            },
+            terra: {
+              DEFAULT: '#6B4E2E',
+              dark: '#4E3620',
+              light: '#EFEBE9'
+            },
+            areia: {
+              DEFAULT: '#F2E6D0',
+              light: '#FAF6F0'
+            },
+            carvao: {
+              DEFAULT: '#1A1A1A'
+            }
+          },
+          fontFamily: {
+            display: ['"Bebas Neue"', 'Impact', 'sans-serif'],
+            body: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Estilos Oficiais do Projeto -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    /* Estilos customizados da Área Administrativa */
+    .admin-sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1rem;
+      border-radius: 0.875rem;
+      font-size: 0.825rem;
+      font-weight: 500;
+      color: rgba(26, 26, 26, 0.75);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      user-select: none;
+    }
+    .admin-sidebar-link:hover {
+      background-color: rgba(245, 124, 0, 0.08);
+      color: #F57C00;
+    }
+    .admin-sidebar-link.active {
+      background-color: #F57C00;
+      color: #FFFFFF;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(245, 124, 0, 0.25);
+    }
+    .admin-sidebar-link.active svg {
+      color: #FFFFFF !important;
+    }
+    .admin-card {
+      background: #FFFFFF;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(242, 230, 208, 0.85);
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+    .admin-card:hover {
+      box-shadow: 0 6px 16px -4px rgba(0, 0, 0, 0.07);
+    }
+    .toast-notification {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-radius: 1rem;
+      background: #FFFFFF;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border: 1px solid rgba(242, 230, 208, 1);
+      transform: translateY(120%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-notification.show {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body class="bg-areia-light text-carvao font-body h-full antialiased flex flex-col">
+
+  <!-- =========================================================================
+       TELA DE LOGIN E AUTENTICAÇÃO DO ADMINISTRADOR (/admin/login)
+       ========================================================================= -->
+  <div id="admin-login-screen" class="fixed inset-0 bg-carvao/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-8 sm:p-10 max-w-md w-full shadow-2xl border border-areia text-center space-y-6 animate-float-none">
+      
+      <!-- Logo Oficial -->
+      <div class="flex justify-center">
+        <img src="assets/images/logo.png" alt="Projeto ATOS" class="h-16 w-auto rounded-2xl shadow-md border border-areia" />
+      </div>
+      
+      <div>
+        <span class="text-[0.65rem] font-bold uppercase tracking-widest text-chama bg-chama/10 px-3 py-1 rounded-full">ÁREA RESTRITA</span>
+        <h1 class="font-display text-3xl sm:text-4xl text-carvao mt-2">PAINEL ADMINISTRATIVO</h1>
+        <p class="text-xs sm:text-sm text-carvao/70 mt-1">Gestão Integrada do Projeto ATOS</p>
+      </div>
+
+      <!-- Formulário de Login -->
+      <form id="admin-login-form" class="space-y-4 text-left">
+        <div>
+          <label for="admin-email" class="block text-xs font-bold uppercase tracking-wider text-carvao/80 mb-1">E-mail ou Usuário</label>
+          <div class="relative">
+            <i data-lucide="mail" class="w-4 h-4 text-carvao/40 absolute left-3.5 top-3.5"></i>
+            <input 
+              type="text" 
+              id="admin-email" 
+              placeholder="ex: melque@projetoatos.org.br ou admin" 
+              value="admin"
+              required 
+              class="w-full bg-areia-light border border-areia rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-chama"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="admin-password" class="block text-xs font-bold uppercase tracking-wider text-carvao/80 mb-1">Senha de Acesso</label>
+          <div class="relative">
+            <i data-lucide="lock" class="w-4 h-4 text-carvao/40 absolute left-3.5 top-3.5"></i>
+            <input 
+              type="password" 
+              id="admin-password" 
+              required 
+              placeholder="Digite sua senha de acesso" 
+              class="w-full bg-areia-light border border-areia rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-chama"
+            />
+          </div>
+        </div>
+
+        <div id="login-error" class="hidden text-xs font-semibold text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-200">
+          <!-- Mensagem de erro dinâmica -->
+        </div>
+
+        <button type="submit" id="btn-submit-login" class="w-full bg-chama hover:bg-chama-dark text-white font-bold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span>Entrar no Painel</span>
+        </button>
+      </form>
+
+      <!-- Recuperação de Acesso e Link Site -->
+      <div class="pt-2 border-t border-areia/60 flex items-center justify-between text-xs text-carvao/60">
+        <a href="#" id="btn-recuperar-senha" class="hover:text-chama transition-colors underline">
+          Esqueceu a senha?
+        </a>
+        <a href="index.html" class="hover:text-chama transition-colors inline-flex items-center gap-1">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Voltar ao site</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       LAYOUT PRINCIPAL DO PAINEL (/admin/dashboard)
+       ========================================================================= -->
+  <div id="admin-app" class="hidden flex-1 flex overflow-hidden">
+
+    <!-- 1. SIDEBAR ESQUERDA -->
+    <aside id="admin-sidebar" class="w-64 bg-white border-r border-areia flex flex-col justify-between flex-shrink-0 z-30 transition-all duration-300 md:relative fixed inset-y-0 left-0 -translate-x-full md:translate-x-0 shadow-lg md:shadow-none">
+      
+      <!-- Topo da Sidebar: Logo & Identidade -->
+      <div class="p-5 border-b border-areia flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="assets/images/logo.png" alt="Logo" class="h-10 w-auto rounded-xl shadow-sm" />
+          <div class="flex flex-col">
+            <span class="font-display text-xl text-carvao leading-none">PROJETO ATOS</span>
+            <span class="text-[0.62rem] font-bold tracking-wider text-cacto uppercase">Painel de Gestão</span>
+          </div>
+        </div>
+        <!-- Botão fechar no Mobile -->
+        <button id="btn-close-mobile-sidebar" class="md:hidden p-1.5 text-carvao/60 hover:text-carvao rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Links de Navegação (Menu) -->
+      <nav class="p-3.5 space-y-1 overflow-y-auto flex-1 text-xs">
+        
+        <div class="px-3 pt-2 pb-1 text-[0.65rem] font-bold uppercase tracking-wider text-carvao/40">Visão Geral</div>
+        <div class="admin-sidebar-link active" data-section="dashboard">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-chama"></i>
+          <span>Dashboard</span>
+        </div>
+
+        <div class="px-3 pt-3 pb-1 text-[0.65rem] font-bold uppercase tracking-wider text-carvao/40">Missões & Ações</div>
+        <div class="admin-sidebar-link" data-section="edicoes">
+          <i data-lucide="calendar" class="w-4 h-4 text-chama"></i>
+          <span>Edições &amp; Missões</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="agenda">
+          <i data-lucide="clock" class="w-4 h-4 text-cacto"></i>
+          <span>Agenda &amp; Eventos</span>
+        </div>
+
+        <div class="px-3 pt-3 pb-1 text-[0.65rem] font-bold uppercase tracking-wider text-carvao/40">Comunidade</div>
+        <div class="admin-sidebar-link" data-section="voluntarios">
+          <i data-lucide="users" class="w-4 h-4 text-terra"></i>
+          <span>Voluntários</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="participantes">
+          <i data-lucide="check-square" class="w-4 h-4 text-cacto"></i>
+          <span>Inscrições &amp; Presença</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="parceiros">
+          <i data-lucide="handshake" class="w-4 h-4 text-chama"></i>
+          <span>Parceiros</span>
+        </div>
+
+        <div class="px-3 pt-3 pb-1 text-[0.65rem] font-bold uppercase tracking-wider text-carvao/40">Comunicação & Obra</div>
+        <div class="admin-sidebar-link" data-section="impacto">
+          <i data-lucide="heart-pulse" class="w-4 h-4 text-red-500"></i>
+          <span>Indicadores de Impacto</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="midia">
+          <i data-lucide="video" class="w-4 h-4 text-chama"></i>
+          <span>Fotos &amp; Vídeos</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="conteudos">
+          <i data-lucide="newspaper" class="w-4 h-4 text-cacto"></i>
+          <span>Conteúdos &amp; Notícias</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="apoios">
+          <i data-lucide="wallet" class="w-4 h-4 text-chama"></i>
+          <span>Apoios &amp; Doações</span>
+        </div>
+
+        <div class="px-3 pt-3 pb-1 text-[0.65rem] font-bold uppercase tracking-wider text-carvao/40">Sistema</div>
+        <div class="admin-sidebar-link" data-section="usuarios">
+          <i data-lucide="shield-check" class="w-4 h-4 text-carvao"></i>
+          <span>Usuários &amp; Perfis</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="configuracoes">
+          <i data-lucide="settings" class="w-4 h-4 text-carvao"></i>
+          <span>Configurações</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="auditoria">
+          <i data-lucide="file-clock" class="w-4 h-4 text-carvao"></i>
+          <span>Auditoria / Logs</span>
+        </div>
+        <div class="admin-sidebar-link" data-section="backup">
+          <i data-lucide="database" class="w-4 h-4 text-terra"></i>
+          <span>Backup &amp; Dados</span>
+        </div>
+
+      </nav>
+
+      <!-- Rodapé da Sidebar: Perfil & Sair -->
+      <div class="p-4 border-t border-areia bg-areia/20 flex items-center justify-between">
+        <div class="flex items-center gap-2.5 overflow-hidden">
+          <div class="w-8 h-8 rounded-full bg-chama/15 text-chama font-bold flex items-center justify-center flex-shrink-0 text-xs">
+            <span id="user-avatar-initials">PA</span>
+          </div>
+          <div class="overflow-hidden">
+            <p id="user-display-name" class="font-semibold text-xs text-carvao truncate">Pr. Melque Silva</p>
+            <span id="user-display-role" class="text-[0.65rem] text-cacto font-bold block truncate">Super Admin</span>
+          </div>
+        </div>
+        <button id="admin-logout-btn" title="Encerrar Sessão" class="p-1.5 text-carvao/50 hover:text-red-600 rounded-lg transition-colors">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- Overlay do menu mobile -->
+    <div id="admin-sidebar-backdrop" class="fixed inset-0 bg-carvao/60 backdrop-blur-xs z-20 hidden md:hidden"></div>
+
+    <!-- 2. ÁREA DE CONTEÚDO PRINCIPAL (HEADER + SEÇÕES) -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+      
+      <!-- HEADER INTERNO DO ADMIN -->
+      <header class="bg-white border-b border-areia px-5 py-3.5 flex items-center justify-between flex-shrink-0 gap-4">
+        
+        <div class="flex items-center gap-3">
+          <button id="btn-toggle-mobile-sidebar" class="md:hidden p-2 text-carvao/70 hover:text-carvao rounded-xl hover:bg-areia">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div>
+            <h2 id="header-page-title" class="font-display text-2xl sm:text-3xl text-carvao leading-none">Dashboard</h2>
+            <p id="header-page-subtitle" class="text-xs text-carvao/60 mt-0.5">Olá, Administrador 👋 Veja o resumo das atividades do Projeto ATOS.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Campo de Busca Global -->
+          <div class="relative hidden sm:block w-48 lg:w-64">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-carvao/40 absolute left-3 top-2.5"></i>
+            <input 
+              type="text" 
+              id="global-admin-search" 
+              placeholder="Buscar no sistema..." 
+              class="w-full bg-areia-light border border-areia rounded-xl pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:border-chama"
+            />
+          </div>
+
+          <!-- Ver Site Público -->
+          <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-semibold text-carvao/80 hover:text-chama bg-areia-light border border-areia px-3 py-1.5 rounded-xl transition-colors" title="Abrir site público em nova aba">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Ver Site</span>
+          </a>
+
+          <!-- Notificações -->
+          <div class="relative">
+            <button id="btn-notificacoes" class="p-2 text-carvao/70 hover:text-carvao rounded-xl hover:bg-areia relative">
+              <i data-lucide="bell" class="w-4 h-4"></i>
+              <span id="badge-notificacoes" class="absolute top-1 right-1 w-2 h-2 bg-chama rounded-full"></span>
+            </button>
+          </div>
+        </div>
+
+      </header>
+
+      <!-- ÁREA SCROLLÁVEL DE CONTEÚDO -->
+      <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-areia-light/60">
+        
+        <!-- ===================================================================
+             SEÇÃO 1: DASHBOARD
+             =================================================================== -->
+        <section id="section-dashboard" class="admin-section space-y-6">
+          
+          <!-- Cards de Métricas Principais -->
+          <div class="grid grid-cols-2 lg:grid-cols-6 gap-4">
+            
+            <div class="admin-card p-4 flex flex-col justify-between">
+              <div class="flex items-center justify-between text-chama mb-2">
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-carvao/60">Edições Futuras</span>
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+              </div>
+              <p id="dash-met-edicoes" class="font-display text-3xl sm:text-4xl text-carvao">0</p>
+              <span class="text-[0.68rem] text-cacto font-medium mt-1">Missões em andamento</span>
+            </div>
+
+            <div class="admin-card p-4 flex flex-col justify-between">
+              <div class="flex items-center justify-between text-cacto mb-2">
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-carvao/60">Voluntários</span>
+                <i data-lucide="users" class="w-4 h-4"></i>
+              </div>
+              <p id="dash-met-voluntarios" class="font-display text-3xl sm:text-4xl text-carvao">0</p>
+              <span class="text-[0.68rem] text-carvao/60 font-medium mt-1">Rede cadastrada</span>
+            </div>
+
+            <div class="admin-card p-4 flex flex-col justify-between">
+              <div class="flex items-center justify-between text-terra mb-2">
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-carvao/60">Inscrições</span>
+                <i data-lucide="check-square" class="w-4 h-4"></i>
+              </div>
+              <p id="dash-met-participantes" class="font-display text-3xl sm:text-4xl text-carvao">0</p>
+              <span class="text-[0.68rem] text-chama font-medium mt-1">Interesse / Presença</span>
+            </div>
+
+            <div class="admin-card p-4 flex flex-col justify-between">
+              <div class="flex items-center justify-between text-chama mb-2">
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-carvao/60">Parceiros</span>
+                <i data-lucide="handshake" class="w-4 h-4"></i>
+              </div>
+              <p id="dash-met-parceiros" class="font-display text-3xl sm:text-4xl text-carvao">0</p>
+              <span class="text-[0.68rem] text-carvao/60 font-medium mt-1">Igrejas & Apoios</span>
+            </div>
+
+            <div class="admin-card p-4 flex flex-col justify-between">
+              <div class="flex items-center justify-between text-red-500 mb-2">
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-carvao/60">Impacto Total</span>
+                <i data-lucide="heart" class="w-4 h-4"></i>
+              </div>
+              <p id="dash-met-impacto" class="font-display text-3xl sm:text-4xl text-carvao">0</p>
+              <span class="text-[0.68rem] text-cacto font-medium mt-1">Vidas alcançadas</span>
+            </div>
+
+            <div class="admin-card p-4 flex flex-col justify-between">
+              <div class="flex items-center justify-between text-cacto mb-2">
+                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-carvao/60">Apoios (R$)</span>
+                <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+              </div>
+              <p id="dash-met-apoios" class="font-display text-2xl sm:text-3xl text-carvao">R$ 0</p>
+              <span class="text-[0.68rem] text-carvao/60 font-medium mt-1">Total registrado</span>
+            </div>
+
+          </div>
+
+          <!-- Grade em 2 Colunas: Próximas Edições & Atividades Recentes -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Coluna 1: Próximas Edições -->
+            <div class="lg:col-span-7 space-y-4">
+              <div class="admin-card p-5">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-areia">
+                  <div>
+                    <h3 class="font-display text-xl text-carvao">PRÓXIMAS EDIÇÕES</h3>
+                    <p class="text-[0.7rem] text-carvao/60">Missões com inscrições abertas ou em confirmação</p>
+                  </div>
+                  <button onclick="navigateToSection('edicoes')" class="text-xs text-chama font-bold hover:underline flex items-center gap-1">
+                    <span>Ver Todas</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+                <div id="dash-edicoes-lista" class="space-y-3">
+                  <!-- Inserido dinamicamente -->
+                </div>
+              </div>
+
+              <!-- Últimos Voluntários Cadastrados -->
+              <div class="admin-card p-5">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-areia">
+                  <div>
+                    <h3 class="font-display text-xl text-carvao">ÚLTIMOS VOLUNTÁRIOS CADASTRADOS</h3>
+                    <p class="text-[0.7rem] text-carvao/60">Pessoas que se colocaram à disposição para o Reino</p>
+                  </div>
+                  <button onclick="navigateToSection('voluntarios')" class="text-xs text-cacto font-bold hover:underline flex items-center gap-1">
+                    <span>Ver Todos</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+                <div id="dash-voluntarios-lista" class="divide-y divide-areia/40">
+                  <!-- Inserido dinamicamente -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Coluna 2: Atividades Recentes / Auditoria & Compromissos -->
+            <div class="lg:col-span-5 space-y-4">
+              
+              <!-- Próximos Compromissos da Agenda -->
+              <div class="admin-card p-5">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b border-areia">
+                  <h3 class="font-display text-xl text-carvao">AGENDA EM BREVE</h3>
+                  <button onclick="navigateToSection('agenda')" class="text-xs text-chama font-bold hover:underline">Ver Agenda</button>
+                </div>
+                <div id="dash-agenda-lista" class="space-y-2.5">
+                  <!-- Inserido dinamicamente -->
+                </div>
+              </div>
+
+              <!-- Atividades Recentes do Sistema -->
+              <div class="admin-card p-5">
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-areia">
+                  <h3 class="font-display text-xl text-carvao">ATIVIDADES RECENTES</h3>
+                  <span class="text-[0.65rem] text-carvao/50 uppercase font-semibold">Auditoria</span>
+                </div>
+                <div id="dash-atividades-lista" class="space-y-2.5 text-xs text-carvao/80">
+                  <!-- Inserido dinamicamente -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 2: GERENCIAMENTO DE EDIÇÕES
+             =================================================================== -->
+        <section id="section-edicoes" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">EDIÇÕES DO PROJETO ATOS</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Crie, edite, duplique e controle o status das missões que alimentam o site público.</p>
+            </div>
+            <button id="btn-nova-edicao" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Nova Edição</span>
+            </button>
+          </div>
+
+          <!-- Grid de Cards de Edições -->
+          <div id="admin-edicoes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dinâmico -->
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 3: GERENCIAMENTO DE AGENDA
+             =================================================================== -->
+        <section id="section-agenda" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">AGENDA &amp; COMPROMISSOS</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Cadastre cultos, reuniões, viagens e caravanas que alimentam a página pública.</p>
+            </div>
+            <button id="btn-novo-evento" class="inline-flex items-center gap-2 bg-cacto hover:bg-cacto-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+              <span>Novo Evento / Agenda</span>
+            </button>
+          </div>
+
+          <!-- Tabela Responsiva de Agenda -->
+          <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-areia/40 border-b border-areia font-bold text-carvao/70 uppercase text-[0.7rem]">
+                  <tr>
+                    <th class="px-4 py-3.5">Data / Horário</th>
+                    <th class="px-4 py-3.5">Título &amp; Categoria</th>
+                    <th class="px-4 py-3.5">Local</th>
+                    <th class="px-4 py-3.5">Responsável</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-4 py-3.5 text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-agenda-body" class="divide-y divide-areia/50"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 4: GERENCIAMENTO DE VOLUNTÁRIOS
+             =================================================================== -->
+        <section id="section-voluntarios" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">BANCO DE VOLUNTÁRIOS</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Pessoas cadastradas uma única vez com informações profissionais e disponibilidade.</p>
+            </div>
+            <button id="btn-exportar-voluntarios" class="inline-flex items-center gap-2 bg-white hover:bg-areia border border-areia text-carvao font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-sm transition-colors">
+              <i data-lucide="download" class="w-4 h-4 text-cacto"></i>
+              <span>Exportar CSV</span>
+            </button>
+          </div>
+
+          <!-- Barra de Filtros -->
+          <div class="admin-card p-4 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+              <div class="lg:col-span-2">
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Buscar por Nome / Whats / E-mail</label>
+                <input type="text" id="filtro-termo" placeholder="Digite para filtrar..." class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+              </div>
+              <div>
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Cidade</label>
+                <select id="filtro-cidade" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama">
+                  <option value="">Todas as Cidades</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Área Profissional</label>
+                <select id="filtro-area" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama">
+                  <option value="">Todas as Áreas</option>
+                  <option value="Saúde">Saúde</option>
+                  <option value="Beleza e Estética">Beleza e Estética</option>
+                  <option value="Saúde Emocional">Saúde Emocional</option>
+                  <option value="Outras Áreas">Outras Áreas</option>
+                  <option value="Voluntário Geral">Voluntário Geral</option>
+                </select>
+              </div>
+              <div class="flex items-end">
+                <button id="btn-limpar-filtros" class="w-full bg-areia hover:bg-terra-light text-carvao font-semibold py-2 px-3 rounded-xl transition-colors">
+                  Limpar Filtros
+                </button>
+              </div>
+            </div>
+            <div class="text-[0.7rem] text-carvao/60 pt-2 border-t border-areia/40">
+              <span id="contagem-voluntarios-filtrados">Carregando voluntários...</span>
+            </div>
+          </div>
+
+          <!-- Tabela Responsiva de Voluntários -->
+          <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-areia/40 border-b border-areia font-bold text-carvao/70 uppercase text-[0.7rem]">
+                  <tr>
+                    <th class="px-4 py-3.5">Nome / Cadastro</th>
+                    <th class="px-4 py-3.5">WhatsApp / Contato</th>
+                    <th class="px-4 py-3.5">Localidade</th>
+                    <th class="px-4 py-3.5">Profissão / Área</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-4 py-3.5 text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-voluntarios-body" class="divide-y divide-areia/50"></tbody>
+              </table>
+            </div>
+            <div id="voluntarios-empty-state" class="hidden p-8 text-center text-carvao/60">
+              <p>Nenhum voluntário encontrado com os filtros selecionados.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 5: INSCRIÇÕES & PARTICIPAÇÕES
+             =================================================================== -->
+        <section id="section-participantes" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">PARTICIPANTES POR MISSÃO</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Acompanhe quem manifestou interesse e quem confirmou presença em cada ação.</p>
+            </div>
+            <button id="btn-exportar-participantes" class="inline-flex items-center gap-2 bg-white hover:bg-areia border border-areia text-carvao font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-sm transition-colors">
+              <i data-lucide="download" class="w-4 h-4 text-cacto"></i>
+              <span>Exportar Lista</span>
+            </button>
+          </div>
+
+          <!-- Seletor de Edição -->
+          <div class="admin-card p-4">
+            <label class="block text-xs font-bold uppercase text-carvao/70 mb-2">Selecione a Missão:</label>
+            <select id="select-edicao-participantes" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-xs sm:text-sm font-semibold focus:outline-none focus:border-chama"></select>
+          </div>
+
+          <!-- Resumo da Edição -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="admin-card p-4 text-center">
+              <span class="text-[0.65rem] text-carvao/60 uppercase font-bold">Total Geral</span>
+              <p id="metrica-total" class="font-display text-3xl text-carvao mt-0.5">0</p>
+            </div>
+            <div class="admin-card p-4 text-center">
+              <span class="text-[0.65rem] text-chama uppercase font-bold">Interesse</span>
+              <p id="metrica-interessados" class="font-display text-3xl text-chama mt-0.5">0</p>
+            </div>
+            <div class="admin-card p-4 text-center">
+              <span class="text-[0.65rem] text-cacto uppercase font-bold">Confirmados</span>
+              <p id="metrica-confirmados" class="font-display text-3xl text-cacto mt-0.5">0</p>
+            </div>
+            <div class="admin-card p-4 text-center">
+              <span class="text-[0.65rem] text-terra uppercase font-bold">Concluídos</span>
+              <p id="metrica-concluidos" class="font-display text-3xl text-terra mt-0.5">0</p>
+            </div>
+          </div>
+
+          <!-- Tabela de Participantes -->
+          <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-areia/40 border-b border-areia font-bold text-carvao/70 uppercase text-[0.7rem]">
+                  <tr>
+                    <th class="px-4 py-3.5">Participante</th>
+                    <th class="px-4 py-3.5">WhatsApp</th>
+                    <th class="px-4 py-3.5">Cidade</th>
+                    <th class="px-4 py-3.5">Profissão / Área</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-4 py-3.5 text-right">Alterar Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-participantes-body" class="divide-y divide-areia/50"></tbody>
+              </table>
+            </div>
+            <div id="participantes-empty-state" class="hidden p-8 text-center text-carvao/60">
+              <p>Nenhuma pessoa manifestou interesse nesta edição ainda.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 6: PARCEIROS
+             =================================================================== -->
+        <section id="section-parceiros" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">PARCEIROS &amp; IGREJAS APOIADORAS</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Cadastre igrejas locais, empresas, instituições e voluntários apoiadores.</p>
+            </div>
+            <button id="btn-novo-parceiro" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Novo Parceiro</span>
+            </button>
+          </div>
+          <div id="grid-parceiros" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 7: INDICADORES DE IMPACTO
+             =================================================================== -->
+        <section id="section-impacto" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">INDICADORES DE IMPACTO</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Os números aqui cadastrados alimentam os contadores da seção "Impacto" do site público.</p>
+            </div>
+            <button id="btn-novo-impacto" class="inline-flex items-center gap-2 bg-cacto hover:bg-cacto-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Novo Indicador</span>
+            </button>
+          </div>
+          <div id="grid-impacto" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 8: MÍDIA (FOTOS & VÍDEOS)
+             =================================================================== -->
+        <section id="section-midia" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">BIBLIOTECA DE MÍDIA</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Organize os vídeos das expedições e registros fotográficos da liderança.</p>
+            </div>
+            <button id="btn-nova-midia" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="upload" class="w-4 h-4"></i>
+              <span>Adicionar Mídia</span>
+            </button>
+          </div>
+          <div id="grid-midia" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 9: CONTEÚDOS & NOTÍCIAS
+             =================================================================== -->
+        <section id="section-conteudos" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">CONTEÚDOS &amp; NOTÍCIAS</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Gerencie testemunhos, comunicados oficiais e informativos do Projeto ATOS.</p>
+            </div>
+            <button id="btn-novo-conteudo" class="inline-flex items-center gap-2 bg-cacto hover:bg-cacto-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Novo Conteúdo</span>
+            </button>
+          </div>
+          <div id="grid-conteudos" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 10: APOIOS & DOAÇÕES
+             =================================================================== -->
+        <section id="section-apoios" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">APOIOS &amp; DOAÇÕES RECEBIDAS</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Acompanhamento transparente dos donativos e ofertas destinadas às missões.</p>
+            </div>
+            <button id="btn-novo-apoio" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Registrar Apoio</span>
+            </button>
+          </div>
+          <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-areia/40 border-b border-areia font-bold text-carvao/70 uppercase text-[0.7rem]">
+                  <tr>
+                    <th class="px-4 py-3.5">Doador / Parceiro</th>
+                    <th class="px-4 py-3.5">Tipo de Apoio</th>
+                    <th class="px-4 py-3.5">Valor (R$)</th>
+                    <th class="px-4 py-3.5">Data</th>
+                    <th class="px-4 py-3.5">Identificador</th>
+                    <th class="px-4 py-3.5 text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-apoios-body" class="divide-y divide-areia/50"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 11: USUÁRIOS & NÍVEIS DE ACESSO
+             =================================================================== -->
+        <section id="section-usuarios" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">USUÁRIOS ADMINISTRATIVOS</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Controle de acessos e permissões por perfil (Super Admin, Administrador, Editor, Operador).</p>
+            </div>
+            <button id="btn-novo-usuario" class="inline-flex items-center gap-2 bg-cacto hover:bg-cacto-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>Novo Usuário</span>
+            </button>
+          </div>
+          <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-areia/40 border-b border-areia font-bold text-carvao/70 uppercase text-[0.7rem]">
+                  <tr>
+                    <th class="px-4 py-3.5">Nome</th>
+                    <th class="px-4 py-3.5">E-mail</th>
+                    <th class="px-4 py-3.5">Perfil de Acesso</th>
+                    <th class="px-4 py-3.5">Status</th>
+                    <th class="px-4 py-3.5 text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-usuarios-body" class="divide-y divide-areia/50"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 12: CONFIGURAÇÕES GERAIS
+             =================================================================== -->
+        <section id="section-configuracoes" class="admin-section hidden space-y-6">
+          <div class="pb-2 border-b border-areia">
+            <h2 class="font-display text-3xl sm:text-4xl text-carvao">CONFIGURAÇÕES GERAIS</h2>
+            <p class="text-xs sm:text-sm text-carvao/70">Informações institucionais, chave PIX, contatos da assessoria e redes sociais.</p>
+          </div>
+          <div class="admin-card p-6 max-w-3xl">
+            <form id="form-configuracoes" class="space-y-4 text-xs sm:text-sm">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold uppercase text-carvao/70 mb-1">Nome da Organização</label>
+                  <input type="text" id="cfg-nome" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 focus:outline-none focus:border-chama" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase text-carvao/70 mb-1">Igreja Sede</label>
+                  <input type="text" id="cfg-sede" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 focus:outline-none focus:border-chama" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold uppercase text-carvao/70 mb-1">Nome da Assessoria Oficial</label>
+                  <input type="text" id="cfg-assessoria" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 focus:outline-none focus:border-chama" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase text-carvao/70 mb-1">WhatsApp Assessoria</label>
+                  <input type="text" id="cfg-whatsapp" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 focus:outline-none focus:border-chama" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold uppercase text-carvao/70 mb-1">Chave PIX Oficial</label>
+                  <input type="text" id="cfg-pix" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 focus:outline-none focus:border-chama" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase text-carvao/70 mb-1">Instagram Oficial</label>
+                  <input type="text" id="cfg-instagram" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 focus:outline-none focus:border-chama" />
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-areia flex justify-end">
+                <button type="submit" class="bg-chama hover:bg-chama-dark text-white font-bold py-2.5 px-6 rounded-xl shadow transition-colors">
+                  Salvar Configurações
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 13: AUDITORIA / LOGS DO SISTEMA
+             =================================================================== -->
+        <section id="section-auditoria" class="admin-section hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
+            <div>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">LOGS DE AUDITORIA</h2>
+              <p class="text-xs sm:text-sm text-carvao/70">Histórico de ações de usuários, alterações de missões e acessos.</p>
+            </div>
+            <button id="btn-limpar-auditoria" class="text-xs text-red-600 hover:underline">Limpar Logs Antigos</button>
+          </div>
+          <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-areia/40 border-b border-areia font-bold text-carvao/70 uppercase text-[0.7rem]">
+                  <tr>
+                    <th class="px-4 py-3.5">Data &amp; Hora</th>
+                    <th class="px-4 py-3.5">Usuário</th>
+                    <th class="px-4 py-3.5">Módulo / Ação</th>
+                    <th class="px-4 py-3.5">Detalhe da Operação</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-auditoria-body" class="divide-y divide-areia/50"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             SEÇÃO 14: BACKUP & DADOS
+             =================================================================== -->
+        <section id="section-backup" class="admin-section hidden space-y-6">
+          <div class="pb-2 border-b border-areia">
+            <h2 class="font-display text-3xl sm:text-4xl text-carvao">BACKUP &amp; SEGURANÇA</h2>
+            <p class="text-xs sm:text-sm text-carvao/70">Exporte ou restaure todos os dados do sistema em arquivo JSON criptografado/estruturado.</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="admin-card p-6 space-y-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-cacto/15 flex items-center justify-center text-cacto">
+                  <i data-lucide="download-cloud" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-base text-carvao">Exportar Backup Completo</h3>
+                  <p class="text-xs text-carvao/70">Baixe todas as edições, pessoas, participações, agenda e mídias.</p>
+                </div>
+              </div>
+              <button id="btn-exportar-json" class="w-full bg-cacto hover:bg-cacto-dark text-white font-bold py-3 px-4 rounded-xl shadow transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Baixar Backup Completo (JSON)</span>
+              </button>
+            </div>
+
+            <div class="admin-card p-6 space-y-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-chama/15 flex items-center justify-center text-chama">
+                  <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-base text-carvao">Restaurar Dados</h3>
+                  <p class="text-xs text-carvao/70">Carregue um arquivo JSON exportado anteriormente.</p>
+                </div>
+              </div>
+              <input type="file" id="input-importar-json" accept=".json" class="block w-full text-xs text-carvao file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-areia file:text-carvao hover:file:bg-terra-light cursor-pointer" />
+              <div id="import-status" class="hidden text-xs p-2.5 rounded-lg"></div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- =========================================================================
+       MODAIS ADMINISTRATIVOS (CRUDs)
+       ========================================================================= -->
+
+  <!-- Modal 1: Edição / Missão -->
+  <div id="modal-edicao" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-4 border-b border-areia mb-5">
+        <div>
+          <h3 id="modal-edicao-titulo" class="font-display text-3xl text-carvao">CRIAR NOVA EDIÇÃO</h3>
+          <p class="text-xs text-carvao/60">Configure as informações que aparecerão no site público.</p>
+        </div>
+        <button id="modal-edicao-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-edicao" class="space-y-6 text-xs sm:text-sm">
+        <input type="hidden" id="edicao-id" />
+
+        <!-- 1. INFORMAÇÕES BÁSICAS -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-chama border-b border-areia pb-1 flex items-center gap-1.5">
+            <i data-lucide="info" class="w-4 h-4"></i>
+            <span>1. Informações Básicas & Localização</span>
+          </h4>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <div class="sm:col-span-3">
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Nome da Edição / Missão *</label>
+              <input type="text" id="edicao-nome" required placeholder="Ex: Missão Sertão Vivo — Patos" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Nº da Edição</label>
+              <input type="text" id="edicao-numero" placeholder="19" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">País *</label>
+              <input type="text" id="edicao-pais" required list="lista-paises-sugeridos" placeholder="Brasil" value="Brasil" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+              <datalist id="lista-paises-sugeridos">
+                <option value="Brasil">Brasil</option>
+                <option value="Paraguai">Paraguai</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Bolívia">Bolívia</option>
+                <option value="Colômbia">Colômbia</option>
+                <option value="Peru">Peru</option>
+              </datalist>
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Estado / Província *</label>
+              <input type="text" id="edicao-estado" required placeholder="Ex: PB ou Central" value="PB" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Cidade *</label>
+              <input type="text" id="edicao-cidade" required placeholder="Ex: Patos" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Data da Missão *</label>
+              <input type="date" id="edicao-data" required class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Horário</label>
+              <input type="text" id="edicao-horario" placeholder="Ex: 08:00 às 18:00" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Local / Ponto de Concentração</label>
+              <input type="text" id="edicao-local" placeholder="Ex: Praça Central ou ADPB Sede" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Endereço Completo</label>
+              <input type="text" id="edicao-endereco" placeholder="Ex: Rua Central, nº 100, Bairro Novo" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Descrição Detalhada da Ação</label>
+            <textarea id="edicao-descricao" rows="2" placeholder="Descreva as ações sociais, suporte médico, evangelismo, cruzada..." class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Status da Edição *</label>
+              <select id="edicao-status" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 font-semibold focus:outline-none focus:border-chama">
+                <option value="Em Breve">Em Breve</option>
+                <option value="Planejamento">Planejamento</option>
+                <option value="Inscrições Abertas">Inscrições Abertas</option>
+                <option value="Em Confirmação">Em Confirmação</option>
+                <option value="Em Andamento">Em Andamento</option>
+                <option value="Finalizado">Finalizado (Alimenta Indicadores e Ações)</option>
+                <option value="Cancelada">Cancelada</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Limite de Participantes (0 = ilimitado)</label>
+              <input type="number" id="edicao-limite" placeholder="Ex: 80" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Imagem de Capa (Caminho ou URL)</label>
+            <input type="text" id="edicao-imagem" placeholder="assets/images/casal_1.jpg" value="assets/images/casal_1.jpg" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+          </div>
+        </div>
+
+        <!-- 2. PARTICIPAÇÃO E INSCRIÇÃO -->
+        <div class="space-y-4 pt-3 border-t border-areia">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-cacto border-b border-areia pb-1 flex items-center gap-1.5">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+            <span>2. Participação & Inscrição</span>
+          </h4>
+
+          <div class="flex flex-wrap items-center gap-6">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="edicao-tem-inscricao" checked class="w-4 h-4 rounded text-cacto focus:ring-cacto" />
+              <span class="font-bold text-carvao">Terá Inscrição pelo site?</span>
+            </label>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="edicao-inscricoes-abertas" checked class="w-4 h-4 rounded text-chama focus:ring-chama" />
+              <span class="font-semibold text-carvao">Inscrições abertas agora</span>
+            </label>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="edicao-destaque" class="w-4 h-4 rounded text-terra focus:ring-terra" />
+              <span class="font-semibold text-carvao">Destacar no site</span>
+            </label>
+          </div>
+
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Link do Grupo da Edição (WhatsApp / Telegram)</label>
+            <input type="url" id="edicao-link-grupo" placeholder="https://chat.whatsapp.com/..." class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-chama" />
+            <p class="text-[0.7rem] text-carvao/60 mt-1">O voluntário receberá o convite para este grupo após concluir a inscrição ou ter o pagamento aprovado.</p>
+          </div>
+        </div>
+
+        <!-- 3. PAGAMENTO DA INSCRIÇÃO -->
+        <div class="space-y-4 pt-3 border-t border-areia">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-chama border-b border-areia pb-1 flex items-center gap-1.5">
+            <i data-lucide="wallet" class="w-4 h-4"></i>
+            <span>3. Pagamento da Inscrição (PIX)</span>
+          </h4>
+
+          <div class="flex items-center gap-4">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="edicao-tem-pagamento" class="w-4 h-4 rounded text-chama focus:ring-chama" />
+              <span class="font-bold text-carvao">A inscrição possui taxa de pagamento?</span>
+            </label>
+          </div>
+
+          <div id="box-pagamento-edicao" class="space-y-3 bg-areia/30 p-4 rounded-2xl border border-areia">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Valor da Inscrição (R$)</label>
+                <input type="number" step="0.01" id="edicao-valor-inscricao" placeholder="0.00" class="w-full bg-white border border-areia rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-chama" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Chave PIX da Edição</label>
+                <input type="text" id="edicao-chave-pix" placeholder="E-mail, CNPJ, telefone ou chave aleatória" class="w-full bg-white border border-areia rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-chama" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Nome do Favorecido</label>
+                <input type="text" id="edicao-favorecido-pix" placeholder="Ex: Projeto ATOS / ADPB Palmeira" class="w-full bg-white border border-areia rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-chama" />
+              </div>
+              <div class="flex items-center pt-5">
+                <label class="inline-flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" id="edicao-exige-comprovante" checked class="w-4 h-4 rounded text-cacto focus:ring-cacto" />
+                  <span class="font-bold text-xs sm:text-sm text-carvao">Exigir upload de comprovante?</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. VENDA DE CAMISA -->
+        <div class="space-y-4 pt-3 border-t border-areia">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-terra border-b border-areia pb-1 flex items-center gap-1.5">
+            <i data-lucide="shirt" class="w-4 h-4"></i>
+            <span>4. Venda de Camisa Oficial (Opcional)</span>
+          </h4>
+
+          <div class="flex items-center gap-4">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="edicao-tem-camisa" class="w-4 h-4 rounded text-terra focus:ring-terra" />
+              <span class="font-bold text-carvao">Terá venda de camisa oficial para esta missão?</span>
+            </label>
+          </div>
+
+          <div id="box-camisa-edicao" class="space-y-3 bg-areia/30 p-4 rounded-2xl border border-areia">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="sm:col-span-2">
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Nome / Descrição da Camisa</label>
+                <input type="text" id="edicao-nome-camisa" placeholder="Ex: Camisa Oficial Projeto ATOS - Edição Patos" class="w-full bg-white border border-areia rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-chama" />
+              </div>
+              <div>
+                <label class="block font-bold uppercase text-carvao/70 mb-1">Valor da Camisa (R$)</label>
+                <input type="number" step="0.01" id="edicao-valor-camisa" placeholder="35.00" class="w-full bg-white border border-areia rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-chama" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold uppercase text-carvao/70 mb-1">Tamanhos Disponíveis</label>
+              <input type="text" id="edicao-tamanhos-camisa" placeholder="P, M, G, GG, XG" value="P, M, G, GG, XG" class="w-full bg-white border border-areia rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTÕES DE AÇÃO -->
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-areia">
+          <button type="button" id="btn-cancelar-edicao" class="px-5 py-2.5 rounded-xl border border-areia font-semibold text-carvao/70 hover:bg-areia transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-7 py-3 rounded-xl bg-chama hover:bg-chama-dark text-white font-bold shadow-lg transition-colors">
+            Salvar Configurações da Missão
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Agenda / Evento -->
+  <div id="modal-agenda" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-4 border-b border-areia mb-5">
+        <h3 id="modal-agenda-titulo" class="font-display text-3xl text-carvao">NOVO EVENTO / AGENDA</h3>
+        <button id="modal-agenda-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-agenda" class="space-y-4 text-xs sm:text-sm">
+        <input type="hidden" id="agenda-id" />
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Título do Evento *</label>
+          <input type="text" id="agenda-titulo" required placeholder="Ex: Caravana Social e Cruzada" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Data *</label>
+            <input type="date" id="agenda-data" required class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto" />
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Horário</label>
+            <input type="text" id="agenda-horario" placeholder="19:00" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Categoria</label>
+            <select id="agenda-categoria" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto">
+              <option value="Ação Social">Ação Social</option>
+              <option value="Culto / Cruzada">Culto / Cruzada</option>
+              <option value="Reunião de Voluntários">Reunião de Voluntários</option>
+              <option value="Visita Institucional">Visita Institucional</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Status</label>
+            <select id="agenda-status" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto">
+              <option value="Confirmado">Confirmado</option>
+              <option value="A Definir">A Definir</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Local</label>
+          <input type="text" id="agenda-local" placeholder="Ex: Praça Central, Patos - PB" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Responsável / Preletor</label>
+          <input type="text" id="agenda-responsavel" placeholder="Pr. Melque Silva & Monique" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Descrição</label>
+          <textarea id="agenda-descricao" rows="2" placeholder="Detalhes do compromisso..." class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 focus:outline-none focus:border-cacto"></textarea>
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-areia">
+          <button type="button" id="btn-cancelar-agenda" class="px-5 py-2.5 rounded-xl border border-areia font-semibold text-carvao/70 hover:bg-areia">Cancelar</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-cacto hover:bg-cacto-dark text-white font-bold shadow">Salvar Evento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Indicador de Impacto -->
+  <div id="modal-impacto" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-3 border-b border-areia mb-4">
+        <h3 id="modal-impacto-titulo" class="font-display text-2xl text-carvao">EDITAR IMPACTO</h3>
+        <button id="modal-impacto-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="form-impacto" class="space-y-3.5 text-xs sm:text-sm">
+        <input type="hidden" id="impacto-id" />
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Título do Indicador *</label>
+          <input type="text" id="impacto-titulo" required class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Valor Numérico *</label>
+            <input type="number" id="impacto-valor" required step="1" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Sufixo (ex: %, +)</label>
+            <input type="text" id="impacto-sufixo" placeholder="%" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Ícone Lucide</label>
+          <input type="text" id="impacto-icone" placeholder="zap, map-pinned, globe-2, heart" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Descrição</label>
+          <textarea id="impacto-descricao" rows="2" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama"></textarea>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="impacto-ativo" checked class="rounded text-cacto" />
+          <label for="impacto-ativo" class="font-semibold text-xs text-carvao">Exibir no site público</label>
+        </div>
+        <div class="pt-3 flex justify-end gap-2 border-t border-areia">
+          <button type="button" id="btn-cancelar-impacto" class="px-4 py-2 border rounded-xl">Cancelar</button>
+          <button type="submit" class="px-5 py-2 bg-chama text-white font-bold rounded-xl">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Parceiro -->
+  <div id="modal-parceiro" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-3 border-b border-areia mb-4">
+        <h3 id="modal-parceiro-titulo" class="font-display text-2xl text-carvao">NOVO PARCEIRO</h3>
+        <button id="modal-parceiro-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="form-parceiro" class="space-y-3.5 text-xs sm:text-sm">
+        <input type="hidden" id="parceiro-id" />
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Nome da Instituição / Parceiro *</label>
+          <input type="text" id="parceiro-nome" required class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Categoria</label>
+          <input type="text" id="parceiro-categoria" placeholder="Ex: Igreja, Saúde, Empresa Mantenedora" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Descrição</label>
+          <textarea id="parceiro-descricao" rows="2" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama"></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Instagram</label>
+            <input type="text" id="parceiro-instagram" placeholder="@parceiro" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Status</label>
+            <select id="parceiro-status" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama">
+              <option value="Ativo">Ativo</option>
+              <option value="Inativo">Inativo</option>
+            </select>
+          </div>
+        </div>
+        <div class="pt-3 flex justify-end gap-2 border-t border-areia">
+          <button type="button" id="btn-cancelar-parceiro" class="px-4 py-2 border rounded-xl">Cancelar</button>
+          <button type="submit" class="px-5 py-2 bg-chama text-white font-bold rounded-xl">Salvar Parceiro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Mídia (Vídeo / Foto) -->
+  <div id="modal-midia" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-3 border-b border-areia mb-4">
+        <h3 id="modal-midia-titulo" class="font-display text-2xl text-carvao">ADICIONAR MÍDIA</h3>
+        <button id="modal-midia-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="form-midia" class="space-y-3.5 text-xs sm:text-sm">
+        <input type="hidden" id="midia-id" />
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Tipo de Mídia</label>
+            <select id="midia-tipo" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama">
+              <option value="video">Vídeo</option>
+              <option value="foto">Foto</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Ano</label>
+            <input type="text" id="midia-ano" value="2026" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Título da Mídia *</label>
+          <input type="text" id="midia-titulo" required placeholder="Ex: Missão Emas • Sertão PB" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Caminho do Arquivo ou Link *</label>
+          <input type="text" id="midia-url" required placeholder="assets/videos/03_emas.mp4 ou link de vídeo" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Poster / Capa (Foto)</label>
+          <input type="text" id="midia-poster" placeholder="assets/videos/03_emas.jpg" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Link do Instagram Reel</label>
+          <input type="text" id="midia-instagram" placeholder="https://www.instagram.com/reel/..." class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Descrição</label>
+          <textarea id="midia-descricao" rows="2" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama"></textarea>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="midia-publicado" checked class="rounded text-chama" />
+          <label for="midia-publicado" class="font-semibold text-xs text-carvao">Publicar na galeria/seção de vídeos</label>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2 border-t border-areia">
+          <button type="button" id="btn-cancelar-midia" class="px-4 py-2 border rounded-xl">Cancelar</button>
+          <button type="submit" class="px-5 py-2 bg-chama text-white font-bold rounded-xl">Salvar Mídia</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: Conteúdo / Notícia -->
+  <div id="modal-conteudo" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-3 border-b border-areia mb-4">
+        <h3 id="modal-conteudo-titulo" class="font-display text-2xl text-carvao">NOVO CONTEÚDO</h3>
+        <button id="modal-conteudo-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="form-conteudo" class="space-y-3.5 text-xs sm:text-sm">
+        <input type="hidden" id="conteudo-id" />
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Tipo</label>
+            <select id="conteudo-tipo" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto">
+              <option value="Notícia">Notícia</option>
+              <option value="Depoimento">Depoimento</option>
+              <option value="Informativo">Informativo</option>
+              <option value="Banner">Banner de Alerta</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Status</label>
+            <select id="conteudo-status" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto">
+              <option value="Publicado">Publicado</option>
+              <option value="Rascunho">Rascunho</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Título *</label>
+          <input type="text" id="conteudo-titulo" required class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Resumo / Chamada</label>
+          <input type="text" id="conteudo-resumo" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto" />
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Conteúdo Completo</label>
+          <textarea id="conteudo-corpo" rows="3" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Imagem</label>
+          <input type="text" id="conteudo-imagem" placeholder="assets/images/casal_2.jpg" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto" />
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2 border-t border-areia">
+          <button type="button" id="btn-cancelar-conteudo" class="px-4 py-2 border rounded-xl">Cancelar</button>
+          <button type="submit" class="px-5 py-2 bg-cacto text-white font-bold rounded-xl">Salvar Conteúdo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 7: Apoio / Doação -->
+  <div id="modal-apoio" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-3 border-b border-areia mb-4">
+        <h3 id="modal-apoio-titulo" class="font-display text-2xl text-carvao">REGISTRAR APOIO</h3>
+        <button id="modal-apoio-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="form-apoio" class="space-y-3.5 text-xs sm:text-sm">
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Nome do Mantenedor / Parceiro *</label>
+          <input type="text" id="apoio-nome" required placeholder="Ex: Doação Anônima ou Família Santos" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Tipo de Apoio</label>
+            <select id="apoio-tipo" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama">
+              <option value="Doação PIX">Doação PIX</option>
+              <option value="Donativos / Alimentos">Donativos / Alimentos</option>
+              <option value="Suporte Médico / Medicamentos">Medicamentos</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Valor Estimado (R$)</label>
+            <input type="number" id="apoio-valor" step="0.01" placeholder="250.00" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Observações / Destinação</label>
+          <input type="text" id="apoio-obs" placeholder="Ex: Destinado à compra de cestas básicas" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+        </div>
+        <div class="pt-3 flex justify-end gap-2 border-t border-areia">
+          <button type="button" id="btn-cancelar-apoio" class="px-4 py-2 border rounded-xl">Cancelar</button>
+          <button type="submit" class="px-5 py-2 bg-chama text-white font-bold rounded-xl">Salvar Apoio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 8: Usuário Administrativo -->
+  <div id="modal-usuario" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-areia p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-3 border-b border-areia mb-4">
+        <h3 id="modal-usuario-titulo" class="font-display text-2xl text-carvao">NOVO USUÁRIO</h3>
+        <button id="modal-usuario-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="form-usuario" class="space-y-3.5 text-xs sm:text-sm">
+        <input type="hidden" id="usuario-id" />
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">Nome Completo *</label>
+          <input type="text" id="usuario-nome" required class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-carvao/70 mb-1">E-mail *</label>
+          <input type="email" id="usuario-email" required class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Perfil de Acesso</label>
+            <select id="usuario-role" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto">
+              <option value="Super Admin">Super Admin</option>
+              <option value="Administrador">Administrador</option>
+              <option value="Editor">Editor</option>
+              <option value="Operador">Operador</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-carvao/70 mb-1">Senha *</label>
+            <input type="password" id="usuario-senha" placeholder="Digite a senha" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-cacto" />
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="usuario-ativo" checked class="rounded text-cacto" />
+          <label for="usuario-ativo" class="font-semibold text-xs text-carvao">Usuário Ativo</label>
+        </div>
+        <div class="pt-3 flex justify-end gap-2 border-t border-areia">
+          <button type="button" id="btn-cancelar-usuario" class="px-4 py-2 border rounded-xl">Cancelar</button>
+          <button type="submit" class="px-5 py-2 bg-cacto text-white font-bold rounded-xl">Salvar Usuário</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast de Notificações / Feedback UI -->
+  <div id="admin-toast" class="toast-notification">
+    <div id="toast-icon-box" class="w-8 h-8 rounded-full bg-cacto/15 text-cacto flex items-center justify-center flex-shrink-0">
+      <i id="toast-icon" data-lucide="check" class="w-4 h-4"></i>
+    </div>
+    <div>
+      <p id="toast-title" class="font-bold text-xs text-carvao leading-none">Operação Concluída</p>
+      <p id="toast-msg" class="text-[0.7rem] text-carvao/70 mt-0.5">Ação realizada com sucesso.</p>
+    </div>
+  </div>
+
+  <!-- Scripts do Banco e da Aplicação Administrativa -->
+    <!-- SDK Oficial Supabase & Configuração em Nuvem -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    if (window.lucide) lucide.createIcons();
+  </script>
+
+
+  <!-- Modal: Análise de Comprovante de Pagamento -->
+  <div id="modal-comprovante-analise" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-areia p-6 sm:p-8 space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-areia">
+        <div>
+          <h3 class="font-display text-2xl text-carvao">COMPROVANTE DE PAGAMENTO</h3>
+          <p id="comp-subtitulo" class="text-xs text-carvao/60">Análise de inscrição e validação do PIX.</p>
+        </div>
+        <button id="modal-comprovante-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="comp-inscricao-id" />
+
+      <!-- Detalhes do Inscrito -->
+      <div class="bg-areia/30 rounded-2xl p-4 space-y-1 text-xs text-carvao/80 border border-areia">
+        <p><strong class="text-carvao">Inscrito:</strong> <span id="comp-nome">-</span></p>
+        <p><strong class="text-carvao">WhatsApp:</strong> <span id="comp-whats">-</span></p>
+        <p><strong class="text-carvao">Status Atual:</strong> <span id="comp-status" class="font-bold text-chama">-</span></p>
+      </div>
+
+      <!-- Visualizador do Arquivo -->
+      <div id="comp-viewer" class="bg-black/5 rounded-2xl p-4 border border-areia flex items-center justify-center min-h-[220px] max-h-[360px] overflow-hidden">
+        <img id="comp-img" src="" alt="Comprovante" class="max-h-[340px] w-auto object-contain rounded-xl shadow hidden" />
+        <div id="comp-fallback" class="text-center p-4 space-y-2">
+          <i data-lucide="file-text" class="w-12 h-12 mx-auto text-carvao/40"></i>
+          <p class="text-xs text-carvao/70">Documento anexado pelo participante</p>
+          <a id="comp-download-link" href="#" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-chama hover:underline">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>Abrir Comprovante em Nova Aba</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Motivo de Recusa (caso queira recusar) -->
+      <div class="space-y-1">
+        <label class="block text-xs font-bold uppercase text-carvao/70">Motivo da Recusa (visível se recusar):</label>
+        <input type="text" id="comp-motivo-recusa" placeholder="Ex: Comprovante ilegível ou valor divergente" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-chama" />
+      </div>
+
+      <!-- Ações -->
+      <div class="pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-areia">
+        <button type="button" id="btn-recusar-pagamento" class="flex-1 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow transition-colors flex items-center justify-center gap-1.5">
+          <i data-lucide="x-circle" class="w-4 h-4"></i>
+          <span>Recusar Pagamento</span>
+        </button>
+        <button type="button" id="btn-aprovar-pagamento" class="flex-1 py-2.5 px-4 rounded-xl bg-cacto hover:bg-cacto-dark text-white font-bold text-xs shadow transition-colors flex items-center justify-center gap-1.5">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>Aprovar Inscrição</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

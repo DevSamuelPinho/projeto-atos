@@ -1,0 +1,2491 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PROJETO ATOS — Pregação do Evangelho e Obras Sociais</title>
+  <meta name="description" content="Site oficial do Projeto ATOS. Sede: ADPB Palmeira. Coordenação: Pr. Melque Silva e Monique Freitas. Pregando o Evangelho, servindo vidas e transformando realidades no sertão e em cidades da Paraíba." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+
+  <!-- Google Fonts: Bebas Neue e Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN com Configuração Personalizada da Identidade Visual -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            chama: {
+              DEFAULT: '#F57C00', // Laranja Chama
+              dark: '#D86900',
+              light: '#FFF3E0'
+            },
+            cacto: {
+              DEFAULT: '#2E7D32', // Verde Cacto
+              dark: '#1B5E20',
+              light: '#E8F5E9'
+            },
+            terra: {
+              DEFAULT: '#6B4E2E', // Marrom Terra
+              dark: '#4E3620',
+              light: '#EFEBE9'
+            },
+            areia: {
+              DEFAULT: '#F2E6D0', // Bege Areia
+              light: '#FAF6F0'
+            },
+            carvao: {
+              DEFAULT: '#1A1A1A' // Preto Carvão
+            }
+          },
+          fontFamily: {
+            display: ['"Bebas Neue"', 'Impact', 'sans-serif'],
+            body: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Estilos Personalizados do Projeto ATOS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-areia-light text-carvao font-body selection:bg-chama selection:text-white">
+
+  <!-- =========================================================================
+       TOP BAR INSTITUCIONAL
+       ========================================================================= -->
+  <div class="bg-carvao text-areia text-xs sm:text-sm py-2 px-4 border-b border-terra/30">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-2 sm:gap-4">
+        <span class="inline-flex items-center gap-1.5 font-medium text-chama">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+          Sede: ADPB Palmeira
+        </span>
+        <span class="hidden sm:inline text-terra/60">|</span>
+        <span class="hidden sm:inline text-white/90">
+          Coordenação: Pr. Melque Silva &amp; Monique Freitas
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://www.instagram.com/projetoatosoficial" target="_blank" rel="noopener noreferrer" class="hover:text-chama transition-colors flex items-center gap-1">
+          <i data-lucide="instagram" class="w-3.5 h-3.5 text-chama"></i>
+          <span>@projetoatosoficial</span>
+        </a>
+        <span class="text-terra/60">•</span>
+        <span class="inline-flex items-center gap-1 text-white/80">
+          <span class="text-white/90">🇧🇷 Brasil &bull; Sertão da Paraíba</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       HEADER & NAVBAR FIXA
+       ========================================================================= -->
+  <header id="main-navbar" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-areia transition-all duration-300">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2 lg:gap-4">
+      
+      <!-- [ LADO ESQUERDO ]: Logo & Identidade Oficial -->
+      <a href="#inicio" class="flex items-center gap-3 group focus:outline-none flex-shrink-0" aria-label="Página Inicial do Projeto ATOS">
+        <img src="assets/images/logo.png" alt="Logotipo Oficial do Projeto ATOS" class="h-12 sm:h-13 w-auto object-contain rounded-2xl shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:shadow-md" />
+        <div class="flex flex-col">
+          <span class="font-display text-2xl sm:text-3xl text-carvao leading-none tracking-wider group-hover:text-chama transition-colors">
+            PROJETO ATOS
+          </span>
+          <span class="text-[0.65rem] sm:text-[0.68rem] tracking-wider font-semibold text-cacto uppercase leading-tight">
+            Pregação &bull; Ação Social
+          </span>
+        </div>
+      </a>
+
+      <!-- [ CENTRO ]: Navegação Principal Limpa e Hierarquizada -->
+      <div class="hidden lg:flex items-center gap-4 xl:gap-6 text-xs xl:text-sm font-medium text-carvao/90 whitespace-nowrap">
+        <!-- 1. Início -->
+        <a href="#inicio" class="hover:text-chama transition-colors py-2">Início</a>
+
+        <!-- 2. O Projeto ▾ (Dropdown) -->
+        <div class="nav-dropdown group">
+          <button type="button" class="nav-dropdown-btn py-2 focus:outline-none" aria-expanded="false" aria-haspopup="true">
+            <span>O Projeto</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-chevron text-carvao/60"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="nav-dropdown-inner">
+              <a href="#projeto" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Sobre o Projeto</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Missão, visão e pilares de atuação</span>
+                </div>
+              </a>
+              <a href="#nossa-historia" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Nossa História</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">A trajetória ministerial</span>
+                </div>
+              </a>
+              <a href="#fundadores" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Fundadores</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Pr. Melque Silva &amp; Monique Freitas</span>
+                </div>
+              </a>
+              <a href="#como-atuamos" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="heart-handshake" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Como Atuamos</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Ruas, presídios, escolas e leitos</span>
+                </div>
+              </a>
+              <a href="#valores" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Transparência</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Nossos 8 valores institucionais</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Impacto -->
+        <a href="#impacto" class="hover:text-chama transition-colors py-2">Impacto</a>
+
+        <!-- 4. Edições -->
+        <a href="#proximas-edicoes" class="hover:text-chama text-chama font-semibold transition-colors py-2">Edições</a>
+
+        <!-- 5. Agenda -->
+        <a href="#agenda-assessoria" class="hover:text-chama transition-colors py-2">Agenda</a>
+
+        <!-- 6. Vídeos -->
+        <a href="#acoes-videos" class="hover:text-chama transition-colors py-2">Vídeos</a>
+
+        <!-- 7. Faça Parte ▾ (Dropdown) -->
+        <div class="nav-dropdown group">
+          <button type="button" class="nav-dropdown-btn py-2 focus:outline-none" aria-expanded="false" aria-haspopup="true">
+            <span>Faça Parte</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 nav-chevron text-carvao/60"></i>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="nav-dropdown-inner">
+              <a href="#faca-parte" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Seja Voluntário</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Cadastre-se para servir em campo</span>
+                </div>
+              </a>
+              <a href="#apoie" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="handshake" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Seja Parceiro</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Apoie com recursos e oração</span>
+                </div>
+              </a>
+              <a href="levar-o-atos.html" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon text-cacto bg-cacto-light">
+                  <i data-lucide="church" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-cacto font-semibold">Leve o ATOS para sua cidade</span>
+                  <span class="block text-[0.7rem] text-cacto/70 font-normal">Convite pastoral e parceria</span>
+                </div>
+              </a>
+              <a href="#apoie" class="nav-dropdown-item">
+                <span class="nav-dropdown-item-icon">
+                  <i data-lucide="gift" class="w-3.5 h-3.5"></i>
+                </span>
+                <div>
+                  <span class="block text-carvao font-semibold">Outras Formas de Apoiar</span>
+                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Doação PIX e intercessão</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [ LADO DIREITO ]: Ações Rápidas (Desktop) -->
+      <div class="hidden lg:flex items-center gap-2.5 xl:gap-3 flex-shrink-0">
+        <!-- Ação Secundária: Leve o ATOS -->
+        <a href="levar-o-atos.html" class="inline-flex items-center gap-1.5 text-cacto hover:text-cacto-dark font-semibold text-xs xl:text-sm px-3.5 py-2 rounded-full border border-cacto/30 hover:bg-cacto-light transition-all duration-200" title="Leve uma edição do Projeto ATOS para sua igreja ou município">
+          <i data-lucide="church" class="w-4 h-4"></i>
+          <span>Leve o ATOS</span>
+        </a>
+
+        <!-- Ação Principal (CTA): Apoiar o Projeto -->
+        <a href="#apoie" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-semibold text-xs xl:text-sm px-4 xl:px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 whitespace-nowrap" aria-label="Apoiar o Projeto ATOS financeiramente ou com recursos">
+          <i data-lucide="heart" class="w-4 h-4 fill-white/20"></i>
+          <span>Apoiar o Projeto</span>
+        </a>
+      </div>
+
+      <!-- Botão Menu Mobile (Hambúrguer) -->
+      <button id="mobile-menu-btn" type="button" aria-label="Abrir menu de navegação" aria-expanded="false" class="lg:hidden p-2 rounded-xl text-carvao hover:text-chama hover:bg-areia/50 transition-colors focus:outline-none flex-shrink-0">
+        <i id="mobile-menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </nav>
+
+    <!-- Menu Mobile (Gaveta Expansível com Acordeões) -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-areia px-5 py-5 shadow-2xl transition-all duration-300 max-h-[calc(100vh-5rem)] overflow-y-auto">
+      <div class="flex flex-col gap-1 text-base font-medium text-carvao">
+        <!-- Início -->
+        <a href="#inicio" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light">Início</a>
+
+        <!-- Acordeão: O Projeto -->
+        <div class="border-t border-areia/40 pt-1">
+          <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between py-2.5 px-3 rounded-lg text-left hover:text-chama hover:bg-areia-light transition-colors" aria-expanded="false">
+            <span class="font-semibold">O Projeto</span>
+            <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-carvao/60"></i>
+          </button>
+          <div class="mobile-accordion-content pl-4 pr-1 space-y-1">
+            <div class="border-l-2 border-areia pl-3 py-1 my-1 space-y-2">
+              <a href="#projeto" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Sobre o Projeto</span>
+              </a>
+              <a href="#nossa-historia" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="book-open" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Nossa História</span>
+              </a>
+              <a href="#fundadores" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Fundadores</span>
+              </a>
+              <a href="#como-atuamos" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="heart-handshake" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Como Atuamos</span>
+              </a>
+              <a href="#valores" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Transparência &amp; Valores</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Impacto -->
+        <a href="#impacto" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light border-t border-areia/40">Impacto</a>
+
+        <!-- Edições -->
+        <a href="#proximas-edicoes" class="text-chama font-bold transition-colors py-2.5 px-3 rounded-lg hover:bg-chama-light/50 border-t border-areia/40">Próximas Edições</a>
+
+        <!-- Agenda -->
+        <a href="#agenda-assessoria" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light border-t border-areia/40">Agenda &amp; Assessoria</a>
+
+        <!-- Galeria do Projeto -->
+        <a href="#acoes-videos" class="hover:text-chama transition-colors py-2.5 px-3 rounded-lg hover:bg-areia-light border-t border-areia/40">Galeria do Projeto</a>
+
+        <!-- Acordeão: Faça Parte -->
+        <div class="border-t border-areia/40 pt-1">
+          <button type="button" class="mobile-accordion-btn w-full flex items-center justify-between py-2.5 px-3 rounded-lg text-left hover:text-chama hover:bg-areia-light transition-colors" aria-expanded="false">
+            <span class="font-semibold">Faça Parte</span>
+            <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4 text-carvao/60"></i>
+          </button>
+          <div class="mobile-accordion-content pl-4 pr-1 space-y-1">
+            <div class="border-l-2 border-areia pl-3 py-1 my-1 space-y-2">
+              <a href="#faca-parte" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="user-plus" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Seja Voluntário</span>
+              </a>
+              <a href="#apoie" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="handshake" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Seja Parceiro</span>
+              </a>
+              <a href="levar-o-atos.html" class="flex items-center gap-2 py-1.5 text-sm text-cacto font-semibold hover:text-cacto-dark transition-colors">
+                <i data-lucide="church" class="w-3.5 h-3.5 text-cacto"></i>
+                <span>Leve o ATOS para sua cidade</span>
+              </a>
+              <a href="#apoie" class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
+                <i data-lucide="gift" class="w-3.5 h-3.5 text-chama"></i>
+                <span>Outras formas de participar</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rodapé de Ações Mobile -->
+        <div class="pt-4 mt-2 border-t border-areia flex flex-col gap-2.5">
+          <a href="levar-o-atos.html" class="w-full text-center border-2 border-cacto/30 text-cacto hover:bg-cacto-light font-semibold px-4 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
+            <i data-lucide="church" class="w-4 h-4"></i>
+            <span>Leve o ATOS para sua Cidade</span>
+          </a>
+          <a href="#apoie" class="w-full text-center bg-chama hover:bg-chama-dark text-white font-bold px-5 py-3.5 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 text-sm">
+            <i data-lucide="heart" class="w-4 h-4 fill-white/20"></i>
+            <span>Apoiar o Projeto</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       HERO SECTION
+       ========================================================================= -->
+  <section id="inicio" class="relative hero-gradient pt-12 pb-20 md:py-24 overflow-hidden border-b border-terra/10">
+    <!-- Elementos Decorativos de Fundo -->
+    <div class="absolute top-10 left-5 w-72 h-72 bg-chama/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 right-5 w-80 h-80 bg-cacto/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Coluna de Texto (Hero Copy) -->
+        <div class="lg:col-span-7 flex flex-col items-start text-left space-y-6">
+          
+          <!-- Badges de Cabeçalho -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="inline-flex items-center gap-1.5 bg-chama/15 text-chama-dark font-semibold text-xs uppercase tracking-wider px-3 py-1.5 rounded-full border border-chama/30">
+              <i data-lucide="flame" class="w-3.5 h-3.5 text-chama"></i>
+              Ministério Evangelístico &amp; Obras Sociais
+            </span>
+            <span class="inline-flex items-center gap-1.5 bg-cacto/15 text-cacto-dark font-semibold text-xs uppercase tracking-wider px-3 py-1.5 rounded-full border border-cacto/30">
+              <i data-lucide="church" class="w-3.5 h-3.5 text-cacto"></i>
+              Sede: ADPB Palmeira
+            </span>
+          </div>
+
+          <!-- Título Principal em Bebas Neue -->
+          <div class="space-y-1">
+            <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-carvao leading-[0.95] tracking-wide">
+              PROJETO <span class="text-chama">ATOS</span>
+            </h1>
+            <p class="font-display text-2xl sm:text-3xl md:text-4xl text-terra tracking-wider">
+              Pregação do Evangelho e Obras Sociais
+            </p>
+          </div>
+
+          <!-- Subtítulo Oficial -->
+          <blockquote class="text-lg sm:text-xl md:text-2xl text-carvao/85 font-medium italic border-l-4 border-chama pl-4 py-1">
+            “Pregando o Evangelho. Servindo vidas. Transformando realidades.”
+          </blockquote>
+
+          <!-- Texto Descritivo -->
+          <p class="text-base sm:text-lg text-carvao/75 max-w-2xl leading-relaxed">
+            Nascido sob a liderança do <strong>Pastor Melque Silva</strong> e da <strong>Missionária Monique Freitas</strong>, o Projeto ATOS é um movimento voluntário de fé ativa que cruza cidades do sertão paraibano e de diversas regiões da Paraíba levando alimento, cuidado e a mensagem transformadora de Jesus Cristo às ruas, colégios, hospitais e presídios.
+          </p>
+
+          <!-- Botões de Ação (CTAs) -->
+          <div class="pt-2 flex flex-wrap items-center gap-4 w-full sm:w-auto">
+            <a href="#impacto" class="w-full sm:w-auto text-center inline-flex items-center justify-center gap-2.5 bg-chama hover:bg-chama-dark text-white font-semibold px-7 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5">
+              <i data-lucide="compass" class="w-5 h-5"></i>
+              <span>Conheça Nossas Ações</span>
+            </a>
+            <a href="https://wa.me/5583996713578?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Projeto%20ATOS" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto text-center inline-flex items-center justify-center gap-2.5 bg-white hover:bg-areia text-carvao font-semibold px-7 py-3.5 rounded-full border border-terra/20 shadow hover:shadow-md transition-all duration-200">
+              <i data-lucide="message-circle" class="w-5 h-5 text-cacto"></i>
+              <span>Fale Conosco</span>
+            </a>
+          </div>
+
+          <!-- Destaques Rápidos Dinâmicos -->
+          <div class="pt-4 grid grid-cols-3 gap-4 border-t border-terra/15 w-full max-w-xl">
+            <div>
+              <span id="hero-count-acoes" class="font-display text-3xl sm:text-4xl text-chama">18</span>
+              <p class="text-xs sm:text-sm text-carvao/70 font-medium">Ações Realizadas</p>
+            </div>
+            <div>
+              <span id="hero-count-localidades" class="font-display text-3xl sm:text-4xl text-cacto">14</span>
+              <p class="text-xs sm:text-sm text-carvao/70 font-medium">Localidades</p>
+            </div>
+            <div>
+              <span id="hero-count-nacoes" class="font-display text-3xl sm:text-4xl text-terra">2</span>
+              <p class="text-xs sm:text-sm text-carvao/70 font-medium">Nações Alcançadas</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Coluna Visual (Foto dos Fundadores & Card) -->
+        <div class="lg:col-span-5 flex justify-center relative">
+          <div class="relative w-full max-w-md">
+            
+            <!-- Moldura Decorativa -->
+            <div class="photo-frame-accent">
+              <div class="photo-frame bg-white relative z-10">
+                <img src="assets/images/casal_1.jpg" alt="Pastor Melque Silva e Missionária Monique Freitas, coordenadores do Projeto ATOS" class="w-full h-auto object-cover rounded-2xl shadow-xl transition-transform duration-500 hover:scale-105" />
+              </div>
+            </div>
+
+            <!-- Card Flutuante de Credencial -->
+            <div class="absolute -bottom-6 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-areia flex items-center gap-3 z-20">
+              <div class="w-12 h-12 rounded-xl bg-cacto/15 flex items-center justify-center text-cacto">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-cacto">Coordenação Geral</p>
+                <p class="text-sm font-semibold text-carvao">Pr. Melque &amp; Monique</p>
+                <p class="text-xs text-carvao/60">ADPB Palmeira</p>
+              </div>
+            </div>
+
+            <!-- Card Flutuante de Nações -->
+            <div class="absolute -top-4 -right-4 sm:-right-6 bg-carvao/95 text-white backdrop-blur-md rounded-2xl py-2.5 px-4 shadow-xl border border-chama/40 flex items-center gap-2.5 z-20">
+              <span class="text-xl">🇧🇷</span>
+              <div class="text-left">
+                <p class="text-[0.65rem] font-bold text-chama uppercase tracking-widest leading-none">Missão Sertão</p>
+                <p class="text-xs font-medium text-white/90">Sertão Paraibano &bull; Brasil</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+    <!-- =========================================================================
+       PRÓXIMAS EDIÇÕES
+       ========================================================================= -->
+  <section id="proximas-edicoes" class="py-20 md:py-24 bg-white border-b border-areia relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho -->
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-chama font-bold text-xs uppercase tracking-widest bg-chama/10 px-4 py-1.5 rounded-full border border-chama/30">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          PRÓXIMAS EDIÇÕES
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          FAÇA PARTE DA PRÓXIMA MISSÃO
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/80 max-w-2xl mx-auto leading-relaxed">
+          O Projeto ATOS está preparando novas ações para levar o Evangelho, servir vidas e transformar realidades.
+          <br class="hidden sm:inline" />
+          Escolha uma das próximas edições e venha fazer parte dessa missão com a gente.
+        </p>
+      </div>
+
+      <!-- Grid de Edições Carregadas Dinamicamente -->
+      <div id="edicoes-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <!-- Renderizado dinamicamente pelo JS a partir de window.atosDB -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FAÇA PARTE DO PROJETO (DESTAQUE)
+       ========================================================================= -->
+  <section id="faca-parte" class="py-16 md:py-20 bg-gradient-to-br from-terra-light/40 via-white to-areia/40 border-b border-areia relative">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-cacto/30 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+        
+        <div class="space-y-3 max-w-2xl text-left">
+          <span class="text-xs font-bold uppercase tracking-widest text-cacto block">Ainda não faz parte do Projeto ATOS?</span>
+          <h3 class="font-display text-3xl sm:text-4xl md:text-5xl text-carvao leading-none">
+            FAÇA PARTE DO PROJETO
+          </h3>
+          <p class="text-sm sm:text-base text-carvao/80 leading-relaxed">
+            Cadastre seus dados uma única vez e fique conectado às próximas missões do Projeto ATOS.
+            Assim, quando uma nova edição for anunciada, você poderá simplesmente manifestar seu interesse ou confirmar sua presença.
+          </p>
+        </div>
+
+        <div class="flex-shrink-0 w-full sm:w-auto">
+          <button type="button" id="btn-abrir-cadastro-geral" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-chama hover:bg-chama-dark text-white font-bold text-base px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5">
+            <i data-lucide="user-plus" class="w-5 h-5"></i>
+            <span>QUERO FAZER PARTE</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       PAINEL DE IMPACTO & CONTADORES
+       ========================================================================= -->
+  <section id="impacto" class="py-16 md:py-20 bg-white border-b border-areia">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho da Seção -->
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-cacto font-semibold text-xs sm:text-sm uppercase tracking-wider bg-cacto/10 px-3.5 py-1 rounded-full">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+          Histórico de Atuação
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          O IMPACTO DO PROJETO ATOS
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75">
+          Números que representam vidas alcançadas pelo Evangelho, famílias amparadas e comunidades transformadas pelo amor em ação.
+        </p>
+      </div>
+
+      <!-- Grid de Contadores Oficiais -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        
+        <!-- Card 1: 18 Ações -->
+        <div class="card-atos p-7 text-center relative overflow-hidden group">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-chama/10 flex items-center justify-center text-chama group-hover:scale-110 transition-transform">
+            <i data-lucide="zap" class="w-7 h-7"></i>
+          </div>
+          <div class="font-display text-5xl sm:text-6xl text-carvao mb-1">
+            <span id="impacto-count-acoes" class="counter-value" data-target="18">0</span>
+          </div>
+          <h3 class="font-bold text-base text-chama uppercase tracking-wide mb-1">Ações Realizadas</h3>
+          <p class="text-xs sm:text-sm text-carvao/70">
+            Missões e expedições completas com pregação da palavra e obras sociais diretas.
+          </p>
+        </div>
+
+        <!-- Card 2: 14 Localidades -->
+        <div class="card-atos p-7 text-center relative overflow-hidden group">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-cacto/10 flex items-center justify-center text-cacto group-hover:scale-110 transition-transform">
+            <i data-lucide="map-pinned" class="w-7 h-7"></i>
+          </div>
+          <div class="font-display text-5xl sm:text-6xl text-carvao mb-1">
+            <span id="impacto-count-localidades" class="counter-value" data-target="14">0</span>
+          </div>
+          <h3 class="font-bold text-base text-cacto uppercase tracking-wide mb-1">Localidades Alcançadas</h3>
+          <p class="text-xs sm:text-sm text-carvao/70">
+            Cidades, distritos e bairros atendidos com caravanas e voluntários no sertão e em cidades da Paraíba.
+          </p>
+        </div>
+
+        <!-- Card 3: 2 Países -->
+        <div class="card-atos p-7 text-center relative overflow-hidden group">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-terra/15 flex items-center justify-center text-terra group-hover:scale-110 transition-transform">
+            <i data-lucide="globe-2" class="w-7 h-7"></i>
+          </div>
+          <div class="font-display text-5xl sm:text-6xl text-carvao mb-1">
+            <span id="impacto-count-nacoes" class="counter-value" data-target="2">0</span>
+          </div>
+          <h3 class="font-bold text-base text-terra uppercase tracking-wide mb-1">Nações Impactadas</h3>
+          <p class="text-xs sm:text-sm text-carvao/70">
+            Trabalho missionário contínuo no sertão da Paraíba e em diversas comunidades.
+          </p>
+        </div>
+
+        <!-- Card 4: 100% Voluntário -->
+        <div class="card-atos p-7 text-center relative overflow-hidden group">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-chama/10 flex items-center justify-center text-chama group-hover:scale-110 transition-transform">
+            <i data-lucide="heart" class="w-7 h-7"></i>
+          </div>
+          <div class="font-display text-5xl sm:text-6xl text-carvao mb-1">
+            <span class="counter-value" data-target="100">0</span>%
+          </div>
+          <h3 class="font-bold text-base text-chama uppercase tracking-wide mb-1">Entrega &amp; Vocação</h3>
+          <p class="text-xs sm:text-sm text-carvao/70">
+            Serviço desinteressado, movido exclusivamente pelo amor a Deus e pelas almas.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       COMO ATUAMOS — NOVO CARROSSEL LATERAL INFINITO
+       ========================================================================= -->
+  <section id="como-atuamos" class="py-20 md:py-28 bg-gradient-to-b from-white via-areia/30 to-white border-b border-areia overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho -->
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-terra font-semibold text-xs sm:text-sm uppercase tracking-wider bg-terra/10 px-3.5 py-1 rounded-full border border-terra/20">
+          <i data-lucide="heart-handshake" class="w-4 h-4 text-terra"></i>
+          Nossos Campos de Batalha
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          COMO ATUAMOS
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75 max-w-2xl mx-auto">
+          O Projeto ATOS não fica confinado entre quatro paredes. Nós vamos onde a dor, a necessidade e o sofrimento estão, levando esperança viva.
+        </p>
+      </div>
+
+      <!-- Carrossel Infinito com Card Central Maior -->
+      <div class="relative max-w-5xl mx-auto">
+        
+        <!-- Controles Laterais Desktop -->
+        <button type="button" id="carousel-prev-btn" aria-label="Slide anterior" class="absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 text-carvao hover:text-chama hover:bg-white shadow-xl border border-areia flex items-center justify-center transition-all duration-200 transform hover:scale-110 focus:outline-none">
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+
+        <button type="button" id="carousel-next-btn" aria-label="Próximo slide" class="absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 text-carvao hover:text-chama hover:bg-white shadow-xl border border-areia flex items-center justify-center transition-all duration-200 transform hover:scale-110 focus:outline-none">
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Container do Carrossel -->
+        <div id="como-atuamos-carousel" class="como-atuamos-carousel">
+          <div id="como-atuamos-track" class="como-atuamos-track">
+            
+            <!-- Slide 1: RUAS -->
+            <div class="como-atuamos-slide" data-index="0">
+              <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl border-2 border-areia hover:border-chama/40 transition-all duration-300 h-full flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="w-14 h-14 rounded-2xl bg-chama/10 text-chama flex items-center justify-center shadow-sm">
+                    <i data-lucide="footprints" class="w-7 h-7"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-chama block mb-1">Frente 01</span>
+                    <h3 class="font-display text-3xl sm:text-4xl text-carvao">RUAS</h3>
+                  </div>
+                  <p class="text-sm sm:text-base text-carvao/75 leading-relaxed">
+                    Evangelismo corpo a corpo, distribuição de refeições nutritivas, agasalhos e acolhimento humano para pessoas em situação de rua e extrema vulnerabilidade social.
+                  </p>
+                </div>
+                <div class="pt-6 border-t border-areia/60 flex items-center gap-2 text-xs font-semibold text-chama">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Alimento físico e alimento espiritual</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2: COLÉGIOS -->
+            <div class="como-atuamos-slide" data-index="1">
+              <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl border-2 border-areia hover:border-cacto/40 transition-all duration-300 h-full flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="w-14 h-14 rounded-2xl bg-cacto/10 text-cacto flex items-center justify-center shadow-sm">
+                    <i data-lucide="graduation-cap" class="w-7 h-7"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-cacto block mb-1">Frente 02</span>
+                    <h3 class="font-display text-3xl sm:text-4xl text-carvao">COLÉGIOS</h3>
+                  </div>
+                  <p class="text-sm sm:text-base text-carvao/75 leading-relaxed">
+                    Apresentação do Evangelho a crianças e jovens, resgate dos princípios familiares, prevenção ativa contra vícios e apoio emocional a alunos e professores.
+                  </p>
+                </div>
+                <div class="pt-6 border-t border-areia/60 flex items-center gap-2 text-xs font-semibold text-cacto">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Formando novas gerações com valores</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3: HOSPITAIS -->
+            <div class="como-atuamos-slide" data-index="2">
+              <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl border-2 border-areia hover:border-terra/40 transition-all duration-300 h-full flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="w-14 h-14 rounded-2xl bg-terra/10 text-terra flex items-center justify-center shadow-sm">
+                    <i data-lucide="cross" class="w-7 h-7"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-terra block mb-1">Frente 03</span>
+                    <h3 class="font-display text-3xl sm:text-4xl text-carvao">HOSPITAIS</h3>
+                  </div>
+                  <p class="text-sm sm:text-base text-carvao/75 leading-relaxed">
+                    Visitas leito a leito, oração de cura e conforto bíblico para pacientes internados, suporte moral aos médicos, equipe de enfermagem e familiares angustiados.
+                  </p>
+                </div>
+                <div class="pt-6 border-t border-areia/60 flex items-center gap-2 text-xs font-semibold text-terra">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Cuidado pastoral e amparo na dor</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 4: PRESÍDIOS -->
+            <div class="como-atuamos-slide" data-index="3">
+              <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-xl border-2 border-areia hover:border-chama/40 transition-all duration-300 h-full flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="w-14 h-14 rounded-2xl bg-chama/10 text-chama flex items-center justify-center shadow-sm">
+                    <i data-lucide="key" class="w-7 h-7"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-chama block mb-1">Frente 04</span>
+                    <h3 class="font-display text-3xl sm:text-4xl text-carvao">PRESÍDIOS</h3>
+                  </div>
+                  <p class="text-sm sm:text-base text-carvao/75 leading-relaxed">
+                    Mensagem de redenção e verdadeira libertação em Cristo para homens e mulheres encarcerados, com assistência material básica e acolhimento para ressocialização.
+                  </p>
+                </div>
+                <div class="pt-6 border-t border-areia/60 flex items-center gap-2 text-xs font-semibold text-chama">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Verdadeira liberdade e restauração</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Indicadores (Dots) -->
+        <div id="carousel-dots" class="flex justify-center items-center gap-2.5 mt-8">
+          <button type="button" class="carousel-dot w-3 h-3 rounded-full bg-chama transition-all duration-300" data-slide="0" aria-label="Slide 1"></button>
+          <button type="button" class="carousel-dot w-3 h-3 rounded-full bg-areia hover:bg-carvao/40 transition-all duration-300" data-slide="1" aria-label="Slide 2"></button>
+          <button type="button" class="carousel-dot w-3 h-3 rounded-full bg-areia hover:bg-carvao/40 transition-all duration-300" data-slide="2" aria-label="Slide 3"></button>
+          <button type="button" class="carousel-dot w-3 h-3 rounded-full bg-areia hover:bg-carvao/40 transition-all duration-300" data-slide="3" aria-label="Slide 4"></button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SOBRE OS FUNDADORES & NOSSA HISTÓRIA (QUEM SOMOS)
+       ========================================================================= -->
+  <section id="fundadores" class="py-20 md:py-28 hero-gradient border-b border-terra/10">
+    <div id="nossa-historia" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
+      
+      <!-- Cabeçalho -->
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-chama font-semibold text-xs sm:text-sm uppercase tracking-wider bg-chama/10 px-3.5 py-1 rounded-full">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          Quem Somos &bull; Liderança Pastoral
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          CONHEÇA OS FUNDADORES
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75">
+          Vidas forjadas pela graça, marcadas pelo amor inegociável às almas e dedicadas integralmente ao serviço do Reino de Deus.
+        </p>
+      </div>
+
+      <div class="space-y-20">
+
+        <!-- PASTOR MELQUE SILVA -->
+        <div class="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-xl border border-areia">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <!-- Foto Melque -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div class="relative w-full max-w-sm">
+                <div class="photo-frame-accent">
+                  <div class="photo-frame bg-white relative z-10">
+                    <img src="assets/images/melque_sorrindo.jpg" alt="Pastor Melque Silva sorrindo" class="w-full h-auto object-cover rounded-2xl shadow-lg" />
+                  </div>
+                </div>
+                <div class="absolute -bottom-4 right-4 bg-chama text-white px-4 py-1.5 rounded-full font-display text-lg tracking-wider shadow-lg z-20">
+                  Pr. Melque Silva
+                </div>
+              </div>
+            </div>
+
+            <!-- Biografia Melque -->
+            <div class="lg:col-span-7 space-y-6">
+              <div class="space-y-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-cacto">Pastor &amp; Coordenador Geral</span>
+                <h3 class="font-display text-4xl sm:text-5xl text-carvao">
+                  PASTOR MELQUE SILVA
+                </h3>
+                <p class="text-terra font-semibold text-sm">
+                  Um “servo de orelhas furadas” entregue à obra do Mestre
+                </p>
+              </div>
+
+              <!-- Blocos: Antes e Depois da Conversão -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                
+                <!-- Antes da Conversão -->
+                <div class="bg-areia/40 rounded-2xl p-5 border border-areia">
+                  <div class="flex items-center gap-2 text-terra font-bold text-sm mb-2">
+                    <i data-lucide="history" class="w-4 h-4 text-chama"></i>
+                    <span>Antes da Conversão</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed">
+                    Nascido e criado em <strong>Mãe D'água (PB)</strong>, construiu trajetória na música secular e no meio artístico. Viveu períodos de profundo desgaste e enfrentou as amarras dos vícios e do esgotamento físico, até que o Senhor usou o deserto e o vale da dor como o divisor de águas para sua vida.
+                  </p>
+                </div>
+
+                <!-- Depois da Conversão -->
+                <div class="bg-cacto/10 rounded-2xl p-5 border border-cacto/20">
+                  <div class="flex items-center gap-2 text-cacto font-bold text-sm mb-2">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-cacto"></i>
+                    <span>O Chamado Pastoral</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed">
+                    Tocado pelo poder libertador de Cristo, assumiu sua aliança definitiva como <em>“servo de orelhas furadas”</em>. Tornou-se um pai espiritual e evangelista destemido, atuando em missão contínua nas ruas, hospitais, presídios e colégios no Brasil e no exterior.
+                  </p>
+                </div>
+
+              </div>
+
+              <blockquote class="text-sm sm:text-base italic text-carvao/80 bg-white border-l-4 border-chama p-4 rounded-r-xl shadow-sm">
+                “Fui alcançado no fundo do poço para ser um instrumento vivo nas mãos de Deus, estendendo a mão para resgatar quem hoje sofre o que um dia vivi.”
+              </blockquote>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- MISSIONÁRIA MONIQUE FREITAS -->
+        <div class="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-xl border border-areia">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <!-- Biografia Monique (lado esquerdo em desktop) -->
+            <div class="lg:col-span-7 space-y-6 order-2 lg:order-1">
+              <div class="space-y-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-chama">Cofundadora &amp; Coordenadora</span>
+                <h3 class="font-display text-4xl sm:text-5xl text-carvao">
+                  MISSIONÁRIA MONIQUE FREITAS
+                </h3>
+                <p class="text-cacto font-semibold text-sm">
+                  Coração acolhedor, intercessão profética e mãe espiritual das famílias
+                </p>
+              </div>
+
+              <!-- Blocos: Origem e Ministério -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                
+                <!-- Origem & Família -->
+                <div class="bg-areia/40 rounded-2xl p-5 border border-areia">
+                  <div class="flex items-center gap-2 text-terra font-bold text-sm mb-2">
+                    <i data-lucide="home" class="w-4 h-4 text-terra"></i>
+                    <span>Origem &amp; Vida Familiar</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed">
+                    Nascida e criada em <strong>Mãe D'água na Paraíba</strong>, Monique sempre teve vocação nata para cuidar do próximo. Ao lado do Pastor Melque, é mãe dedicada de <strong>Asafe e Eliel</strong>, fazendo de seu lar a primeira extensão do ministério, ensinando aos filhos a compaixão na prática diária.
+                  </p>
+                </div>
+
+                <!-- Liderança Pastoral & Ações -->
+                <div class="bg-chama/10 rounded-2xl p-5 border border-chama/20">
+                  <div class="flex items-center gap-2 text-chama-dark font-bold text-sm mb-2">
+                    <i data-lucide="heart-handshake" class="w-4 h-4 text-chama"></i>
+                    <span>Liderança no Projeto ATOS</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed">
+                    Cofundadora do Projeto ATOS há mais de 2 anos, Monique atua na linha de frente no planejamento e execução das missões no sertão e em cidades da Paraíba. Destaca-se pelo abraço fraterno, pela oração incessante e pelo aconselhamento de mulheres e famílias vulneráveis.
+                  </p>
+                </div>
+
+              </div>
+
+              <blockquote class="text-sm sm:text-base italic text-carvao/80 bg-white border-l-4 border-cacto p-4 rounded-r-xl shadow-sm">
+                “O amor de Deus nos constrange a enxergar a dor do outro como se fosse nossa. Servir vidas é nossa maior honra.”
+              </blockquote>
+
+            </div>
+
+            <!-- Foto Monique -->
+            <div class="lg:col-span-5 flex justify-center order-1 lg:order-2">
+              <div class="relative w-full max-w-sm">
+                <div class="photo-frame-accent">
+                  <div class="photo-frame bg-white relative z-10">
+                    <img src="assets/images/monique.jpg" alt="Missionária Monique Freitas sorrindo" class="w-full h-auto object-cover rounded-2xl shadow-lg" />
+                  </div>
+                </div>
+                <div class="absolute -bottom-4 left-4 bg-cacto text-white px-4 py-1.5 rounded-full font-display text-lg tracking-wider shadow-lg z-20">
+                  Miss. Monique Freitas
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- UNIÃO MINISTERIAL DO CASAL -->
+        <div class="banner-atos-gradient text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden border border-chama/30">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-4 flex justify-center">
+              <img src="assets/images/casal_2.jpg" alt="Pastor Melque e Missionária Monique juntos em união ministerial" class="w-64 h-80 object-cover rounded-2xl border-2 border-chama/60 shadow-xl" />
+            </div>
+            <div class="lg:col-span-8 space-y-4 text-left">
+              <span class="text-xs uppercase font-bold tracking-widest text-chama">Família Firmada na Rocha</span>
+              <h4 class="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-wide">
+                UMA SÓ VISÃO, UM SÓ PROPÓSITO
+              </h4>
+              <p class="text-sm sm:text-base text-areia/90 leading-relaxed">
+                Juntos, Pastor Melque Silva e Missionária Monique Freitas unem força evangelística, sensibilidade pastoral e capacidade de mobilização social. Uma parceria fundamentada na oração, na Palavra e no amor pelas almas que transcende fronteiras e acolhe os esquecidos.
+              </p>
+              <div class="pt-2 flex flex-wrap gap-3">
+                <span class="inline-flex items-center gap-1.5 bg-white/10 px-3.5 py-1.5 rounded-full text-xs font-medium text-areia border border-white/10">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-chama"></i>
+                  Parceria no Altar e nas Ruas
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-white/10 px-3.5 py-1.5 rounded-full text-xs font-medium text-areia border border-white/10">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-cacto"></i>
+                  Pais de Asafe e Eliel
+                </span>
+                <span class="inline-flex items-center gap-1.5 bg-white/10 px-3.5 py-1.5 rounded-full text-xs font-medium text-areia border border-white/10">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-chama"></i>
+                  Sede Oficial: ADPB Palmeira
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+    <!-- =========================================================================
+       AGENDA & ASSESSORIA DO PROJETO ATOS
+       ========================================================================= -->
+  <section id="agenda-assessoria" class="py-20 md:py-24 bg-gradient-to-b from-white to-areia-light border-b border-areia">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-cacto font-bold text-xs uppercase tracking-widest bg-cacto/10 px-4 py-1.5 rounded-full border border-cacto/30">
+          <i data-lucide="clock" class="w-4 h-4"></i>
+          Convites &bull; Agenda &bull; Parcerias
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          AGENDA &amp; ASSESSORIA DO PROJETO
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75">
+          Para agendamento de ações em igrejas, informações, imprensa e parcerias missionárias.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-5xl mx-auto">
+        
+        <!-- Box 1: Agenda para Igrejas -->
+        <div class="lg:col-span-6 bg-white rounded-3xl p-8 border border-areia shadow-md flex flex-col justify-between space-y-6 hover:border-chama/40 transition-colors">
+          <div class="space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-chama/10 text-chama flex items-center justify-center">
+              <i data-lucide="calendar-check" class="w-6 h-6"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-chama block">Agenda das Ações</span>
+            <h3 class="font-display text-3xl text-carvao leading-tight">
+              QUER LEVAR O PROJETO ATOS PARA SUA IGREJA OU CIDADE?
+            </h3>
+            <p class="text-sm text-carvao/80 leading-relaxed">
+              Entre em contato com nossa assessoria e converse conosco sobre a possibilidade de receber uma de nossas ações integradas de evangelismo e assistência social.
+            </p>
+          </div>
+          <div class="pt-2">
+            <a href="levar-o-atos.html" class="w-full inline-flex items-center justify-center gap-2.5 bg-chama hover:bg-chama-dark text-white font-bold text-sm px-6 py-3.5 rounded-full shadow transition-all duration-200 transform hover:-translate-y-0.5">
+              <i data-lucide="church" class="w-4 h-4"></i>
+              <span>LEVE O ATOS PARA SUA CIDADE</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Box 2: Fale com a Assessoria (Monique) -->
+        <div class="lg:col-span-6 bg-white rounded-3xl p-8 border border-areia shadow-md flex flex-col justify-between space-y-6 hover:border-cacto/40 transition-colors">
+          <div class="space-y-4">
+            <div class="flex items-center gap-4">
+              <img src="assets/images/monique.jpg" alt="Monique Freitas" class="w-16 h-16 object-cover rounded-2xl shadow-md border-2 border-cacto/30" />
+              <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-cacto block">Assessoria Oficial</span>
+                <h4 class="font-display text-2xl text-carvao">MONIQUE</h4>
+                <p class="text-xs text-carvao/70">Assessoria Projeto ATOS &bull; (83) 99671-3578</p>
+              </div>
+            </div>
+            <h3 class="font-display text-3xl text-carvao leading-tight">
+              FALE COM A ASSESSORIA DO PROJETO ATOS
+            </h3>
+            <p class="text-sm text-carvao/80 leading-relaxed">
+              Para informações, imprensa, parcerias, convites e assuntos relacionados ao projeto, entre em contato diretamente com nossa assessoria pelo WhatsApp.
+            </p>
+          </div>
+          <div class="pt-2">
+            <a href="https://wa.me/5583996713578?text=Ol%C3%A1%2C%20Monique!%20Gostaria%20de%20falar%20com%20a%20Assessoria%20do%20Projeto%20ATOS." target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2.5 bg-cacto hover:bg-cacto-dark text-white font-bold text-sm px-6 py-3.5 rounded-full shadow transition-all duration-200 transform hover:-translate-y-0.5">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>FALAR COM A ASSESSORIA</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       O PROJETO &amp; CIDADES ATENDIDAS NO SERTÃO
+       ========================================================================= -->
+  <section id="projeto" class="py-20 md:py-28 bg-white border-b border-areia">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho -->
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-cacto font-semibold text-xs sm:text-sm uppercase tracking-wider bg-cacto/10 px-3.5 py-1 rounded-full">
+          <i data-lucide="map" class="w-4 h-4"></i>
+          Expedições Missionárias
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          LOCALIDADES ATENDIDAS
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75">
+          Conheça as cidades e comunidades alcançadas no sertão e em diversas regiões da Paraíba.
+        </p>
+      </div>
+
+      <!-- Grid dos Países: Brasil -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        
+        <!-- CARD BRASIL -->
+        <div class="bg-gradient-to-br from-white to-areia/30 rounded-3xl p-8 border-2 border-cacto/30 shadow-lg relative overflow-hidden">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🇧🇷</span>
+              <div>
+                <h3 class="font-display text-3xl sm:text-4xl text-carvao">BRASIL</h3>
+                <p class="text-xs font-semibold text-cacto uppercase tracking-wider">Estado da Paraíba</p>
+              </div>
+            </div>
+            <span class="bg-cacto text-white font-display text-xl px-4 py-1.5 rounded-full shadow">
+              12 AÇÕES
+            </span>
+          </div>
+
+          <p class="text-sm text-carvao/75 mb-6 leading-relaxed">
+            Concentração de cruzadas evangelísticas ao ar livre, doações de cestas básicas, visitas comunitárias e pregação em praças e escolas da Paraíba.
+          </p>
+
+          <!-- Badges das Cidades do Brasil com o estilo do manual -->
+          <div class="space-y-2">
+            <p class="text-xs font-bold text-carvao/70 uppercase tracking-wider">Cidades Atendidas:</p>
+            <div class="flex flex-wrap gap-2.5">
+              <span class="badge-cidade">📍 Maturéia</span>
+              <span class="badge-cidade">📍 Desterro</span>
+              <span class="badge-cidade">📍 Mãe D’Água</span>
+              <span class="badge-cidade">📍 São Domingos</span>
+              <span class="badge-cidade">📍 Maria Gorete</span>
+              <span class="badge-cidade">📍 Imaculada</span>
+              <span class="badge-cidade">📍 São José do Bonfim</span>
+              <span class="badge-cidade">📍 Junco do Seridó</span>
+              <span class="badge-cidade">📍 Emas</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD EXPANSÃO MISSIONÁRIA -->
+        <div class="bg-gradient-to-br from-white to-chama/5 rounded-3xl p-8 border-2 border-chama/30 shadow-lg relative overflow-hidden">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🇵🇾</span>
+              <div>
+                <h3 class="font-display text-3xl sm:text-4xl text-carvao">NOVAS MISSÕES</h3>
+                <p class="text-xs font-semibold text-chama uppercase tracking-wider">Expansão Missionária</p>
+              </div>
+            </div>
+            <span class="bg-chama text-white font-display text-xl px-4 py-1.5 rounded-full shadow">
+              NOVAS AÇÕES
+            </span>
+          </div>
+
+          <p class="text-sm text-carvao/75 mb-6 leading-relaxed">
+            Expansão contínua das ações do Projeto ATOS no interior e sertão paraibano, com suporte humanitário e cruzadas evangelísticas.
+          </p>
+
+          <!-- Badges de Cidades em Planejamento -->
+          <div class="space-y-2">
+            <p class="text-xs font-bold text-carvao/70 uppercase tracking-wider">Cidades Atendidas:</p>
+            <div class="flex flex-wrap gap-2.5">
+              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Patos</span>
+              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Pombal</span>
+              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Sousa</span>
+              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Cajazeiras</span>
+              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Piancó</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       MISSÃO, VISÃO E VALORES INSTITUCIONAIS
+       ========================================================================= -->
+  <section id="valores" class="py-20 md:py-28 hero-gradient border-b border-terra/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho -->
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-terra font-semibold text-xs sm:text-sm uppercase tracking-wider bg-terra/10 px-3.5 py-1 rounded-full">
+          <i data-lucide="award" class="w-4 h-4"></i>
+          Identidade &amp; Princípios
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          MISSÃO, VISÃO &amp; VALORES
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75">
+          Fundamentados na autoridade da Palavra de Deus e orientados por um compromisso ético e amoroso irrenunciável.
+        </p>
+      </div>
+
+      <!-- Cards de Missão e Visão -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        
+        <!-- Missão -->
+        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-lg border-l-8 border-cacto relative">
+          <div class="w-12 h-12 rounded-xl bg-cacto/15 text-cacto flex items-center justify-center mb-4">
+            <i data-lucide="target" class="w-6 h-6"></i>
+          </div>
+          <span class="text-xs font-bold text-cacto uppercase tracking-widest">Nosso Propósito Diário</span>
+          <h3 class="font-display text-3xl sm:text-4xl text-carvao mb-3">MISSÃO</h3>
+          <p class="text-base text-carvao/80 leading-relaxed">
+            Levar o Evangelho de Jesus Cristo a pessoas e comunidades, promovendo ações de amor, cuidado e assistência social, alcançando vidas em diferentes espaços da sociedade.
+          </p>
+        </div>
+
+        <!-- Visão -->
+        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-lg border-l-8 border-chama relative">
+          <div class="w-12 h-12 rounded-xl bg-chama/15 text-chama flex items-center justify-center mb-4">
+            <i data-lucide="eye" class="w-6 h-6"></i>
+          </div>
+          <span class="text-xs font-bold text-chama uppercase tracking-widest">Onde Queremos Chegar</span>
+          <h3 class="font-display text-3xl sm:text-4xl text-carvao mb-3">VISÃO</h3>
+          <p class="text-base text-carvao/80 leading-relaxed">
+            Ser um projeto missionário de referência na propagação do Evangelho e na transformação de vidas, ampliando sua atuação no Brasil e em outras nações.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- 8 Valores Institucionais Oficiais -->
+      <div class="space-y-8">
+        <div class="text-center">
+          <h3 class="font-display text-3xl sm:text-4xl text-carvao">
+            VALORES INSTITUCIONAIS
+          </h3>
+          <p class="text-sm text-carvao/70">
+            Os 8 pilares morais e espirituais que regem cada decisão e cada passo do Projeto ATOS.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- 1. Fé -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-chama/10 text-chama flex items-center justify-center mb-3">
+              <i data-lucide="book-open" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">FÉ</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Confiar em Deus e fundamentar cada ação na Palavra de Cristo.
+            </p>
+          </div>
+
+          <!-- 2. Amor -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-cacto/10 text-cacto flex items-center justify-center mb-3">
+              <i data-lucide="heart" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">AMOR</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Servir pessoas com compaixão, respeito e acolhimento.
+            </p>
+          </div>
+
+          <!-- 3. Evangelização -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-terra/15 text-terra flex items-center justify-center mb-3">
+              <i data-lucide="megaphone" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">EVANGELIZAÇÃO</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Anunciar o Evangelho e apresentar a mensagem de salvação de Jesus.
+            </p>
+          </div>
+
+          <!-- 4. Serviço -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-chama/10 text-chama flex items-center justify-center mb-3">
+              <i data-lucide="hand-heart" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">SERVIÇO</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Colocar-se à disposição para ajudar e cuidar de quem necessita.
+            </p>
+          </div>
+
+          <!-- 5. Compromisso -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-cacto/10 text-cacto flex items-center justify-center mb-3">
+              <i data-lucide="check-check" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">COMPROMISSO</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Realizar cada ação com responsabilidade, fidelidade e excelência.
+            </p>
+          </div>
+
+          <!-- 6. Unidade -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-terra/15 text-terra flex items-center justify-center mb-3">
+              <i data-lucide="users-2" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">UNIDADE</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Trabalhar em equipe, fortalecendo a comunhão e cooperação fraterna.
+            </p>
+          </div>
+
+          <!-- 7. Compaixão -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-chama/10 text-chama flex items-center justify-center mb-3">
+              <i data-lucide="smile" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">COMPAIXÃO</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Enxergar necessidades e levar esperança e dignidade aos aflitos.
+            </p>
+          </div>
+
+          <!-- 8. Integridade -->
+          <div class="card-atos p-6 text-left">
+            <div class="w-10 h-10 rounded-lg bg-cacto/10 text-cacto flex items-center justify-center mb-3">
+              <i data-lucide="shield" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-display text-2xl text-carvao mb-1">INTEGRIDADE</h4>
+            <p class="text-xs sm:text-sm text-carvao/75 leading-relaxed">
+              Atuar com transparência, honestidade e princípios bíblicos sólidos.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       GALERIA DO PROJETO & EMBEDS DO INSTAGRAM
+       ========================================================================= -->
+  <section id="acoes-videos" class="py-20 md:py-28 bg-white border-b border-areia">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho -->
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-chama font-semibold text-xs sm:text-sm uppercase tracking-wider bg-chama/10 px-3.5 py-1 rounded-full">
+          <i data-lucide="video" class="w-4 h-4"></i>
+          Registros Oficiais em Vídeo
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          GALERIA DO PROJETO
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75">
+          Assista aos vídeos reais das expedições, testemunhos e momentos de pregação gravados diretamente pelo Projeto ATOS no Instagram.
+        </p>
+      </div>
+
+      <!-- Filtros / Abas de Países -->
+      <div class="flex flex-wrap justify-center items-center gap-3 mb-12" role="tablist" aria-label="Filtro de vídeos por localidade">
+        <button type="button" class="tab-btn px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200 bg-chama text-white shadow-md focus:outline-none" data-country="all" role="tab" aria-selected="true">
+          Todas as Ações (9 Vídeos)
+        </button>
+        <button type="button" class="tab-btn px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200 bg-white text-carvao hover:bg-areia border border-areia shadow-sm focus:outline-none" data-country="brasil" role="tab" aria-selected="false">
+          Cruzadas Evangelísticas
+        </button>
+        <button type="button" class="tab-btn px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-200 bg-white text-carvao hover:bg-areia border border-areia shadow-sm focus:outline-none" data-country="brasil" role="tab" aria-selected="false">
+          Atendimentos Sociais
+        </button>
+      </div>
+
+      <!-- Grid dos Embeds Incorporados -->
+      <div id="media-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- San Lorenzo • Paraguai -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-chama">
+              <span class="text-base">🇵🇾</span>
+              <span>San Lorenzo • Paraguai</span>
+            </span>
+            <span class="text-[0.7rem] bg-chama/15 text-chama-dark font-bold px-3 py-1 rounded-full border border-chama/30">
+              Expansão Missionária
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-1"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/01_san_lorenzo.jpg">
+              <source src="assets/videos/01_san_lorenzo.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Evangelismo nas ruas e comunidades carentes de San Lorenzo.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DYICwCAxsO3/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Expedição Paraguai -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-chama">
+              <span class="text-base">🇵🇾</span>
+              <span>Expedição Paraguai</span>
+            </span>
+            <span class="text-[0.7rem] bg-chama/15 text-chama-dark font-bold px-3 py-1 rounded-full border border-chama/30">
+              Cruzada & Social
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-2"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/02_paraguai.jpg">
+              <source src="assets/videos/02_paraguai.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Cruzada evangelística e distribuição de donativos às famílias carentes.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/Db1MUOkoZ6L/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Emas • Paraíba -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-cacto">
+              <span class="text-base">🇧🇷</span>
+              <span>Emas • Paraíba</span>
+            </span>
+            <span class="text-[0.7rem] bg-cacto/15 text-cacto-dark font-bold px-3 py-1 rounded-full border border-cacto/30">
+              Ação Evangelística
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-3"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/03_emas.jpg">
+              <source src="assets/videos/03_emas.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Pregação poderosa do Evangelho e acolhimento em praça pública.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DX4YsQ1tYNw/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- São José do Bonfim • PB -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-cacto">
+              <span class="text-base">🇧🇷</span>
+              <span>São José do Bonfim • PB</span>
+            </span>
+            <span class="text-[0.7rem] bg-cacto/15 text-cacto-dark font-bold px-3 py-1 rounded-full border border-cacto/30">
+              Resgate de Vidas
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-4"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/04_bonfim.jpg">
+              <source src="assets/videos/04_bonfim.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Impacto missionário resgatando jovens e famílias para Cristo.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DXPN3Tbjdiv/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Maturéia • Paraíba -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-cacto">
+              <span class="text-base">🇧🇷</span>
+              <span>Maturéia • Paraíba</span>
+            </span>
+            <span class="text-[0.7rem] bg-cacto/15 text-cacto-dark font-bold px-3 py-1 rounded-full border border-cacto/30">
+              Evangelho em Ação
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-5"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/05_matureia.jpg">
+              <source src="assets/videos/05_matureia.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              O amor de Deus manifesto em oração, abraço e assistência social.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DQw8qpskSfC/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Junco do Seridó • PB -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-cacto">
+              <span class="text-base">🇧🇷</span>
+              <span>Junco do Seridó • PB</span>
+            </span>
+            <span class="text-[0.7rem] bg-cacto/15 text-cacto-dark font-bold px-3 py-1 rounded-full border border-cacto/30">
+              Ação Social
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-6"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/06_junco.jpg">
+              <source src="assets/videos/06_junco.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Mobilização de voluntários servindo vidas no Junco do Seridó.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DO11Mf9kVRl/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Mãe d'Água • Paraíba -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-cacto">
+              <span class="text-base">🇧🇷</span>
+              <span>Mãe d'Água • Paraíba</span>
+            </span>
+            <span class="text-[0.7rem] bg-cacto/15 text-cacto-dark font-bold px-3 py-1 rounded-full border border-cacto/30">
+              Terra Natal
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-7"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/07_mae_dagua.jpg">
+              <source src="assets/videos/07_mae_dagua.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Missão especial na terra onde Deus chamou os coordenadores.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DK-ryu6MQcn/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- São Domingos • Paraíba -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-cacto">
+              <span class="text-base">🇧🇷</span>
+              <span>São Domingos • Paraíba</span>
+            </span>
+            <span class="text-[0.7rem] bg-cacto/15 text-cacto-dark font-bold px-3 py-1 rounded-full border border-cacto/30">
+              Pregação & Cuidado
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-8"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/08_sao_domingos.jpg">
+              <source src="assets/videos/08_sao_domingos.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Anúncio do Evangelho de salvação e conforto aos necessitados.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DJ2G55aR7Zd/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Imaculada • Paraíba -->
+        <div class="media-item video-card flex flex-col justify-between bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-areia group" data-country="brasil">
+          
+          <!-- Topo do Card -->
+          <div class="w-full bg-terra-light/60 px-5 py-3.5 border-b border-areia flex items-center justify-between">
+            <span class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-cacto">
+              <span class="text-base">🇧🇷</span>
+              <span>Imaculada • Paraíba</span>
+            </span>
+            <span class="text-[0.7rem] bg-cacto/15 text-cacto-dark font-bold px-3 py-1 rounded-full border border-cacto/30">
+              Almas para o Reino
+            </span>
+          </div>
+
+          <!-- Player de Vídeo Nativo em Alta Qualidade -->
+          <div class="relative w-full aspect-[9/16] max-h-[520px] bg-black overflow-hidden flex items-center justify-center">
+            <video 
+              id="video-player-9"
+              class="w-full h-full object-contain native-video-player"
+              controls 
+              playsinline
+              preload="metadata"
+              poster="assets/videos/09_imaculada.jpg">
+              <source src="assets/videos/09_imaculada.mp4" type="video/mp4" />
+              Seu navegador não suporta a reprodução deste vídeo.
+            </video>
+          </div>
+
+          <!-- Descrição e Link do Instagram -->
+          <div class="p-5 bg-white space-y-3 flex-grow flex flex-col justify-between border-t border-areia/60">
+            <p class="text-xs sm:text-sm text-carvao/80 leading-relaxed font-normal">
+              Vidas entregues a Jesus e testemunhos marcantes em Imaculada.
+            </p>
+            <div class="pt-2 border-t border-areia/40 flex items-center justify-between">
+              <span class="text-[0.75rem] text-carvao/60 flex items-center gap-1.5 font-medium">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-chama"></i>
+                Vídeo Oficial
+              </span>
+              <a href="https://www.instagram.com/reel/DHqzmU8RDU8/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-chama hover:text-chama-dark hover:underline transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>Ver no Instagram</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Banner de Incentivo ao Instagram Oficial -->
+      <div class="mt-14 text-center">
+        <a href="https://www.instagram.com/projetoatosoficial" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-carvao hover:bg-carvao/90 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
+          <i data-lucide="instagram" class="w-5 h-5 text-chama"></i>
+          <span>Siga o @projetoatosoficial e Acompanhe os Stories Diários</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       GALERIA DE FOTOS DA COORDENAÇÃO & IDENTIDADE
+       ========================================================================= -->
+  <section id="galeria" class="py-20 md:py-28 hero-gradient border-b border-terra/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho -->
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="inline-flex items-center gap-1.5 text-cacto font-semibold text-xs sm:text-sm uppercase tracking-wider bg-cacto/10 px-3.5 py-1 rounded-full">
+          <i data-lucide="image" class="w-4 h-4"></i>
+          Acervo Fotográfico
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-carvao tracking-wide">
+          GALERIA INSTITUCIONAL
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/75">
+          Clique nas fotos para visualizá-las em alta resolução.
+        </p>
+      </div>
+
+      <!-- Grade de Imagens -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Imagem 1: Casal 1 -->
+        <a href="#" class="lightbox-trigger group relative rounded-2xl overflow-hidden shadow-lg aspect-[3/4] bg-carvao" data-img="assets/images/casal_1.jpg" data-caption="Pastor Melque Silva &amp; Missionária Monique Freitas — Coordenação Oficial do Projeto ATOS">
+          <img src="assets/images/casal_1.jpg" alt="Pastor Melque e Missionária Monique juntos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-carvao/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 text-white">
+            <span class="text-xs uppercase tracking-wider text-chama font-bold">Liderança Pastoral</span>
+            <p class="font-display text-2xl">Pr. Melque &amp; Monique</p>
+          </div>
+        </a>
+
+        <!-- Imagem 2: Melque Sorrindo -->
+        <a href="#" class="lightbox-trigger group relative rounded-2xl overflow-hidden shadow-lg aspect-[3/4] bg-carvao" data-img="assets/images/melque_sorrindo.jpg" data-caption="Pastor Melque Silva — Presidente e Coordenador Geral">
+          <img src="assets/images/melque_sorrindo.jpg" alt="Pastor Melque Silva sorrindo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-carvao/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 text-white">
+            <span class="text-xs uppercase tracking-wider text-chama font-bold">Fundador</span>
+            <p class="font-display text-2xl">Pastor Melque Silva</p>
+          </div>
+        </a>
+
+        <!-- Imagem 3: Monique Sorrindo -->
+        <a href="#" class="lightbox-trigger group relative rounded-2xl overflow-hidden shadow-lg aspect-[3/4] bg-carvao" data-img="assets/images/monique.jpg" data-caption="Missionária Monique Freitas — Cofundadora e Coordenadora">
+          <img src="assets/images/monique.jpg" alt="Missionária Monique Freitas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-carvao/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 text-white">
+            <span class="text-xs uppercase tracking-wider text-cacto font-bold">Cofundadora</span>
+            <p class="font-display text-2xl">Missionária Monique Freitas</p>
+          </div>
+        </a>
+
+        <!-- Imagem 4: Casal 2 -->
+        <a href="#" class="lightbox-trigger group relative rounded-2xl overflow-hidden shadow-lg aspect-[3/4] bg-carvao" data-img="assets/images/casal_2.jpg" data-caption="Aliança ministerial no altar e nas ruas pelo avanço do Evangelho">
+          <img src="assets/images/casal_2.jpg" alt="Pastor Melque e Monique unidos no ministério" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-carvao/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 text-white">
+            <span class="text-xs uppercase tracking-wider text-chama font-bold">Aliança Ministerial</span>
+            <p class="font-display text-2xl">Unidos em Cristo</p>
+          </div>
+        </a>
+
+        <!-- Imagem 5: Melque Sério -->
+        <a href="#" class="lightbox-trigger group relative rounded-2xl overflow-hidden shadow-lg aspect-[3/4] bg-carvao" data-img="assets/images/melque_serio.jpg" data-caption="Pastor Melque Silva — Compromisso inabalável com a verdade das Escrituras">
+          <img src="assets/images/melque_serio.jpg" alt="Pastor Melque Silva" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-carvao/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 text-white">
+            <span class="text-xs uppercase tracking-wider text-terra font-bold">Ministério Pastoral</span>
+            <p class="font-display text-2xl">Voz Profética</p>
+          </div>
+        </a>
+
+        <!-- Imagem 6: Marca Oficial -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg flex flex-col items-center justify-center text-center border border-areia aspect-[3/4]">
+          <img src="assets/images/logo.png" alt="Selo Oficial do Projeto ATOS" class="w-48 h-auto object-contain rounded-3xl shadow-lg border border-areia mb-4 animate-float" />
+          <h4 class="font-display text-2xl text-carvao">IDENTIDADE OFICIAL</h4>
+          <p class="text-xs text-carvao/60 mt-1">A Bíblia sagrada, a chama do Espírito Santo e o cacto do sertão.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SEÇÃO COMO APOIAR / PARCERIA & DOAÇÕES (PIX)
+       ========================================================================= -->
+  <section id="apoie" class="py-20 md:py-28 bg-white border-b border-areia">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="banner-atos-gradient rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden border border-chama/40">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          
+          <!-- Texto de Apelo e 3 Pilares -->
+          <div class="lg:col-span-7 space-y-6">
+            <span class="inline-flex items-center gap-1.5 bg-chama/20 text-chama px-3.5 py-1 rounded-full text-xs uppercase font-bold tracking-widest border border-chama/30">
+              <i data-lucide="hand-heart" class="w-3.5 h-3.5"></i>
+              Seja um Mantenedor &bull; Faça Parte
+            </span>
+            <h2 class="font-display text-4xl sm:text-5xl md:text-6xl text-white tracking-wide leading-tight">
+              COMO VOCÊ PODE <span class="text-chama">APOIAR O PROJETO ATOS</span>
+            </h2>
+            <p class="text-base sm:text-lg text-areia/90 leading-relaxed">
+              O Projeto ATOS é sustentado pela graça de Deus e pela generosidade de irmãos, igrejas e amigos que entendem que pregar o Evangelho e cuidar dos aflitos é a missão primordial da Igreja.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <i data-lucide="heart" class="w-6 h-6 text-chama mb-2"></i>
+                <h4 class="font-bold text-sm text-white mb-1">1. Com Oração</h4>
+                <p class="text-xs text-areia/70">Interceda pelas viagens missionárias e proteção das equipes em campo.</p>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <i data-lucide="users" class="w-6 h-6 text-cacto mb-2"></i>
+                <h4 class="font-bold text-sm text-white mb-1">2. Voluntariado</h4>
+                <p class="text-xs text-areia/70">Venha conosco para as ruas, colégios e hospitais servir com seus dons.</p>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <i data-lucide="wallet" class="w-6 h-6 text-chama mb-2"></i>
+                <h4 class="font-bold text-sm text-white mb-1">3. Doação Financeira</h4>
+                <p class="text-xs text-areia/70">Ajude na compra de alimentos, cobertores, bíblias e custos de viagem.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card de Chave PIX e Contato -->
+          <div class="lg:col-span-5 bg-white text-carvao rounded-2xl p-7 shadow-2xl border border-areia space-y-5">
+            <div class="text-center space-y-1">
+              <span class="text-xs font-bold uppercase tracking-wider text-cacto">Doação Direta e Transparente</span>
+              <h3 class="font-display text-3xl text-carvao">CHAVE PIX OFICIAL</h3>
+              <p class="text-xs text-carvao/70">Destinada 100% à assistência social e viagens evangelísticas.</p>
+            </div>
+
+            <!-- Campo de Chave PIX -->
+            <div class="space-y-2">
+              <label for="pix-key-input" class="text-xs font-semibold text-carvao/80 uppercase tracking-wider">Chave PIX (E-mail / Telefone):</label>
+              <div class="relative">
+                <input id="pix-key-input" type="text" readonly value="projetoatosoficial@gmail.com" class="w-full bg-areia/40 border border-terra/30 rounded-xl px-4 py-3 text-sm font-mono text-carvao focus:outline-none" />
+              </div>
+              <button id="pix-copy-btn" type="button" class="w-full bg-chama hover:bg-chama-dark text-white font-semibold py-3 px-4 rounded-xl shadow transition-all duration-200 flex items-center justify-center gap-2 text-sm">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+                <span>Copiar Chave PIX</span>
+              </button>
+              <div id="pix-copy-feedback" class="hidden text-xs text-cacto font-semibold text-center mt-1">
+                ✓ Chave copiada para a área de transferência! Deus abençoe.
+              </div>
+            </div>
+
+            <!-- Dados Adicionais -->
+            <div class="text-xs text-carvao/70 bg-areia/30 rounded-xl p-3 space-y-1">
+              <p><strong>Favorecido:</strong> Projeto ATOS &bull; ADPB Palmeira</p>
+              <p><strong>Banco:</strong> Chave PIX Oficial Registrada</p>
+              <p><strong>Comprovantes:</strong> Envie para o WhatsApp da coordenação.</p>
+            </div>
+
+            <!-- Botão de WhatsApp -->
+            <a href="https://wa.me/5583996713578?text=Olá!%20Realizei%20uma%20doação%20e%20gostaria%20de%20enviar%20o%20comprovante%20para%20o%20Projeto%20ATOS" target="_blank" rel="noopener noreferrer" class="w-full bg-cacto hover:bg-cacto-dark text-white font-semibold py-3 px-4 rounded-xl shadow transition-colors flex items-center justify-center gap-2 text-sm">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Enviar Comprovante / Falar no WhatsApp</span>
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       RODAPÉ OFICIAL (FOOTER)
+       ========================================================================= -->
+  <footer class="bg-carvao text-areia border-t border-terra/30 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-terra/20">
+        
+        <!-- Coluna 1: Marca e Sede -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="assets/images/logo.png" alt="Projeto ATOS Logo" class="h-16 w-auto object-contain rounded-2xl shadow-md border border-white/10" />
+            <div>
+              <span class="font-display text-3xl text-white tracking-wider block">PROJETO ATOS</span>
+              <span class="text-xs font-semibold text-chama uppercase tracking-widest">Pregação do Evangelho e Obras Sociais</span>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-areia/80 leading-relaxed max-w-md">
+            “Pregando o Evangelho. Servindo vidas. Transformando realidades.”<br />
+            Levando o amor de Cristo às ruas, hospitais, presídios e colégios pelo Brasil.
+          </p>
+          <div class="text-xs space-y-1 text-areia/70">
+            <p class="flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-cacto"></i>
+              <strong>Sede:</strong> ADPB Palmeira (Assembleia de Deus na Paraíba)
+            </p>
+            <p class="flex items-center gap-2">
+              <i data-lucide="user" class="w-4 h-4 text-chama"></i>
+              <strong>Coordenação:</strong> Pr. Melque Silva &amp; Monique Freitas
+            </p>
+          </div>
+        </div>
+
+        <!-- Coluna 2: Navegação Rápida -->
+        <div class="lg:col-span-3 space-y-3">
+          <h4 class="font-display text-xl text-white tracking-wider">LINKS RÁPIDOS</h4>
+          <ul class="space-y-2 text-xs sm:text-sm text-areia/80">
+            <li><a href="#inicio" class="hover:text-chama transition-colors">Início</a></li>
+            <li><a href="#fundadores" class="hover:text-chama transition-colors">Sobre os Fundadores</a></li>
+            <li><a href="#projeto" class="hover:text-chama transition-colors">O Projeto &amp; Cidades</a></li>
+            <li><a href="#impacto" class="hover:text-chama transition-colors">Histórico de Impacto</a></li>
+            <li><a href="#valores" class="hover:text-chama transition-colors">Missão, Visão e Valores</a></li>
+            <li><a href="#acoes-videos" class="hover:text-chama transition-colors">Ações em Campo (Vídeos)</a></li>
+            <li><a href="#apoie" class="hover:text-chama transition-colors">Como Apoiar / Doações</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Redes Sociais & Contato -->
+        <div class="lg:col-span-4 space-y-4">
+          <h4 class="font-display text-xl text-white tracking-wider">CONECTE-SE CONOSCO</h4>
+          <p class="text-xs sm:text-sm text-areia/80">
+            Acompanhe as atualizações das caravanas, orações e relatórios de missão em tempo real.
+          </p>
+          
+          <div class="space-y-2.5">
+            <a href="https://www.instagram.com/projetoatosoficial" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 text-xs sm:text-sm text-areia hover:text-chama transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-chama">
+                <i data-lucide="instagram" class="w-4 h-4"></i>
+              </div>
+              <span>@projetoatosoficial (Instagram do Projeto)</span>
+            </a>
+            <a href="https://www.instagram.com/melquesilva_oficial" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 text-xs sm:text-sm text-areia hover:text-chama transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-cacto">
+                <i data-lucide="user" class="w-4 h-4"></i>
+              </div>
+              <span>@melquesilva_oficial (Instagram do Pr. Melque)</span>
+            </a>
+          </div>
+
+          <div class="pt-2">
+            <a href="#apoie" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-semibold text-xs px-5 py-2.5 rounded-full shadow transition-colors">
+              <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+              <span>Fazer uma Doação Agora</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra de Copyright -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-areia/60">
+        <p>
+          &copy; 2026 PROJETO ATOS — Pregação do Evangelho e Obras Sociais. Todos os direitos reservados.
+        </p>
+        <p class="flex items-center gap-2 text-areia/70">
+          <span>Feito com amor para o Reino de Deus.</span>
+          <span>&bull;</span>
+          <a href="admin.html" class="hover:text-chama transition-colors text-areia/50 hover:text-areia flex items-center gap-1 text-[0.7rem]" title="Painel Administrativo">
+            <i data-lucide="lock" class="w-3 h-3"></i>
+            <span>Área Administrativa</span>
+          </a>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       MODAL LIGHTBOX (AMPLIAÇÃO DE FOTOS)
+       ========================================================================= -->
+  <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Visualizador de fotos">
+    <div class="relative max-w-4xl w-full flex flex-col items-center">
+      <button id="lightbox-close" type="button" aria-label="Fechar foto ampliada" class="absolute -top-12 right-0 text-white hover:text-chama p-2 focus:outline-none">
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+      <img id="lightbox-img" src="" alt="" class="max-h-[80vh] w-auto max-w-full rounded-2xl shadow-2xl object-contain" />
+      <p id="lightbox-caption" class="text-white text-sm sm:text-base font-medium mt-4 text-center max-w-xl"></p>
+    </div>
+  </div>
+
+  <!-- Script Principal da Aplicação -->
+    <!-- SDK Oficial Supabase & Configuração em Nuvem -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/voluntario.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Inicialização dos Ícones Lucide -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- =========================================================================
+       BOTÃO FLUTUANTE FIXO: LEVE O ATOS PARA SUA CIDADE
+       ========================================================================= -->
+  <a href="levar-o-atos.html" class="floating-btn-atos" aria-label="Leve o Projeto ATOS para sua cidade">
+    <i data-lucide="church" class="w-5 h-5 text-white flex-shrink-0"></i>
+    <span>Leve o ATOS para sua Cidade</span>
+  </a>
+
+  <!-- =========================================================================
+       MODAL 1: FORMULÁRIO DE CADASTRO (FAÇA PARTE DO PROJETO ATOS)
+       ========================================================================= -->
+  <div id="modal-cadastro-voluntario" class="modal-atos-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-cadastro-titulo">
+    <div class="modal-atos-content p-6 sm:p-10 relative">
+      
+      <!-- Botão Fechar -->
+      <button type="button" class="btn-fechar-modal absolute top-5 right-5 p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia" aria-label="Fechar formulário">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <!-- Cabeçalho do Modal -->
+      <div class="text-left pb-4 border-b border-areia mb-6 space-y-1">
+        <span class="text-xs font-bold uppercase tracking-widest text-cacto block">Cadastro Único de Voluntário</span>
+        <h3 id="modal-cadastro-titulo" class="font-display text-3xl sm:text-4xl text-carvao leading-tight">
+          FAÇA PARTE DO PROJETO ATOS
+        </h3>
+        <p class="text-xs sm:text-sm text-carvao/70">
+          Seu primeiro passo para fazer parte das próximas missões.
+        </p>
+      </div>
+
+      <!-- Barra de Identificação Rápida para quem já tem cadastro -->
+      <div class="bg-areia/40 rounded-2xl p-4 border border-areia mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div>
+          <span class="font-bold text-carvao block">Já é cadastrado no Projeto?</span>
+          <span class="text-carvao/70">Digite seu WhatsApp para identificar seus dados automaticamente:</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="tel" id="input-buscar-whats" placeholder="(83) 99999-9999" class="bg-white border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+          <button type="button" id="btn-buscar-whats" class="bg-cacto hover:bg-cacto-dark text-white font-bold px-3 py-2 rounded-xl transition-colors">
+            Buscar
+          </button>
+        </div>
+      </div>
+
+      <form id="form-cadastro-voluntario" class="space-y-6 text-left text-xs sm:text-sm">
+        <input type="hidden" id="cadastro-edicao-origem" value="" />
+
+        <!-- DADOS PESSOAIS -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-terra flex items-center gap-2 border-b border-areia/60 pb-1.5">
+            <i data-lucide="user" class="w-4 h-4 text-chama"></i>
+            <span>DADOS PESSOAIS</span>
+          </h4>
+
+          <div>
+            <label for="cad-nome" class="block font-semibold text-carvao mb-1">Nome Completo *</label>
+            <input type="text" id="cad-nome" required placeholder="Digite seu nome completo" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-chama" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="cad-whatsapp" class="block font-semibold text-carvao mb-1">WhatsApp *</label>
+              <input type="tel" id="cad-whatsapp" required placeholder="(83) 99999-9999" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-chama" />
+            </div>
+            <div>
+              <label for="cad-email" class="block font-semibold text-carvao mb-1">E-mail (opcional)</label>
+              <input type="email" id="cad-email" placeholder="seuemail@exemplo.com" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label for="cad-cidade" class="block font-semibold text-carvao mb-1">Cidade *</label>
+              <input type="text" id="cad-cidade" required placeholder="Ex: Patos" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-chama" />
+            </div>
+            <div>
+              <label for="cad-estado" class="block font-semibold text-carvao mb-1">Estado (UF) *</label>
+              <input type="text" id="cad-estado" required maxlength="2" placeholder="PB" value="PB" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-sm uppercase focus:outline-none focus:border-chama" />
+            </div>
+            <div>
+              <label for="cad-data-nasc" class="block font-semibold text-carvao mb-1">Data de Nascimento</label>
+              <input type="date" id="cad-data-nasc" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-chama" />
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFISSIONAIS DOS ATENDIMENTOS SOCIAIS -->
+        <div class="space-y-4 pt-2">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-terra flex items-center gap-2 border-b border-areia/60 pb-1.5">
+            <i data-lucide="stethoscope" class="w-4 h-4 text-cacto"></i>
+            <span>ATENDIMENTOS SOCIAIS &bull; ÁREA PROFISSIONAL</span>
+          </h4>
+
+          <div>
+            <p class="font-semibold text-carvao mb-2">
+              Você é profissional de alguma área e gostaria de contribuir com nossos atendimentos sociais?
+            </p>
+            <div class="flex items-center gap-6">
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="is_profissional" value="sim" class="radio-profissional text-chama focus:ring-chama w-4 h-4" />
+                <span class="font-bold text-carvao">SIM</span>
+              </label>
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="is_profissional" value="nao" checked class="radio-profissional text-chama focus:ring-chama w-4 h-4" />
+                <span class="font-bold text-carvao">NÃO</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Opções de Profissões (exibidas se SIM) -->
+          <div id="secao-profissoes" class="hidden space-y-5 bg-areia/20 p-5 rounded-2xl border border-areia">
+            <p class="text-xs text-carvao/70 italic">Selecione todas as opções que se aplicam à sua formação:</p>
+
+            <!-- Saúde -->
+            <div class="space-y-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-cacto block">SAÚDE</span>
+              <div class="flex flex-wrap gap-2">
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Médico(a)" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Médico(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Enfermeiro(a)" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Enfermeiro(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Técnico(a) de enfermagem" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Técnico(a) de enfermagem</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Dentista" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Dentista</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Fisioterapeuta" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Fisioterapeuta</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Nutricionista" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Nutricionista</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Farmacêutico(a)" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Farmacêutico(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Fonoaudiólogo(a)" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Fonoaudiólogo(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Outro profissional da saúde" class="rounded text-cacto focus:ring-cacto" />
+                  <span>Outro profissional da saúde</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Beleza e Estética -->
+            <div class="space-y-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-chama block">BELEZA E ESTÉTICA</span>
+              <div class="flex flex-wrap gap-2">
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Cabeleireiro(a) / Barbeiro(a)" class="rounded text-chama focus:ring-chama" />
+                  <span>Cabeleireiro(a) / Barbeiro(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Manicure / Pedicure" class="rounded text-chama focus:ring-chama" />
+                  <span>Manicure / Pedicure</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Maquiador(a)" class="rounded text-chama focus:ring-chama" />
+                  <span>Maquiador(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Designer de sobrancelhas" class="rounded text-chama focus:ring-chama" />
+                  <span>Designer de sobrancelhas</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Esteticista" class="rounded text-chama focus:ring-chama" />
+                  <span>Esteticista</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Outro profissional da área" class="rounded text-chama focus:ring-chama" />
+                  <span>Outro profissional da área</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Saúde Emocional -->
+            <div class="space-y-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-terra block">SAÚDE EMOCIONAL</span>
+              <div class="flex flex-wrap gap-2">
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Psicólogo(a)" class="rounded text-terra focus:ring-terra" />
+                  <span>Psicólogo(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Terapeuta" class="rounded text-terra focus:ring-terra" />
+                  <span>Terapeuta</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Outro profissional da área emocional" class="rounded text-terra focus:ring-terra" />
+                  <span>Outro profissional da área</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Outras Áreas -->
+            <div class="space-y-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-carvao block">OUTRAS ÁREAS</span>
+              <div class="flex flex-wrap gap-2">
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Assistente social" class="rounded text-carvao focus:ring-carvao" />
+                  <span>Assistente social</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Advogado(a)" class="rounded text-carvao focus:ring-carvao" />
+                  <span>Advogado(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Educador(a)" class="rounded text-carvao focus:ring-carvao" />
+                  <span>Educador(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Professor(a)" class="rounded text-carvao focus:ring-carvao" />
+                  <span>Professor(a)</span>
+                </label>
+                <label class="inline-flex items-center gap-1.5 bg-white border border-areia px-3 py-1.5 rounded-xl cursor-pointer hover:bg-areia/40 text-xs">
+                  <input type="checkbox" name="profissoes" value="Outro" class="rounded text-carvao focus:ring-carvao" />
+                  <span>Outro</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Outra profissão campo texto -->
+            <div>
+              <label for="cad-outra-profissao" class="block font-semibold text-carvao mb-1">Outra profissão / área:</label>
+              <input type="text" id="cad-outra-profissao" placeholder="Especifique caso sua profissão não esteja acima" class="w-full bg-white border border-areia rounded-xl px-4 py-2.5 text-xs sm:text-sm focus:outline-none focus:border-chama" />
+            </div>
+
+          </div>
+
+          <!-- Pergunta Voluntário sem profissão -->
+          <div class="pt-2">
+            <p class="font-semibold text-carvao mb-2">
+              Não é profissional de nenhuma dessas áreas, mas deseja servir como voluntário?
+            </p>
+            <div class="flex items-center gap-6">
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="is_voluntario" value="sim" checked class="text-cacto focus:ring-cacto w-4 h-4" />
+                <span class="font-bold text-carvao">SIM</span>
+              </label>
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="is_voluntario" value="nao" class="text-cacto focus:ring-cacto w-4 h-4" />
+                <span class="font-bold text-carvao">NÃO</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Termo de Consentimento -->
+        <div class="pt-3 border-t border-areia/60">
+          <p class="text-[0.72rem] text-carvao/60 leading-relaxed flex items-start gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-cacto flex-shrink-0 mt-0.5"></i>
+            <span>Seus dados são protegidos e confidenciais, utilizados exclusivamente pela coordenação do Projeto ATOS para organização e comunicação das missões.</span>
+          </p>
+        </div>
+
+        <!-- Botão de Envio -->
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button type="button" class="btn-fechar-modal px-6 py-3 rounded-full border border-areia font-semibold text-carvao/70 hover:bg-areia transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" class="px-8 py-3.5 rounded-full bg-chama hover:bg-chama-dark text-white font-bold shadow-lg hover:shadow-xl transition-all duration-200">
+            CONCLUIR CADASTRO
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: CONFIRMAÇÃO RÁPIDA DE INTERESSE / PRESENÇA (CADASTRADO)
+       ========================================================================= -->
+  <div id="modal-acao-edicao" class="modal-atos-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-atos-content p-6 sm:p-10 max-w-lg text-center space-y-6 relative">
+      
+      <button type="button" class="btn-fechar-modal absolute top-5 right-5 p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-chama/15 text-chama flex items-center justify-center">
+        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
+      </div>
+
+      <div class="space-y-2">
+        <span id="modal-acao-tag" class="text-xs font-bold uppercase tracking-widest text-cacto block">Missão Selecionada</span>
+        <h3 id="modal-acao-titulo" class="font-display text-3xl sm:text-4xl text-carvao leading-tight">
+          VOCÊ QUER PARTICIPAR DESTA MISSÃO?
+        </h3>
+        <p id="modal-acao-desc" class="text-sm text-carvao/80">
+          <!-- Texto gerado dinamicamente -->
+        </p>
+      </div>
+
+      <!-- Detalhes da Edição -->
+      <div id="modal-acao-detalhes" class="bg-areia/40 rounded-2xl p-4 border border-areia text-left text-xs space-y-1">
+        <!-- Inserido dinamicamente -->
+      </div>
+
+      <!-- Botão de Ação -->
+      <div class="space-y-2 pt-2">
+        <button type="button" id="btn-confirmar-acao-modal" class="w-full py-4 px-6 rounded-full bg-chama hover:bg-chama-dark text-white font-bold text-base shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+          <span>MANIFESTAR INTERESSE</span>
+        </button>
+        <button type="button" id="btn-trocar-usuario" class="text-xs text-carvao/50 hover:text-chama underline block mx-auto pt-1">
+          Não é você? Clique aqui para trocar de usuário
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: FEEDBACK / SUCESSO
+       ========================================================================= -->
+  <div id="modal-feedback" class="modal-atos-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-atos-content p-6 sm:p-10 max-w-md text-center space-y-5 relative">
+      
+      <div id="feedback-icone-container" class="w-16 h-16 mx-auto rounded-2xl bg-green-100 text-green-700 flex items-center justify-center">
+        <i id="feedback-icone" data-lucide="check-circle" class="w-8 h-8"></i>
+      </div>
+
+      <div class="space-y-2">
+        <h3 id="feedback-titulo" class="font-display text-3xl sm:text-4xl text-carvao">
+          CADASTRO REALIZADO!
+        </h3>
+        <p id="feedback-msg" class="text-sm text-carvao/80 leading-relaxed">
+          Agora você faz parte da nossa rede de voluntários.
+        </p>
+      </div>
+
+      <div class="pt-3">
+        <button type="button" id="btn-feedback-ok" class="w-full py-3.5 px-6 rounded-full bg-cacto hover:bg-cacto-dark text-white font-bold text-sm shadow transition-colors">
+          Continuar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: PAGAMENTO DA INSCRIÇÃO (PIX & COMPROVANTE)
+       ========================================================================= -->
+  <div id="modal-inscricao-pagamento" class="modal-atos-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-atos-content p-6 sm:p-8 max-w-lg text-left space-y-5 relative">
+      <button type="button" class="btn-fechar-modal absolute top-5 right-5 p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="text-center space-y-1">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-chama/15 text-chama flex items-center justify-center mb-2">
+          <i data-lucide="wallet" class="w-7 h-7"></i>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-widest text-chama block">Etapa de Pagamento</span>
+        <h3 class="font-display text-3xl text-carvao leading-tight">PAGAMENTO DA INSCRIÇÃO</h3>
+        <p id="pagamento-edicao-nome" class="text-xs font-semibold text-carvao/70"></p>
+      </div>
+
+      <div class="bg-areia/40 rounded-2xl p-4 border border-areia space-y-2 text-xs text-carvao/80">
+        <div class="flex justify-between items-center text-sm">
+          <span class="font-bold text-carvao">Taxa de Inscrição:</span>
+          <span id="pagamento-valor" class="font-display text-xl text-chama font-bold">R$ 0,00</span>
+        </div>
+        <div id="box-camisa-opcao" class="pt-2 border-t border-areia/60 hidden space-y-2">
+          <label class="flex items-center gap-2 cursor-pointer font-bold text-carvao">
+            <input type="checkbox" id="check-comprar-camisa" class="w-4 h-4 rounded text-chama focus:ring-chama" />
+            <span>Desejo adquirir a Camisa Oficial (<span id="camisa-valor-label"></span>)</span>
+          </label>
+          <div id="box-tamanho-camisa" class="hidden pl-6 space-y-1">
+            <label class="block text-[0.7rem] uppercase font-bold text-carvao/70">Escolha o Tamanho:</label>
+            <select id="select-tamanho-camisa" class="w-full bg-white border border-areia rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-chama"></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Área da Chave PIX -->
+      <div class="space-y-2 bg-white rounded-2xl p-4 border border-areia shadow-sm">
+        <label class="block text-xs font-bold uppercase text-carvao/70">Chave PIX Oficial da Edição:</label>
+        <div class="flex items-center gap-2">
+          <input type="text" id="inscricao-pix-chave" readonly class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 text-xs font-mono text-carvao focus:outline-none" />
+          <button type="button" id="btn-copiar-pix-inscricao" class="bg-chama hover:bg-chama-dark text-white font-bold px-4 py-2.5 rounded-xl text-xs flex-shrink-0 transition-colors flex items-center gap-1.5">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>Copiar</span>
+          </button>
+        </div>
+        <p id="inscricao-pix-feedback" class="text-[0.7rem] font-semibold text-cacto hidden">✓ Chave PIX copiada com sucesso!</p>
+        <div class="text-[0.72rem] text-carvao/70 space-y-0.5 pt-1">
+          <p><strong>Favorecido:</strong> <span id="inscricao-pix-favorecido">-</span></p>
+        </div>
+      </div>
+
+      <!-- Upload de Comprovante -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold uppercase text-carvao/70">Anexar Comprovante de Pagamento (JPG, PNG ou PDF) *</label>
+        <input type="file" id="input-comprovante-pagamento" accept="image/jpeg,image/png,application/pdf" class="w-full text-xs text-carvao/80 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-chama file:text-white hover:file:bg-chama-dark file:cursor-pointer cursor-pointer border border-areia rounded-xl p-2 bg-areia-light" />
+        <p class="text-[0.68rem] text-carvao/50">Tamanho máximo: 5MB. Envie a foto nítida do comprovante do PIX.</p>
+      </div>
+
+      <div class="pt-2">
+        <button type="button" id="btn-finalizar-inscricao-paga" class="w-full py-3.5 px-6 rounded-full bg-cacto hover:bg-cacto-dark text-white font-bold text-sm shadow-lg transition-all flex items-center justify-center gap-2">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>ENVIAR COMPROVANTE & CONCLUIR</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 5: TELA FINAL DE INSCRIÇÃO CONCLUÍDA & GRUPO DA MISSÃO
+       ========================================================================= -->
+  <div id="modal-inscricao-finalizada" class="modal-atos-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-atos-content p-6 sm:p-10 max-w-md text-center space-y-6 relative">
+      <button type="button" class="btn-fechar-modal absolute top-5 right-5 p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div id="final-status-icone" class="w-20 h-20 mx-auto rounded-3xl bg-green-100 text-green-700 flex items-center justify-center shadow-inner">
+        <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+      </div>
+
+      <div class="space-y-2">
+        <span id="final-tag" class="text-xs font-bold uppercase tracking-widest text-cacto block">Processo Finalizado</span>
+        <h3 id="final-titulo" class="font-display text-3xl sm:text-4xl text-carvao leading-tight">
+          INSCRIÇÃO CONCLUÍDA!
+        </h3>
+        <p id="final-mensagem" class="text-xs sm:text-sm text-carvao/80 leading-relaxed">
+          Sua inscrição foi confirmada com sucesso. Que Deus abençoe sua vida e sua disposição em servir no Projeto ATOS!
+        </p>
+      </div>
+
+      <div id="box-botao-grupo" class="pt-2 space-y-2 hidden">
+        <a id="btn-entrar-grupo-edicao" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-4 px-6 rounded-full bg-cacto hover:bg-cacto-dark text-white font-bold text-sm shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5">
+          <i data-lucide="message-circle" class="w-5 h-5"></i>
+          <span>ENTRAR NO GRUPO DA MISSÃO</span>
+        </a>
+        <p class="text-[0.7rem] text-carvao/50">Clique acima para entrar no grupo oficial de orientações no WhatsApp.</p>
+      </div>
+
+      <div class="pt-2">
+        <button type="button" class="btn-fechar-modal w-full py-3 rounded-full border border-areia text-carvao/70 font-semibold text-xs hover:bg-areia transition-colors">
+          Fechar Janela
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
