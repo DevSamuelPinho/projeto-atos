@@ -30,6 +30,9 @@ const DB_KEYS = {
   USERS: 'atos_db_admin_users',
   CONFIG: 'atos_db_config',
   AUDITORIA: 'atos_db_auditoria',
+  NOTIFICACOES: 'atos_db_notificacoes',
+  NOTIFICACOES_LIDAS: 'atos_db_notificacoes_lidas',
+  EMAIL_LOGS: 'atos_email_logs',
   CURRENT_USER: 'atos_session_user',
   ADMIN_SESSION: 'atos_admin_session_data',
   ADMIN_AUTH_LEGACY: 'atos_admin_authenticated'
@@ -295,6 +298,12 @@ class AtosDatabase {
         }
       ]));
     }
+    if (!localStorage.getItem(DB_KEYS.NOTIFICACOES)) {
+      localStorage.setItem(DB_KEYS.NOTIFICACOES, JSON.stringify([]));
+    }
+    if (!localStorage.getItem(DB_KEYS.NOTIFICACOES_LIDAS)) {
+      localStorage.setItem(DB_KEYS.NOTIFICACOES_LIDAS, JSON.stringify([]));
+    }
   }
 
   normalizePhone(phone) {
@@ -368,8 +377,108 @@ class AtosDatabase {
       logs.unshift(logEntry);
       if (logs.length > 200) logs.pop();
       localStorage.setItem(DB_KEYS.AUDITORIA, JSON.stringify(logs));
+      this._sbUpsert('auditoria', this._normalizeLogForSupabase(logEntry));
     } catch (e) {
       console.warn('Erro ao salvar log de auditoria:', e);
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     NOTIFICAÇÕES
+     -------------------------------------------------------------------------- */
+  getNotificacoes() {
+    try {
+      return JSON.parse(localStorage.getItem(DB_KEYS.NOTIFICACOES)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  _getNotificacoesLidasIds() {
+    try {
+      return JSON.parse(localStorage.getItem(DB_KEYS.NOTIFICACOES_LIDAS)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  getNotificacoesComEstado(usuarioId) {
+    const notifs = this.getNotificacoes();
+    const lidasIds = this._getNotificacoesLidasIds();
+    return notifs.map(n => ({
+      ...n,
+      lida: lidasIds.includes(n.id)
+    }));
+  }
+
+  countNotificacoesNaoLidas(usuarioId) {
+    const notifs = this.getNotificacoesComEstado(usuarioId);
+    return notifs.filter(n => !n.lida).length;
+  }
+
+  async criarNotificacao(dados) {
+    try {
+      const notifs = this.getNotificacoes();
+      const nova = {
+        id: 'notif-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
+        titulo: (dados.titulo || '').trim(),
+        mensagem: (dados.mensagem || '').trim(),
+        tipo: dados.tipo || 'info',
+        lida: false,
+        destinatario_id: dados.destinatario_id || 'all',
+        criado_em: new Date().toISOString(),
+        lida_em: null
+      };
+      notifs.unshift(nova);
+      if (notifs.length > 100) notifs.pop();
+      localStorage.setItem(DB_KEYS.NOTIFICACOES, JSON.stringify(notifs));
+      this._sbUpsert('notificacoes', nova);
+      window.dispatchEvent(new CustomEvent('atos_notificacao_nova', { detail: nova }));
+      return nova;
+    } catch (e) {
+      console.warn('Erro ao criar notificação:', e);
+    }
+  }
+
+  async marcarNotificacaoLida(notifId, usuarioId) {
+    try {
+      const lidasIds = this._getNotificacoesLidasIds();
+      if (!lidasIds.includes(notifId)) {
+        lidasIds.push(notifId);
+        localStorage.setItem(DB_KEYS.NOTIFICACOES_LIDAS, JSON.stringify(lidasIds));
+      }
+      const leituraId = `lr-${notifId}-${usuarioId || 'admin'}`;
+      this._sbUpsert('notificacoes_lidas', {
+        id: leituraId,
+        notificacao_id: notifId,
+        usuario_id: usuarioId || 'all',
+        lida_em: new Date().toISOString()
+      });
+      window.dispatchEvent(new CustomEvent('atos_notificacao_lida', { detail: { notifId } }));
+    } catch (e) {
+      console.warn('Erro ao marcar notificação como lida:', e);
+    }
+  }
+
+  async marcarTodasLidas(usuarioId) {
+    try {
+      const notifs = this.getNotificacoes();
+      const lidasIds = notifs.map(n => n.id);
+      localStorage.setItem(DB_KEYS.NOTIFICACOES_LIDAS, JSON.stringify(lidasIds));
+      const uid = usuarioId || 'all';
+      const agora = new Date().toISOString();
+      for (const notif of notifs) {
+        const leituraId = `lr-${notif.id}-${uid}`;
+        this._sbUpsert('notificacoes_lidas', {
+          id: leituraId,
+          notificacao_id: notif.id,
+          usuario_id: uid,
+          lida_em: agora
+        });
+      }
+      window.dispatchEvent(new CustomEvent('atos_notificacao_lida'));
+    } catch (e) {
+      console.warn('Erro ao marcar todas como lidas:', e);
     }
   }
 
@@ -390,7 +499,7 @@ class AtosDatabase {
     const hashDigitado = await this.hashSenha(senha.trim());
     const hashLegadoAtos2026 = '5f48350b556f8f5e1f74fa5a38ef267ffbd16f0e9b251ce7d2643a139a039800'; // atos2026
 
-    let usuarioEncontrado = users.find(u => 
+    let usuarioEncontrado = users.find(u =>
       (u.email.toLowerCase() === termo || u.nome.toLowerCase() === termo) && u.ativo
     );
 
@@ -872,7 +981,7 @@ class AtosDatabase {
       cidade: (dados.cidade || '').trim(),
       estado: (dados.estado || '').trim(),
       profissao: (dados.profissao || '').trim(),
-      status_inscricao: edicao.tem_pagamento 
+      status_inscricao: edicao.tem_pagamento
         ? (dados.comprovante ? STATUS_INSCRICAO.EM_ANALISE : STATUS_INSCRICAO.PENDENTE)
         : STATUS_INSCRICAO.CONFIRMADA,
       status_pagamento: edicao.tem_pagamento
@@ -1396,6 +1505,10 @@ class AtosDatabase {
     impactos[idx] = { ...impactos[idx], ...dados };
     localStorage.setItem(DB_KEYS.IMPACTO, JSON.stringify(impactos));
     this.registrarLog('Impacto', `Indicador de impacto atualizado: ${impactos[idx].titulo}`);
+    
+    // Sincronizar com o Supabase
+    this._sbUpsert('impacto', this._normalizeImpactoForSupabase(impactos[idx]));
+    
     return impactos[idx];
   }
 
@@ -1509,6 +1622,28 @@ class AtosDatabase {
     };
   }
 
+  _normalizeLogForSupabase(l) {
+    return {
+      id: l.id,
+      usuario: l.usuario || 'Sistema',
+      role: l.role || 'Admin',
+      acao: l.acao || '',
+      item: l.item || '',
+      data: l.data || new Date().toISOString()
+    };
+  }
+
+  _normalizeImpactoForSupabase(i) {
+    return {
+      id: i.id,
+      chave: i.chave || '',
+      titulo: i.titulo || '',
+      valor: parseFloat(i.valor) || 0,
+      criado_em: i.criado_em || new Date().toISOString(),
+      atualizado_em: new Date().toISOString()
+    };
+  }
+
   /* --------------------------------------------------------------------------
      SINCRONIZAÇÃO EM NUVEM (SUPABASE) & TEMPO REAL (REALTIME)
      -------------------------------------------------------------------------- */
@@ -1554,6 +1689,46 @@ class AtosDatabase {
         localStorage.setItem(DB_KEYS.APOIOS, JSON.stringify(apoiosNuvem));
       }
 
+      // 6. Sincronizar Impacto (Pessoas Alcançadas, etc)
+      const { data: impactoNuvem, error: errImpacto } = await client.from('impacto').select('*');
+      if (!errImpacto && Array.isArray(impactoNuvem) && impactoNuvem.length > 0) {
+        // Merge the cloud values with DEFAULT_IMPACTO to maintain the same shape
+        const localImpacto = this.getImpacto();
+        const mergedImpacto = localImpacto.map(localItem => {
+          const cloudItem = impactoNuvem.find(c => c.chave === localItem.chave);
+          if (cloudItem) {
+            return { ...localItem, ...cloudItem, valor: Number(cloudItem.valor) };
+          }
+          return localItem;
+        });
+        localStorage.setItem(DB_KEYS.IMPACTO, JSON.stringify(mergedImpacto));
+      }
+
+      // 8. Sincronizar Auditoria (Logs) da Nuvem
+      const { data: auditoriaNuvem, error: errAud } = await client.from('auditoria').select('*').order('data', { ascending: false }).limit(200);
+      if (!errAud && Array.isArray(auditoriaNuvem) && auditoriaNuvem.length > 0) {
+        localStorage.setItem(DB_KEYS.AUDITORIA, JSON.stringify(auditoriaNuvem));
+      }
+
+      // 9. Sincronizar Notificações da Nuvem
+      const { data: notifsNuvem, error: errNotifs } = await client.from('notificacoes').select('*').order('criado_em', { ascending: false }).limit(100);
+      if (!errNotifs && Array.isArray(notifsNuvem)) {
+        localStorage.setItem(DB_KEYS.NOTIFICACOES, JSON.stringify(notifsNuvem));
+      }
+
+      // 10. Sincronizar leituras individuais da nuvem
+      const sessionUser = this.getAdminSessionUser();
+      if (sessionUser) {
+        const { data: lidasNuvem, error: errLidas } = await client
+          .from('notificacoes_lidas')
+          .select('notificacao_id')
+          .eq('usuario_id', sessionUser.id);
+        if (!errLidas && Array.isArray(lidasNuvem)) {
+          const ids = lidasNuvem.map(r => r.notificacao_id);
+          localStorage.setItem(DB_KEYS.NOTIFICACOES_LIDAS, JSON.stringify(ids));
+        }
+      }
+
       console.log('⚡ [Projeto ATOS] Sincronização em nuvem completa com Supabase!');
       window.dispatchEvent(new CustomEvent('atos_dados_sincronizados'));
 
@@ -1574,6 +1749,29 @@ class AtosDatabase {
         .on('postgres_changes', { event: '*', schema: 'public', table: 'midia' }, () => this.syncWithSupabase())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'pessoas' }, () => this.syncWithSupabase())
         .on('postgres_changes', { event: '*', schema: 'public', table: 'apoios' }, () => this.syncWithSupabase())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'admin_users' }, () => this.syncWithSupabase())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'configuracoes' }, () => this.syncWithSupabase())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'auditoria' }, () => this.syncWithSupabase())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'impacto' }, () => this.syncWithSupabase())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'notificacoes' }, payload => {
+          const notifs = this.getNotificacoes();
+          if (payload.eventType === 'INSERT' && payload.new) {
+            const existe = notifs.find(n => n.id === payload.new.id);
+            if (!existe) {
+              notifs.unshift(payload.new);
+              if (notifs.length > 100) notifs.pop();
+              localStorage.setItem(DB_KEYS.NOTIFICACOES, JSON.stringify(notifs));
+              window.dispatchEvent(new CustomEvent('atos_notificacao_nova', { detail: payload.new }));
+            }
+          } else if (payload.eventType === 'DELETE' && payload.old) {
+            const filtradas = notifs.filter(n => n.id !== payload.old.id);
+            localStorage.setItem(DB_KEYS.NOTIFICACOES, JSON.stringify(filtradas));
+            window.dispatchEvent(new CustomEvent('atos_notificacao_lida'));
+          }
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'notificacoes_lidas' }, () => {
+          this.syncWithSupabase();
+        })
         .subscribe();
       console.log('📡 [Projeto ATOS] Supabase Realtime CONECTADO — atualizações ao vivo ativas!');
     } catch (err) {

@@ -59,7 +59,7 @@ function initNavbar() {
         e.preventDefault();
         const content = btn.nextElementSibling;
         const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-        
+
         btn.setAttribute('aria-expanded', !isExpanded);
         if (content) {
           content.classList.toggle('open');
@@ -195,7 +195,7 @@ function initComoAtuamosCarousel() {
     // Centraliza o slide ativo no container
     const isMobile = window.innerWidth < 640;
     const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
-    
+
     let slidePercent = 100;
     let offsetPercent = 0;
 

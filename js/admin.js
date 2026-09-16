@@ -35,12 +35,13 @@ function initAdminApp() {
   initImpactoModule();
   initMidiaModule();
   initConteudosModule();
-  initApoiosModule();
+
   initComprovanteModule();
   initUsuariosModule();
   initConfiguracoesModule();
   initAuditoriaModule();
   initBackupModule();
+  initNotificacoesModule();
 }
 
 /* --------------------------------------------------------------------------
@@ -234,10 +235,7 @@ function navigateToSection(sectionName) {
       title: 'Conteúdos & Notícias',
       sub: 'Informativos, testemunhos e comunicados oficiais do ministério.'
     },
-    apoios: {
-      title: 'Apoios & Doações',
-      sub: 'Registro transparente de ofertas e donativos recebidos.'
-    },
+
     usuarios: {
       title: 'Usuários & Permissões',
       sub: 'Gerencie contas com perfis de Super Admin, Administrador, Editor e Operador.'
@@ -293,9 +291,7 @@ function renderCurrentSection(section) {
     case 'conteudos':
       renderConteudos();
       break;
-    case 'apoios':
-      renderApoios();
-      break;
+
     case 'usuarios':
       renderUsuarios();
       break;
@@ -359,7 +355,7 @@ function renderDashboard() {
   const participacoes = window.atosDB.getParticipacoes();
   const parceiros = window.atosDB.getParceiros();
   const impactos = window.atosDB.getImpacto();
-  const apoios = window.atosDB.getApoios();
+
   const agenda = window.atosDB.getAgenda();
   const logs = window.atosDB.getLogsAuditoria();
 
@@ -373,22 +369,17 @@ function renderDashboard() {
   const impPrincipal = impactos.find(i => i.chave === 'pessoas_alcancadas' || i.chave === 'acoes_realizadas');
   if (impPrincipal) totalImpactoValor = impPrincipal.valor;
 
-  let totalApoiosValor = 0;
-  apoios.forEach(a => totalApoiosValor += (parseFloat(a.valor) || 0));
-
   const elEd = document.getElementById('dash-met-edicoes');
   const elVol = document.getElementById('dash-met-voluntarios');
   const elPart = document.getElementById('dash-met-participantes');
   const elParc = document.getElementById('dash-met-parceiros');
   const elImp = document.getElementById('dash-met-impacto');
-  const elAp = document.getElementById('dash-met-apoios');
 
   if (elEd) elEd.textContent = edicoesAtivas;
   if (elVol) elVol.textContent = totalVoluntarios;
   if (elPart) elPart.textContent = totalParticipantes;
   if (elParc) elParc.textContent = totalParceiros;
   if (elImp) elImp.textContent = totalImpactoValor.toLocaleString('pt-BR');
-  if (elAp) elAp.textContent = 'R$ ' + totalApoiosValor.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
   // Lista de Próximas Edições
   const listaEd = document.getElementById('dash-edicoes-lista');
@@ -1184,19 +1175,29 @@ function renderTabelaParticipantes(edicaoId) {
             ${insc.status_inscricao}
           </span>
           <span class="text-[0.65rem] text-carvao/60 block text-center">PIX: ${insc.status_pagamento}</span>
+          ${(() => {
+            const emailLog = window.AtosEmailService ? window.AtosEmailService.getUltimoLogByParticipacao(insc.id) : null;
+            if (emailLog && emailLog.status === 'enviado') {
+              const horaFmt = new Date(emailLog.enviado_em).toLocaleString('pt-BR');
+              return `<span class="inline-flex items-center justify-center gap-1 text-[0.62rem] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-semibold w-full text-center" title="E-mail enviado em ${horaFmt}"><i data-lucide="mail-check" class="w-3 h-3 text-emerald-600"></i> E-mail enviado</span>`;
+            } else if (emailLog && emailLog.status === 'falha') {
+              return `<span class="inline-flex items-center justify-center gap-1 text-[0.62rem] bg-red-100 text-red-800 px-2 py-0.5 rounded-full font-semibold w-full text-center" title="${emailLog.erro}"><i data-lucide="mail-x" class="w-3 h-3 text-red-600"></i> E-mail falhou</span>`;
+            } else {
+              return `<span class="inline-flex items-center justify-center gap-1 text-[0.62rem] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold w-full text-center" title="E-mail de confirmação pendente"><i data-lucide="mail" class="w-3 h-3 text-amber-600"></i> E-mail pendente</span>`;
+            }
+          })()}
         </div>
       </td>
       <td class="px-4 py-3.5 text-right">
         <div class="flex items-center justify-end gap-1.5">
-          ${insc.comprovante ? `
-          <button type="button" class="btn-ver-comprovante text-xs bg-white hover:bg-areia text-carvao border border-areia px-2.5 py-1.5 rounded-lg font-semibold flex items-center gap-1" data-id="${insc.id}">
-            <i data-lucide="file-check" class="w-3.5 h-3.5 text-chama"></i>
-            <span>Comprovante</span>
+          <button type="button" class="btn-ver-comprovante text-xs bg-white hover:bg-areia text-carvao border border-areia px-2.5 py-1.5 rounded-lg font-semibold flex items-center gap-1" data-id="${insc.id}" title="Verificar dados, comprovante e confirmar com e-mail">
+            <i data-lucide="${insc.comprovante ? 'file-check' : 'user-check'}" class="w-3.5 h-3.5 text-chama"></i>
+            <span>${insc.comprovante ? 'Comprovante' : 'Verificar'}</span>
           </button>
-          ` : ''}
           ${insc.status_inscricao !== 'Confirmada' ? `
-          <button type="button" class="btn-aprovar-inscricao-rapido text-xs bg-cacto hover:bg-cacto-dark text-white p-1.5 rounded-lg" data-id="${insc.id}" title="Aprovar Inscrição">
-            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          <button type="button" class="btn-aprovar-inscricao-rapido text-xs bg-cacto hover:bg-cacto-dark text-white px-2.5 py-1.5 rounded-lg font-semibold flex items-center gap-1" data-id="${insc.id}" title="Abrir confirmação e envio de e-mail">
+            <i data-lucide="mail-check" class="w-3.5 h-3.5"></i>
+            <span>Confirmar</span>
           </button>
           ` : ''}
         </div>
@@ -1265,9 +1266,7 @@ function renderTabelaParticipantes(edicaoId) {
   tbody.querySelectorAll('.btn-aprovar-inscricao-rapido').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-id');
-      window.atosDB.aprovarInscricao(id);
-      renderTabelaParticipantes(edicaoId);
-      showToast('Inscrição Aprovada', 'Inscrição confirmada com sucesso.', 'check', 'cacto');
+      abrirModalComprovante(id);
     });
   });
 
@@ -1751,95 +1750,7 @@ function renderConteudos() {
   if (window.lucide) lucide.createIcons();
 }
 
-/* --------------------------------------------------------------------------
-   13. SEÇÃO APOIOS E DOAÇÕES
-   -------------------------------------------------------------------------- */
-function initApoiosModule() {
-  const btnNovo = document.getElementById('btn-novo-apoio');
-  const modal = document.getElementById('modal-apoio');
-  const btnFechar = document.getElementById('modal-apoio-fechar');
-  const btnCancelar = document.getElementById('btn-cancelar-apoio');
-  const form = document.getElementById('form-apoio');
 
-  if (btnNovo) {
-    btnNovo.addEventListener('click', () => {
-      form.reset();
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    });
-  }
-
-  const fechar = () => {
-    if (modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-  };
-
-  if (btnFechar) btnFechar.addEventListener('click', fechar);
-  if (btnCancelar) btnCancelar.addEventListener('click', fechar);
-
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const dados = {
-        nome: document.getElementById('apoio-nome').value,
-        tipo: document.getElementById('apoio-tipo').value,
-        valor: document.getElementById('apoio-valor').value,
-        observacao: document.getElementById('apoio-obs').value
-      };
-      window.atosDB.createApoio(dados);
-      showToast('Apoio Lançado', 'Registro de doação efetuado com sucesso.', 'check', 'cacto');
-      fechar();
-      renderApoios();
-      renderDashboard();
-    });
-  }
-}
-
-function renderApoios() {
-  const tbody = document.getElementById('tabela-apoios-body');
-  if (!tbody) return;
-
-  const apoios = window.atosDB.getApoios();
-  tbody.innerHTML = '';
-
-  if (apoios.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-xs text-carvao/60">Nenhum registro de apoio financeiro lançado.</td></tr>`;
-    return;
-  }
-
-  apoios.forEach(a => {
-    const tr = document.createElement('tr');
-    tr.className = 'hover:bg-areia/20 transition-colors';
-    tr.innerHTML = `
-      <td class="px-4 py-3 font-semibold text-carvao">${a.nome}</td>
-      <td class="px-4 py-3 text-xs text-carvao/80">${a.tipo}</td>
-      <td class="px-4 py-3 font-bold text-cacto">R$ ${(parseFloat(a.valor) || 0).toFixed(2)}</td>
-      <td class="px-4 py-3 text-xs text-carvao/60">${a.data}</td>
-      <td class="px-4 py-3 font-mono text-[0.7rem] text-carvao/60">${a.identificador}</td>
-      <td class="px-4 py-3 text-right">
-        <button class="btn-excluir-apoio text-red-500 hover:text-red-700 p-1" data-id="${a.id}">
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-        </button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-
-  tbody.querySelectorAll('.btn-excluir-apoio').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.getAttribute('data-id');
-      if (confirm('Deseja excluir este registro de apoio?')) {
-        window.atosDB.deleteApoio(id);
-        renderApoios();
-        renderDashboard();
-      }
-    });
-  });
-
-  if (window.lucide) lucide.createIcons();
-}
 
 /* --------------------------------------------------------------------------
    14. SEÇÃO USUÁRIOS E PERMISSÕES
@@ -1964,10 +1875,56 @@ function initConfiguracoesModule() {
         nome_assessoria: document.getElementById('cfg-assessoria').value,
         whatsapp_assessoria: document.getElementById('cfg-whatsapp').value,
         pix_oficial: document.getElementById('cfg-pix').value,
-        instagram_projeto: document.getElementById('cfg-instagram').value
+        instagram_projeto: document.getElementById('cfg-instagram').value,
+        email_oficial: document.getElementById('cfg-email-oficial') ? document.getElementById('cfg-email-oficial').value : 'projetoatosoficial@gmail.com'
       };
       window.atosDB.updateConfig(dados);
-      showToast('Configurações Salvas', 'Informações gerais da instituição atualizadas.', 'check', 'cacto');
+
+      // Salvar credenciais do EmailJS no serviço de e-mail
+      if (window.AtosEmailService) {
+        const emailServiceConfig = {
+          public_key: document.getElementById('cfg-email-public-key') ? document.getElementById('cfg-email-public-key').value.trim() : '',
+          service_id: document.getElementById('cfg-email-service-id') ? document.getElementById('cfg-email-service-id').value.trim() : '',
+          template_id: document.getElementById('cfg-email-template-id') ? document.getElementById('cfg-email-template-id').value.trim() : ''
+        };
+        window.AtosEmailService.salvarConfig(emailServiceConfig);
+      }
+
+      renderConfiguracoes();
+      showToast('Configurações Salvas', 'Informações gerais e credenciais de e-mail atualizadas com sucesso.', 'check', 'cacto');
+    });
+  }
+
+  // Botão para testar conexão do serviço de e-mail
+  const btnTestar = document.getElementById('btn-testar-servico-email');
+  if (btnTestar) {
+    btnTestar.addEventListener('click', async () => {
+      if (!window.AtosEmailService) {
+        alert('Serviço de e-mail não disponível.');
+        return;
+      }
+      const emailOficial = document.getElementById('cfg-email-oficial') ? document.getElementById('cfg-email-oficial').value.trim() : '';
+      const emailDestino = prompt('Digite o endereço de e-mail para receber o teste de confirmação:', emailOficial || 'projetoatosoficial@gmail.com');
+      if (!emailDestino) return;
+
+      btnTestar.disabled = true;
+      const textoOrig = btnTestar.innerHTML;
+      btnTestar.innerHTML = '<span class="animate-spin mr-1 inline-block">⏳</span> Enviando teste...';
+
+      try {
+        const res = await window.AtosEmailService.testarConexao(emailDestino);
+        if (res.sucesso) {
+          showToast('Teste de E-mail Concluído', `E-mail de teste enviado com sucesso para ${emailDestino}!`, 'mail-check', 'cacto');
+        } else {
+          showToast('Falha no Teste de E-mail', res.erro, 'alert-triangle', 'chama');
+          alert(`Falha no envio de teste:\n${res.erro}`);
+        }
+      } catch (err) {
+        showToast('Erro no Teste', err.message, 'x-circle', 'chama');
+      } finally {
+        btnTestar.disabled = false;
+        btnTestar.innerHTML = textoOrig;
+      }
     });
   }
 }
@@ -1987,6 +1944,32 @@ function renderConfiguracoes() {
   if (elWhats) elWhats.value = cfg.whatsapp_assessoria || '';
   if (elPix) elPix.value = cfg.pix_oficial || '';
   if (elInsta) elInsta.value = cfg.instagram_projeto || '';
+
+  // Configuração do Serviço de E-mail
+  const elEmailOficial = document.getElementById('cfg-email-oficial');
+  const elServiceId = document.getElementById('cfg-email-service-id');
+  const elTemplateId = document.getElementById('cfg-email-template-id');
+  const elPublicKey = document.getElementById('cfg-email-public-key');
+  const elStatusInd = document.getElementById('cfg-email-status-indicator');
+
+  if (elEmailOficial) elEmailOficial.value = cfg.email_oficial || 'projetoatosoficial@gmail.com';
+
+  if (window.AtosEmailService) {
+    const emailCfg = window.AtosEmailService.getConfig();
+    if (elServiceId) elServiceId.value = emailCfg.SERVICE_ID || '';
+    if (elTemplateId) elTemplateId.value = emailCfg.TEMPLATE_ID || '';
+    if (elPublicKey) elPublicKey.value = emailCfg.PUBLIC_KEY || '';
+
+    const configurado = window.AtosEmailService._configurado();
+    if (elStatusInd) {
+      if (configurado) {
+        elStatusInd.innerHTML = '<span class="text-cacto font-bold flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Serviço Configurado e Ativo</span>';
+      } else {
+        elStatusInd.innerHTML = '<span class="text-chama font-semibold flex items-center gap-1"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Credenciais Pendentes</span>';
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -2108,7 +2091,7 @@ function showToast(titulo, mensagem, icone = 'check', cor = 'cacto') {
 }
 
 // ----------------------------------------------------------------------------
-// GERENCIADOR DE ANÁLISE DE COMPROVANTE & INSCRIÇÕES
+// GERENCIADOR DE ANÁLISE DE COMPROVANTE, CONFIRMAÇÃO & DISPARO DE E-MAIL
 // ----------------------------------------------------------------------------
 function abrirModalComprovante(inscricaoId) {
   const inscricao = window.atosDB.getInscricaoById(inscricaoId);
@@ -2117,63 +2100,390 @@ function abrirModalComprovante(inscricaoId) {
   const modal = document.getElementById('modal-comprovante-analise');
   if (!modal) return;
 
+  const edicao = window.atosDB.getEdicaoById(inscricao.edicao_id);
+  const edicaoNome = edicao ? edicao.nome : 'Missão Projeto ATOS';
+
   document.getElementById('comp-inscricao-id').value = inscricao.id;
   document.getElementById('comp-nome').textContent = inscricao.nome;
-  document.getElementById('comp-whats').textContent = inscricao.whatsapp;
+  document.getElementById('comp-whats').textContent = inscricao.whatsapp || '-';
+  document.getElementById('comp-edicao').textContent = edicaoNome;
   document.getElementById('comp-status').textContent = `${inscricao.status_inscricao} (${inscricao.status_pagamento})`;
   document.getElementById('comp-motivo-recusa').value = inscricao.motivo_recusa || '';
 
-  const imgEl = document.getElementById('comp-img');
-  const fallbackEl = document.getElementById('comp-fallback');
-  const linkEl = document.getElementById('comp-download-link');
+  // E-mail cadastrado oficial
+  const elEmail = document.getElementById('comp-email');
+  if (elEmail) elEmail.textContent = inscricao.email || 'Não informado no cadastro';
 
-  if (inscricao.comprovante && inscricao.comprovante.startsWith('data:image/')) {
-    imgEl.src = inscricao.comprovante;
-    imgEl.classList.remove('hidden');
-    fallbackEl.classList.add('hidden');
-  } else if (inscricao.comprovante) {
-    imgEl.classList.add('hidden');
-    fallbackEl.classList.remove('hidden');
-    linkEl.href = inscricao.comprovante;
+  // Status do E-mail e Idempotência
+  const statusBadge = document.getElementById('comp-email-status-badge');
+  const statusTitle = document.getElementById('comp-email-status-title');
+  const statusDesc = document.getElementById('comp-email-status-desc');
+  const statusIconBox = document.getElementById('comp-email-status-icon');
+  const statusTimestamp = document.getElementById('comp-email-status-timestamp');
+  const btnAprovar = document.getElementById('btn-aprovar-pagamento');
+  const btnAprovarTexto = document.getElementById('btn-aprovar-texto');
+  const btnAprovarIcone = document.getElementById('btn-aprovar-icone');
+  const btnReenviar = document.getElementById('btn-reenviar-email');
+
+  const ultimoLog = window.AtosEmailService ? window.AtosEmailService.getUltimoLogByParticipacao(inscricao.id) : null;
+
+  if (ultimoLog && ultimoLog.status === 'enviado') {
+    if (statusBadge) {
+      statusBadge.className = 'text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+      statusBadge.textContent = 'Enviado';
+    }
+    if (statusIconBox) {
+      statusIconBox.className = 'w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0 bg-emerald-100 text-emerald-600 mt-0.5';
+      statusIconBox.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i>';
+    }
+    if (statusTitle) statusTitle.textContent = 'E-mail de Confirmação Enviado';
+    if (statusDesc) statusDesc.textContent = `Mensagem oficial de presença confirmada entregue com sucesso para ${ultimoLog.email_destino}.`;
+    if (statusTimestamp) {
+      statusTimestamp.classList.remove('hidden');
+      statusTimestamp.textContent = `Data/Hora do envio: ${new Date(ultimoLog.enviado_em).toLocaleString('pt-BR')}`;
+    }
+    if (btnAprovar) {
+      btnAprovar.disabled = true;
+      btnAprovar.classList.add('opacity-60', 'cursor-not-allowed');
+    }
+    if (btnAprovarTexto) btnAprovarTexto.textContent = 'Presença e e-mail já confirmados';
+    if (btnAprovarIcone) btnAprovarIcone.setAttribute('data-lucide', 'check-check');
+    if (btnReenviar) btnReenviar.classList.remove('hidden');
+
+  } else if (ultimoLog && (ultimoLog.status === 'falha' || ultimoLog.status === 'nao_configurado')) {
+    if (statusBadge) {
+      statusBadge.className = 'text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-800';
+      statusBadge.textContent = 'Falha no Envio';
+    }
+    if (statusIconBox) {
+      statusIconBox.className = 'w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0 bg-red-100 text-red-600 mt-0.5';
+      statusIconBox.innerHTML = '<i data-lucide="alert-triangle" class="w-4 h-4"></i>';
+    }
+    if (statusTitle) statusTitle.textContent = 'Falha no Disparo do E-mail';
+    if (statusDesc) statusDesc.textContent = `Motivo do erro: ${ultimoLog.erro || 'Erro no serviço de e-mail'}`;
+    if (statusTimestamp) {
+      statusTimestamp.classList.remove('hidden');
+      statusTimestamp.textContent = `Tentativa registrada em: ${new Date(ultimoLog.enviado_em).toLocaleString('pt-BR')}`;
+    }
+    if (btnAprovar) {
+      btnAprovar.disabled = false;
+      btnAprovar.classList.remove('opacity-60', 'cursor-not-allowed');
+    }
+    if (btnAprovarTexto) btnAprovarTexto.textContent = 'Confirmar e reenviar e-mail de confirmação';
+    if (btnAprovarIcone) btnAprovarIcone.setAttribute('data-lucide', 'mail-check');
+    if (btnReenviar) btnReenviar.classList.add('hidden');
+
   } else {
-    imgEl.classList.add('hidden');
-    fallbackEl.classList.remove('hidden');
-    linkEl.removeAttribute('href');
-    linkEl.textContent = 'Nenhum comprovante anexado';
+    // Pendente / Sem envio
+    if (statusBadge) {
+      statusBadge.className = 'text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800';
+      statusBadge.textContent = 'Pendente';
+    }
+    if (statusIconBox) {
+      statusIconBox.className = 'w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0 bg-amber-100 text-amber-600 mt-0.5';
+      statusIconBox.innerHTML = '<i data-lucide="mail" class="w-4 h-4"></i>';
+    }
+    if (statusTitle) statusTitle.textContent = 'Aguardando Confirmação';
+    if (statusDesc) statusDesc.textContent = `Ao confirmar, o sistema enviará automaticamente o e-mail oficial para ${inscricao.email || 'o participante'}.`;
+    if (statusTimestamp) statusTimestamp.classList.add('hidden');
+    if (btnAprovar) {
+      btnAprovar.disabled = false;
+      btnAprovar.classList.remove('opacity-60', 'cursor-not-allowed');
+    }
+    if (btnAprovarTexto) btnAprovarTexto.textContent = 'Confirmar e enviar e-mail de confirmação';
+    if (btnAprovarIcone) btnAprovarIcone.setAttribute('data-lucide', 'mail-check');
+    if (btnReenviar) btnReenviar.classList.add('hidden');
   }
+
+  // --- Visualizador Avançado do Comprovante (PDF & Imagens) ---
+  renderizarVisualizadorComprovante(inscricao);
 
   modal.classList.remove('hidden');
   modal.classList.add('flex');
+  if (window.lucide) lucide.createIcons();
 }
+
+// ---------------------------------------------------------------------------
+// UTILITÁRIOS DE ARQUIVO: Detecção de tipo e conversão para Blob URL
+// ---------------------------------------------------------------------------
+
+/**
+ * Detecta o tipo de arquivo com base no Data URL ou extensão.
+ * Retorna 'image', 'pdf' ou 'unknown'.
+ */
+function detectarTipoArquivo(src) {
+  if (!src) return 'none';
+  // 1. Detectar por MIME type no Data URL
+  if (src.startsWith('data:image/')) return 'image';
+  if (src.startsWith('data:application/pdf')) return 'pdf';
+  // 2. Detectar por bytes mágicos em base64 (sem header explícito)
+  const b64 = src.includes(',') ? src.split(',')[1] : src;
+  if (b64) {
+    if (b64.startsWith('JVBERi0')) return 'pdf';   // %PDF-
+    if (b64.startsWith('/9j/'))   return 'image';  // JPEG
+    if (b64.startsWith('iVBORw0KGgo')) return 'image'; // PNG
+    if (b64.startsWith('UklGR')) return 'image';   // WebP
+  }
+  // 3. Detectar por extensão na URL
+  const lower = src.toLowerCase().split('?')[0];
+  if (/\.(jpg|jpeg|png|webp|gif|bmp|svg)$/.test(lower)) return 'image';
+  if (/\.pdf$/.test(lower)) return 'pdf';
+  return 'unknown';
+}
+
+/**
+ * Converte um Data URL em Blob URL para contornar bloqueios do navegador
+ * ao abrir data: URIs grandes em novas abas ou iframes.
+ */
+function dataURItoBlob(dataURI) {
+  try {
+    const parts = dataURI.split(',');
+    const mime = parts[0].match(/:(.*?);/)[1];
+    const binary = atob(parts[1]);
+    const arr = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+    return URL.createObjectURL(new Blob([arr], { type: mime }));
+  } catch (e) {
+    console.warn('[Admin] Erro ao converter DataURI para Blob:', e);
+    return null;
+  }
+}
+
+/** Objeto para controlar blob URLs ativos e revogá-los ao fechar o modal */
+const _comprovanteState = { blobUrl: null, tipo: 'none' };
+
+/**
+ * Renderiza o visualizador de comprovante com detecção de tipo.
+ */
+function renderizarVisualizadorComprovante(inscricao) {
+  const src = inscricao.comprovante || '';
+  const tipo = detectarTipoArquivo(src);
+  _comprovanteState.tipo = tipo;
+
+  // Revogar Blob URL anterior para evitar memory leak
+  if (_comprovanteState.blobUrl) {
+    URL.revokeObjectURL(_comprovanteState.blobUrl);
+    _comprovanteState.blobUrl = null;
+  }
+
+  const imgContainer = document.getElementById('comp-img-container');
+  const imgEl        = document.getElementById('comp-img');
+  const pdfContainer = document.getElementById('comp-pdf-container');
+  const pdfIframe    = document.getElementById('comp-pdf-iframe');
+  const fallbackEl   = document.getElementById('comp-fallback');
+  const fallbackTxt  = document.getElementById('comp-fallback-txt');
+  const tipoBadge    = document.getElementById('comp-tipo-badge');
+  const acoesBar     = document.getElementById('comp-acoes-arquivo');
+
+  // Ocultar todos os containers primeiro
+  if (imgContainer) imgContainer.classList.add('hidden');
+  if (pdfContainer) pdfContainer.classList.add('hidden');
+  if (fallbackEl)   fallbackEl.classList.add('hidden');
+  if (acoesBar)     acoesBar.classList.add('hidden');
+
+  if (tipo === 'image') {
+    if (tipoBadge) { tipoBadge.textContent = 'Imagem (JPG / PNG / WebP)'; tipoBadge.className = 'text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700'; }
+    if (imgEl) imgEl.src = src;
+    if (imgContainer) imgContainer.classList.remove('hidden');
+    if (acoesBar) acoesBar.classList.remove('hidden');
+
+  } else if (tipo === 'pdf') {
+    if (tipoBadge) { tipoBadge.textContent = 'Documento PDF'; tipoBadge.className = 'text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700'; }
+    // Converter para Blob URL para evitar bloqueio de iframe com data: URI
+    const blobUrl = dataURItoBlob(src);
+    _comprovanteState.blobUrl = blobUrl;
+    if (pdfIframe) pdfIframe.src = blobUrl || src;
+    if (pdfContainer) pdfContainer.classList.remove('hidden');
+    if (acoesBar) acoesBar.classList.remove('hidden');
+
+  } else if (tipo === 'unknown' && src) {
+    // Tipo desconhecido mas há arquivo — oferece link de fallback
+    if (tipoBadge) { tipoBadge.textContent = 'Arquivo Anexado'; tipoBadge.className = 'text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700'; }
+    if (fallbackTxt) fallbackTxt.textContent = 'Tipo de arquivo não reconhecido. Use "Nova Aba" para abrir.';
+    if (fallbackEl) fallbackEl.classList.remove('hidden');
+    if (acoesBar) acoesBar.classList.remove('hidden');
+
+  } else {
+    // Sem arquivo
+    if (tipoBadge) { tipoBadge.textContent = 'Sem Arquivo'; tipoBadge.className = 'text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-areia text-carvao/70'; }
+    if (fallbackTxt) fallbackTxt.textContent = 'Nenhum comprovante financeiro anexado (ou missão sem taxa de inscrição).';
+    if (fallbackEl) fallbackEl.classList.remove('hidden');
+  }
+}
+
+// ---------------------------------------------------------------------------
 
 function initComprovanteModule() {
   const modal = document.getElementById('modal-comprovante-analise');
   const btnFechar = document.getElementById('modal-comprovante-fechar');
   const btnAprovar = document.getElementById('btn-aprovar-pagamento');
   const btnRecusar = document.getElementById('btn-recusar-pagamento');
+  const btnReenviar = document.getElementById('btn-reenviar-email');
 
   const fechar = () => {
     if (modal) {
       modal.classList.add('hidden');
       modal.classList.remove('flex');
     }
+    // Limpar Blob URL ao fechar para liberar memória
+    if (_comprovanteState.blobUrl) {
+      URL.revokeObjectURL(_comprovanteState.blobUrl);
+      _comprovanteState.blobUrl = null;
+    }
+    // Limpar iframe PDF
+    const pdfIframe = document.getElementById('comp-pdf-iframe');
+    if (pdfIframe) pdfIframe.src = '';
   };
 
   if (btnFechar) btnFechar.addEventListener('click', fechar);
+  if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) fechar(); });
 
+  // --- Botões de ação do visualizador ---
+  const btnAmpliar   = document.getElementById('btn-ampliar-comprovante');
+  const btnNovaAba   = document.getElementById('btn-abrir-nova-aba');
+
+  if (btnAmpliar) btnAmpliar.addEventListener('click', () => abrirLightbox());
+  if (btnNovaAba) btnNovaAba.addEventListener('click', () => abrirEmNovaAba());
+
+  // Clicar na imagem preview também amplia
+  const compImg = document.getElementById('comp-img');
+  if (compImg) compImg.addEventListener('click', () => abrirLightbox());
+
+  // --- Lightbox ---
+  initLightbox();
+
+  // Variável de controle de idempotência em tempo de execução para evitar cliques múltiplos
+  let isSubmitting = false;
+
+  async function processarConfirmacaoComEmail(forcarReenvio = false) {
+    if (isSubmitting) return;
+
+    const id = document.getElementById('comp-inscricao-id').value;
+    if (!id) return;
+
+    const inscricao = window.atosDB.getInscricaoById(id);
+    if (!inscricao) {
+      showToast('Erro', 'Participante não localizado.', 'x-circle', 'chama');
+      return;
+    }
+
+    // Validação estrita do e-mail cadastrado
+    const emailDestino = (inscricao.email || '').trim().toLowerCase();
+    if (!emailDestino || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailDestino)) {
+      showToast(
+        'E-mail Inválido',
+        `O participante ${inscricao.nome} não possui um endereço de e-mail válido cadastrado. Apenas o e-mail cadastrado pode ser utilizado para confirmação.`,
+        'alert-triangle',
+        'chama'
+      );
+      return;
+    }
+
+    // Travar botão e exibir estado de carregamento
+    isSubmitting = true;
+    const btnTexto = document.getElementById('btn-aprovar-texto');
+    const textoOriginal = btnTexto ? btnTexto.textContent : 'Confirmar';
+    if (btnAprovar) {
+      btnAprovar.disabled = true;
+      btnAprovar.classList.add('opacity-70', 'cursor-wait');
+    }
+    if (btnTexto) {
+      btnTexto.innerHTML = '<span class="inline-block animate-spin mr-1">⏳</span> Enviando e-mail de confirmação...';
+    }
+
+    const edicao = window.atosDB.getEdicaoById(inscricao.edicao_id);
+    const edicaoNome = edicao ? edicao.nome : 'Missão Projeto ATOS';
+    const edicaoData = edicao ? (edicao.data_missao || edicao.data || 'A confirmar') : 'A confirmar';
+    const edicaoLocal = edicao ? `${edicao.cidade} - ${edicao.estado}` : 'Sertão - PB';
+
+    try {
+      // 1. Atualizar status da participação para Confirmado no sistema
+      window.atosDB.aprovarInscricao(id);
+
+      // Atualizar lista de participantes no fundo
+      const sel = document.getElementById('select-edicao-participantes');
+      if (sel) renderTabelaParticipantes(sel.value);
+
+      // 2. Disparar envio real pelo serviço de e-mail (backend / EmailJS)
+      let resultadoEmail = { sucesso: false, erro: 'Serviço de e-mail não disponível.' };
+      if (window.AtosEmailService) {
+        resultadoEmail = await window.AtosEmailService.enviarConfirmacaoParticipacao({
+          participacaoId: id,
+          tipo: 'confirmacao_participacao',
+          nomeParticipante: inscricao.nome,
+          emailParticipante: emailDestino,
+          edicaoNome,
+          edicaoData,
+          edicaoLocal,
+          forcarReenvio
+        });
+      }
+
+      // Re-renderizar a tabela para refletir os badges mais recentes
+      if (sel) renderTabelaParticipantes(sel.value);
+
+      // 3. Feedback visual e tratamento de erro sem mascarar
+      if (resultadoEmail.sucesso) {
+        fechar();
+        showToast(
+          'Confirmação Concluída',
+          `Presença confirmada e e-mail enviado com sucesso para ${resultadoEmail.emailDestino || emailDestino}!`,
+          'mail-check',
+          'cacto'
+        );
+      } else if (resultadoEmail.jaEnviado) {
+        fechar();
+        showToast(
+          'Participação Confirmada',
+          resultadoEmail.erro,
+          'info',
+          'cacto'
+        );
+      } else {
+        // NÃO MASCARAR O ERRO: informar o administrador explicitamente
+        abrirModalComprovante(id);
+        showToast(
+          'Atenção: Falha no E-mail',
+          `Presença confirmada no sistema, porém o e-mail não pôde ser enviado: ${resultadoEmail.erro}`,
+          'alert-triangle',
+          'chama'
+        );
+      }
+
+    } catch (err) {
+      console.error('[Admin] Erro na rotina de confirmação:', err);
+      showToast('Erro', err.message || 'Falha ao processar confirmação.', 'x-circle', 'chama');
+    } finally {
+      isSubmitting = false;
+      if (btnAprovar) {
+        btnAprovar.disabled = false;
+        btnAprovar.classList.remove('opacity-70', 'cursor-wait');
+      }
+      if (btnTexto) btnTexto.textContent = textoOriginal;
+      if (window.lucide) lucide.createIcons();
+    }
+  }
+
+  // Evento do botão principal "Confirmar e enviar e-mail de confirmação"
   if (btnAprovar) {
     btnAprovar.addEventListener('click', () => {
+      processarConfirmacaoComEmail(false);
+    });
+  }
+
+  // Evento do botão secundário de reenvio explícito
+  if (btnReenviar) {
+    btnReenviar.addEventListener('click', () => {
       const id = document.getElementById('comp-inscricao-id').value;
-      if (id) {
-        window.atosDB.aprovarInscricao(id);
-        fechar();
-        const sel = document.getElementById('select-edicao-participantes');
-        if (sel) renderTabelaParticipantes(sel.value);
-        showToast('Inscrição Aprovada', 'O pagamento foi confirmado e a vaga liberada.', 'check-circle', 'cacto');
+      const inscricao = window.atosDB.getInscricaoById(id);
+      const email = inscricao ? inscricao.email : '';
+      if (confirm(`Deseja realmente reenviar o e-mail de confirmação para ${email}?`)) {
+        processarConfirmacaoComEmail(true);
       }
     });
   }
 
+  // Evento de recusa
   if (btnRecusar) {
     btnRecusar.addEventListener('click', () => {
       const id = document.getElementById('comp-inscricao-id').value;
@@ -2197,3 +2507,249 @@ window.addEventListener('atos_dados_sincronizados', () => {
   renderCurrentSection(activeSection);
   if (window.lucide) lucide.createIcons();
 });
+
+/* --------------------------------------------------------------------------
+   21. NOTIFICACOES
+   -------------------------------------------------------------------------- */
+function initNotificacoesModule() {
+  const btn = document.getElementById('btn-notificacoes');
+  const dropdown = document.getElementById('notif-dropdown');
+  const list = document.getElementById('notif-list');
+  const empty = document.getElementById('notif-empty');
+  const countLabel = document.getElementById('notif-count-label');
+  const badge = document.getElementById('badge-notificacoes');
+  const btnMarcarTodas = document.getElementById('btn-marcar-todas-lidas');
+
+  if (!btn || !dropdown) return;
+
+  function renderNotificacoes() {
+    const user = AtosDatabase.getAdminSessionUser();
+    const uid = user ? user.id : 'all';
+    const notifs = AtosDatabase.getNotificacoesComEstado(uid);
+    const unread = notifs.filter(n => !n.lida).length;
+
+    // Update badges
+    if (unread > 0) {
+      badge.style.display = 'flex';
+      badge.textContent = unread > 9 ? '9+' : unread;
+      countLabel.style.display = 'inline-block';
+      countLabel.textContent = unread + ' novas';
+    } else {
+      badge.style.display = 'none';
+      countLabel.style.display = 'none';
+    }
+
+    // Render list
+    list.innerHTML = '';
+    if (notifs.length === 0) {
+      list.appendChild(empty);
+      return;
+    }
+
+    notifs.forEach(n => {
+      const item = document.createElement('div');
+      item.className = 'p-3 flex items-start gap-3 hover:bg-areia-light/50 transition-colors relative group';
+      if (!n.lida) item.classList.add('bg-areia-light/30');
+
+      let icon = 'info';
+      let iconColor = 'text-chama';
+      if (n.tipo === 'success') { icon = 'check-circle'; iconColor = 'text-emerald-500'; }
+      if (n.tipo === 'warning') { icon = 'alert-triangle'; iconColor = 'text-amber-500'; }
+
+      const dateStr = new Date(n.criado_em).toLocaleString('pt-BR');
+
+      item.innerHTML = `
+        <div class="mt-1">
+          <i data-lucide="${icon}" class="w-4 h-4 ${iconColor}"></i>
+        </div>
+        <div class="flex-1 min-w-0 cursor-pointer notif-content">
+          <h4 class="text-[0.7rem] font-bold text-carvao ${!n.lida ? 'font-extrabold' : ''}">${n.titulo}</h4>
+          <p class="text-[0.65rem] text-carvao/70 mt-0.5 line-clamp-2">${n.mensagem}</p>
+          <span class="text-[0.55rem] text-carvao/40 mt-1 block">${dateStr}</span>
+        </div>
+      `;
+
+      if (!n.lida) {
+        const markBtn = item.querySelector('.btn-mark-read');
+        if (markBtn) {
+          markBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            await AtosDatabase.marcarNotificacaoLida(n.id, uid);
+            renderNotificacoes();
+          });
+        }
+        item.querySelector('.notif-content').addEventListener('click', async () => {
+          await AtosDatabase.marcarNotificacaoLida(n.id, uid);
+          renderNotificacoes();
+          dropdown.classList.add('hidden');
+        });
+      }
+
+      list.appendChild(item);
+    });
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  // Toggle Dropdown
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle('hidden');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+
+  // Mark all as read
+  if (btnMarcarTodas) {
+    btnMarcarTodas.addEventListener('click', async () => {
+      const user = AtosDatabase.getAdminSessionUser();
+      const uid = user ? user.id : 'all';
+      await AtosDatabase.marcarTodasLidas(uid);
+      renderNotificacoes();
+    });
+  }
+
+  // Listen to DB events
+  window.addEventListener('atos_notificacao_nova', () => {
+    showToast('Nova notificação recebida', 'info');
+    renderNotificacoes();
+  });
+  window.addEventListener('atos_notificacao_lida', () => {
+    renderNotificacoes();
+  });
+  window.addEventListener('atos_dados_sincronizados', () => {
+    renderNotificacoes();
+  });
+
+  // Initial render
+  renderNotificacoes();
+}
+
+// ---------------------------------------------------------------------------
+// LIGHTBOX: Visualização em Tela Cheia de Comprovantes (PDF & Imagens)
+// ---------------------------------------------------------------------------
+
+/** Blob URL exclusivo para o lightbox (separado do modal principal) */
+const _lightboxState = { blobUrl: null };
+
+function initLightbox() {
+  const lightbox     = document.getElementById('modal-lightbox-comprovante');
+  const btnFechar    = document.getElementById('lightbox-fechar');
+  const btnNovaAba   = document.getElementById('lightbox-btn-nova-aba');
+  const btnDownload  = document.getElementById('lightbox-btn-download');
+
+  if (!lightbox) return;
+
+  const fecharLightbox = () => {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    // Limpar conteúdo
+    const img = document.getElementById('lightbox-img');
+    const pdf = document.getElementById('lightbox-pdf');
+    if (img) { img.classList.add('hidden'); img.src = ''; }
+    if (pdf) { pdf.classList.add('hidden'); pdf.src = ''; }
+    // Revogar blob URL do lightbox
+    if (_lightboxState.blobUrl) {
+      URL.revokeObjectURL(_lightboxState.blobUrl);
+      _lightboxState.blobUrl = null;
+    }
+  };
+
+  if (btnFechar)  btnFechar.addEventListener('click', fecharLightbox);
+  if (lightbox)   lightbox.addEventListener('click', (e) => { if (e.target === lightbox) fecharLightbox(); });
+
+  if (btnNovaAba) btnNovaAba.addEventListener('click', () => {
+    const url = _lightboxState.blobUrl;
+    if (url) window.open(url, '_blank');
+    else abrirEmNovaAba();
+  });
+
+  if (btnDownload) btnDownload.addEventListener('click', () => {
+    const url = _lightboxState.blobUrl;
+    const tipo = _comprovanteState.tipo;
+    const ext = tipo === 'pdf' ? '.pdf' : tipo === 'image' ? '.jpg' : '.bin';
+    const a = document.createElement('a');
+    a.href = url || _comprovanteState.blobUrl || '#';
+    a.download = `comprovante${ext}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+}
+
+/**
+ * Abre o lightbox (tela cheia) com o comprovante do participante atual.
+ */
+function abrirLightbox() {
+  const lightbox   = document.getElementById('modal-lightbox-comprovante');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxPdf = document.getElementById('lightbox-pdf');
+  const lbTitulo   = document.getElementById('lightbox-titulo');
+  const lbSubtitulo = document.getElementById('lightbox-subtitulo');
+  const lbIcon     = document.getElementById('lightbox-icon');
+  if (!lightbox) return;
+
+  const id = document.getElementById('comp-inscricao-id') ? document.getElementById('comp-inscricao-id').value : null;
+  const inscricao = id ? window.atosDB.getInscricaoById(id) : null;
+  if (!inscricao) return;
+
+  const src  = inscricao.comprovante || '';
+  const tipo = _comprovanteState.tipo || detectarTipoArquivo(src);
+
+  if (lbSubtitulo) lbSubtitulo.textContent = inscricao.nome || 'Participante';
+
+  // Ocultar ambos
+  if (lightboxImg) lightboxImg.classList.add('hidden');
+  if (lightboxPdf) lightboxPdf.classList.add('hidden');
+
+  // Revogar blob URL anterior do lightbox
+  if (_lightboxState.blobUrl) {
+    URL.revokeObjectURL(_lightboxState.blobUrl);
+    _lightboxState.blobUrl = null;
+  }
+
+  if (tipo === 'image') {
+    if (lbTitulo)   lbTitulo.textContent = 'Imagem do Comprovante';
+    if (lbIcon)     lbIcon.setAttribute('data-lucide', 'image');
+    if (lightboxImg) { lightboxImg.src = src; lightboxImg.classList.remove('hidden'); }
+  } else if (tipo === 'pdf') {
+    if (lbTitulo)   lbTitulo.textContent = 'PDF do Comprovante';
+    if (lbIcon)     lbIcon.setAttribute('data-lucide', 'file-text');
+    // Reutilizar o blob URL do modal principal se existir, senão criar novo
+    const blobUrl = _comprovanteState.blobUrl || dataURItoBlob(src);
+    _lightboxState.blobUrl = blobUrl;
+    if (lightboxPdf) { lightboxPdf.src = blobUrl || src; lightboxPdf.classList.remove('hidden'); }
+  } else {
+    // Fallback: tentar abrir em nova aba
+    abrirEmNovaAba();
+    return;
+  }
+
+  lightbox.classList.remove('hidden');
+  lightbox.classList.add('flex');
+  if (window.lucide) lucide.createIcons();
+}
+
+/**
+ * Abre o comprovante em nova aba de forma segura.
+ * Usa Blob URL para contornar bloqueio de data: URIs pelo navegador.
+ */
+function abrirEmNovaAba() {
+  const id = document.getElementById('comp-inscricao-id') ? document.getElementById('comp-inscricao-id').value : null;
+  const inscricao = id ? window.atosDB.getInscricaoById(id) : null;
+  if (!inscricao || !inscricao.comprovante) return;
+
+  // Tentar usar blob URL já gerado
+  const blobUrl = _comprovanteState.blobUrl || _lightboxState.blobUrl || dataURItoBlob(inscricao.comprovante);
+  if (blobUrl) {
+    window.open(blobUrl, '_blank');
+  } else {
+    // Último recurso: data: URI diretamente (pode ser bloqueado em alguns navegadores)
+    window.open(inscricao.comprovante, '_blank');
+  }
+}

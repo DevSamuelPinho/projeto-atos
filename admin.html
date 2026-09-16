@@ -260,10 +260,6 @@
           <i data-lucide="newspaper" class="w-4 h-4 text-cacto"></i>
           <span>Conteúdos &amp; Notícias</span>
         </div>
-        <div class="admin-sidebar-link" data-section="apoios">
-          <i data-lucide="wallet" class="w-4 h-4 text-chama"></i>
-          <span>Apoios &amp; Doações</span>
-        </div>
 
         <div class="px-3 pt-3 pb-1 text-[0.65rem] font-bold uppercase tracking-wider text-carvao/40">Sistema</div>
         <div class="admin-sidebar-link" data-section="usuarios">
@@ -407,14 +403,6 @@
               <span class="text-[0.68rem] text-cacto font-medium mt-1">Vidas alcançadas</span>
             </div>
 
-            <div class="admin-card p-4 flex flex-col justify-between">
-              <div class="flex items-center justify-between text-cacto mb-2">
-                <span class="text-[0.65rem] font-bold uppercase tracking-wider text-carvao/60">Apoios (R$)</span>
-                <i data-lucide="dollar-sign" class="w-4 h-4"></i>
-              </div>
-              <p id="dash-met-apoios" class="font-display text-2xl sm:text-3xl text-carvao">R$ 0</p>
-              <span class="text-[0.68rem] text-carvao/60 font-medium mt-1">Total registrado</span>
-            </div>
 
           </div>
 
@@ -749,38 +737,6 @@
           <div id="grid-conteudos" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </section>
 
-        <!-- ===================================================================
-             SEÇÃO 10: APOIOS & DOAÇÕES
-             =================================================================== -->
-        <section id="section-apoios" class="admin-section hidden space-y-6">
-          <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-areia">
-            <div>
-              <h2 class="font-display text-3xl sm:text-4xl text-carvao">APOIOS &amp; DOAÇÕES RECEBIDAS</h2>
-              <p class="text-xs sm:text-sm text-carvao/70">Acompanhamento transparente dos donativos e ofertas destinadas às missões.</p>
-            </div>
-            <button id="btn-novo-apoio" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow transition-colors">
-              <i data-lucide="plus-circle" class="w-4 h-4"></i>
-              <span>Registrar Apoio</span>
-            </button>
-          </div>
-          <div class="admin-card overflow-hidden">
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs sm:text-sm">
-                <thead class="bg-areia/40 border-b border-areia font-bold text-carvao/70 uppercase text-[0.7rem]">
-                  <tr>
-                    <th class="px-4 py-3.5">Doador / Parceiro</th>
-                    <th class="px-4 py-3.5">Tipo de Apoio</th>
-                    <th class="px-4 py-3.5">Valor (R$)</th>
-                    <th class="px-4 py-3.5">Data</th>
-                    <th class="px-4 py-3.5">Identificador</th>
-                    <th class="px-4 py-3.5 text-right">Ações</th>
-                  </tr>
-                </thead>
-                <tbody id="tabela-apoios-body" class="divide-y divide-areia/50"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
 
         <!-- ===================================================================
              SEÇÃO 11: USUÁRIOS & NÍVEIS DE ACESSO
@@ -854,6 +810,40 @@
                 <div>
                   <label class="block font-bold uppercase text-carvao/70 mb-1">Instagram Oficial</label>
                   <input type="text" id="cfg-instagram" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2.5 focus:outline-none focus:border-chama" />
+                </div>
+              </div>
+
+              <!-- Configuração do Serviço de E-mail (EmailJS) -->
+              <div class="pt-3 border-t border-areia space-y-3">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="mail" class="w-4 h-4 text-cacto"></i>
+                  <h4 class="font-bold text-xs sm:text-sm text-carvao uppercase tracking-wider">Serviço de Envio de E-mail (EmailJS)</h4>
+                </div>
+                <p class="text-[0.7rem] text-carvao/60">Configuração do serviço para disparo automático de e-mails de confirmação de participantes.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-bold uppercase text-carvao/70 mb-1">E-mail Oficial (Remetente)</label>
+                    <input type="email" id="cfg-email-oficial" placeholder="projetoatosoficial@gmail.com" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
+                  </div>
+                  <div>
+                    <label class="block font-bold uppercase text-carvao/70 mb-1">Service ID (EmailJS)</label>
+                    <input type="text" id="cfg-email-service-id" placeholder="service_xxxxxxx" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-chama" />
+                  </div>
+                  <div>
+                    <label class="block font-bold uppercase text-carvao/70 mb-1">Template ID (EmailJS)</label>
+                    <input type="text" id="cfg-email-template-id" placeholder="template_xxxxxxx" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-chama" />
+                  </div>
+                  <div>
+                    <label class="block font-bold uppercase text-carvao/70 mb-1">Public Key (EmailJS)</label>
+                    <input type="text" id="cfg-email-public-key" placeholder="public_key_xxxxxxx" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-chama" />
+                  </div>
+                </div>
+                <div class="flex items-center justify-between pt-1">
+                  <span id="cfg-email-status-indicator" class="text-[0.68rem] text-carvao/60">Status: Aguardando credenciais</span>
+                  <button type="button" id="btn-testar-servico-email" class="text-xs bg-areia hover:bg-areia-light border border-areia text-carvao font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
+                    <i data-lucide="send" class="w-3.5 h-3.5 text-cacto"></i>
+                    <span>Testar Conexão</span>
+                  </button>
                 </div>
               </div>
 
@@ -1456,47 +1446,6 @@
     </div>
   </div>
 
-  <!-- Modal 7: Apoio / Doação -->
-  <div id="modal-apoio" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-areia p-6 sm:p-8">
-      <div class="flex items-center justify-between pb-3 border-b border-areia mb-4">
-        <h3 id="modal-apoio-titulo" class="font-display text-2xl text-carvao">REGISTRAR APOIO</h3>
-        <button id="modal-apoio-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <form id="form-apoio" class="space-y-3.5 text-xs sm:text-sm">
-        <div>
-          <label class="block font-bold uppercase text-carvao/70 mb-1">Nome do Mantenedor / Parceiro *</label>
-          <input type="text" id="apoio-nome" required placeholder="Ex: Doação Anônima ou Família Santos" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold uppercase text-carvao/70 mb-1">Tipo de Apoio</label>
-            <select id="apoio-tipo" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama">
-              <option value="Doação PIX">Doação PIX</option>
-              <option value="Donativos / Alimentos">Donativos / Alimentos</option>
-              <option value="Suporte Médico / Medicamentos">Medicamentos</option>
-              <option value="Outro">Outro</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold uppercase text-carvao/70 mb-1">Valor Estimado (R$)</label>
-            <input type="number" id="apoio-valor" step="0.01" placeholder="250.00" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
-          </div>
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-carvao/70 mb-1">Observações / Destinação</label>
-          <input type="text" id="apoio-obs" placeholder="Ex: Destinado à compra de cestas básicas" class="w-full bg-areia-light border border-areia rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-chama" />
-        </div>
-        <div class="pt-3 flex justify-end gap-2 border-t border-areia">
-          <button type="button" id="btn-cancelar-apoio" class="px-4 py-2 border rounded-xl">Cancelar</button>
-          <button type="submit" class="px-5 py-2 bg-chama text-white font-bold rounded-xl">Salvar Apoio</button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <!-- Modal 8: Usuário Administrativo -->
   <div id="modal-usuario" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
@@ -1557,23 +1506,26 @@
   </div>
 
   <!-- Scripts do Banco e da Aplicação Administrativa -->
-    <!-- SDK Oficial Supabase & Configuração em Nuvem -->
+  <!-- SDK Oficial Supabase & Configuração em Nuvem -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/db.js"></script>
+  <!-- SDK Oficial EmailJS para Envio Real de E-mails -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="js/email-service.js"></script>
   <script src="js/admin.js"></script>
   <script>
     if (window.lucide) lucide.createIcons();
   </script>
 
 
-  <!-- Modal: Análise de Comprovante de Pagamento -->
+  <!-- Modal: Análise e Confirmação de Participação + Envio de E-mail -->
   <div id="modal-comprovante-analise" class="fixed inset-0 bg-carvao/80 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-areia p-6 sm:p-8 space-y-5">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-areia p-6 sm:p-8 space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-areia">
         <div>
-          <h3 class="font-display text-2xl text-carvao">COMPROVANTE DE PAGAMENTO</h3>
-          <p id="comp-subtitulo" class="text-xs text-carvao/60">Análise de inscrição e validação do PIX.</p>
+          <h3 class="font-display text-2xl text-carvao">CONFIRMAÇÃO DE PARTICIPAÇÃO</h3>
+          <p id="comp-subtitulo" class="text-xs text-carvao/60">Verificação de dados, comprovante e envio de e-mail de confirmação.</p>
         </div>
         <button id="modal-comprovante-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -1583,41 +1535,136 @@
       <input type="hidden" id="comp-inscricao-id" />
 
       <!-- Detalhes do Inscrito -->
-      <div class="bg-areia/30 rounded-2xl p-4 space-y-1 text-xs text-carvao/80 border border-areia">
-        <p><strong class="text-carvao">Inscrito:</strong> <span id="comp-nome">-</span></p>
+      <div class="bg-areia/30 rounded-2xl p-4 space-y-1.5 text-xs text-carvao/80 border border-areia">
+        <p><strong class="text-carvao">Participante:</strong> <span id="comp-nome" class="font-semibold text-carvao">-</span></p>
+        <div class="flex items-center justify-between">
+          <p class="truncate"><strong class="text-carvao">E-mail Cadastrado:</strong> <span id="comp-email" class="font-mono font-bold text-cacto">-</span></p>
+          <span class="inline-flex items-center gap-1 text-[0.62rem] bg-cacto/10 text-cacto font-semibold px-2 py-0.5 rounded-full flex-shrink-0" title="E-mail verificado no cadastro. Não é permitido envio para endereço diferente sem ação explícita.">
+            <i data-lucide="shield-check" class="w-3 h-3"></i> Oficial
+          </span>
+        </div>
         <p><strong class="text-carvao">WhatsApp:</strong> <span id="comp-whats">-</span></p>
+        <p><strong class="text-carvao">Missão / Edição:</strong> <span id="comp-edicao" class="font-semibold">-</span></p>
         <p><strong class="text-carvao">Status Atual:</strong> <span id="comp-status" class="font-bold text-chama">-</span></p>
       </div>
 
-      <!-- Visualizador do Arquivo -->
-      <div id="comp-viewer" class="bg-black/5 rounded-2xl p-4 border border-areia flex items-center justify-center min-h-[220px] max-h-[360px] overflow-hidden">
-        <img id="comp-img" src="" alt="Comprovante" class="max-h-[340px] w-auto object-contain rounded-xl shadow hidden" />
-        <div id="comp-fallback" class="text-center p-4 space-y-2">
-          <i data-lucide="file-text" class="w-12 h-12 mx-auto text-carvao/40"></i>
-          <p class="text-xs text-carvao/70">Documento anexado pelo participante</p>
-          <a id="comp-download-link" href="#" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-chama hover:underline">
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-            <span>Abrir Comprovante em Nova Aba</span>
-          </a>
+      <!-- Card de Status do E-mail de Confirmação -->
+      <div id="comp-email-status-card" class="rounded-2xl p-3.5 border border-areia text-xs flex items-start gap-3 bg-areia-light/40">
+        <div id="comp-email-status-icon" class="w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0 bg-areia text-carvao/60 mt-0.5">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <h4 id="comp-email-status-title" class="font-bold text-carvao leading-none">Status do E-mail</h4>
+            <span id="comp-email-status-badge" class="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-areia text-carvao/70">Pendente</span>
+          </div>
+          <p id="comp-email-status-desc" class="text-[0.7rem] text-carvao/70 mt-1 leading-tight">Ao clicar em confirmar, o sistema enviará automaticamente a notificação para o e-mail cadastrado.</p>
+          <p id="comp-email-status-timestamp" class="text-[0.62rem] text-carvao/50 mt-1 font-mono hidden"></p>
+        </div>
+      </div>
+
+      <!-- Visualizador Avançado do Arquivo / Comprovante (PDF & Imagens) -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <label class="block text-xs font-bold uppercase text-carvao/70">Comprovante Anexado:</label>
+            <span id="comp-tipo-badge" class="text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-areia text-carvao/70">Detectando...</span>
+          </div>
+          <div id="comp-acoes-arquivo" class="flex items-center gap-1.5 hidden">
+            <button type="button" id="btn-ampliar-comprovante" class="text-[0.7rem] bg-areia/80 hover:bg-areia border border-areia text-carvao px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1 transition-colors" title="Visualizar em Tela Cheia">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-chama"></i>
+              <span>Ampliar</span>
+            </button>
+            <button type="button" id="btn-abrir-nova-aba" class="text-[0.7rem] bg-areia/80 hover:bg-areia border border-areia text-carvao px-2.5 py-1 rounded-lg font-semibold flex items-center gap-1 transition-colors" title="Abrir em Nova Aba">
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-cacto"></i>
+              <span>Nova Aba</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="comp-viewer" class="bg-black/5 rounded-2xl p-2.5 border border-areia flex flex-col items-center justify-center min-h-[190px] max-h-[360px] overflow-hidden relative group">
+          <!-- 1. Pré-visualização de Imagem (JPG, PNG, WebP) -->
+          <div id="comp-img-container" class="hidden w-full h-full flex flex-col items-center justify-center relative">
+            <img id="comp-img" src="" alt="Comprovante" class="max-h-[290px] w-auto max-w-full object-contain rounded-xl shadow cursor-pointer transition-transform hover:scale-[1.01]" title="Clique para ampliar" />
+            <span class="text-[0.65rem] text-carvao/50 mt-1 flex items-center gap-1"><i data-lucide="zoom-in" class="w-3 h-3"></i> Clique na imagem para ampliar em tela cheia</span>
+          </div>
+
+          <!-- 2. Pré-visualização de PDF Inline (Sem forçar download) -->
+          <div id="comp-pdf-container" class="hidden w-full h-[320px] flex flex-col">
+            <iframe id="comp-pdf-iframe" class="w-full flex-1 rounded-xl border border-areia/60 bg-white" title="Visualizador de PDF do Participante"></iframe>
+          </div>
+
+          <!-- 3. Fallback / Sem Arquivo Anexado -->
+          <div id="comp-fallback" class="text-center p-6 space-y-2">
+            <i data-lucide="file-x" class="w-10 h-10 mx-auto text-carvao/30"></i>
+            <p class="text-xs text-carvao/70 font-medium" id="comp-fallback-txt">Nenhum comprovante financeiro anexado.</p>
+            <p class="text-[0.65rem] text-carvao/40">Inscrição realizada sem anexo ou missão sem cobrança de taxa.</p>
+          </div>
         </div>
       </div>
 
       <!-- Motivo de Recusa (caso queira recusar) -->
       <div class="space-y-1">
         <label class="block text-xs font-bold uppercase text-carvao/70">Motivo da Recusa (visível se recusar):</label>
-        <input type="text" id="comp-motivo-recusa" placeholder="Ex: Comprovante ilegível ou valor divergente" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-chama" />
+        <input type="text" id="comp-motivo-recusa" placeholder="Ex: Comprovante ilegível ou dados divergentes" class="w-full bg-areia-light border border-areia rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-chama" />
       </div>
 
       <!-- Ações -->
-      <div class="pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-areia">
-        <button type="button" id="btn-recusar-pagamento" class="flex-1 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow transition-colors flex items-center justify-center gap-1.5">
-          <i data-lucide="x-circle" class="w-4 h-4"></i>
-          <span>Recusar Pagamento</span>
+      <div class="pt-3 space-y-2 border-t border-areia">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <button type="button" id="btn-recusar-pagamento" class="flex-1 py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow transition-colors flex items-center justify-center gap-1.5">
+            <i data-lucide="x-circle" class="w-4 h-4"></i>
+            <span>Recusar</span>
+          </button>
+          <button type="button" id="btn-aprovar-pagamento" class="flex-2 py-2.5 px-4 rounded-xl bg-cacto hover:bg-cacto-dark disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs shadow transition-all flex items-center justify-center gap-1.5">
+            <i id="btn-aprovar-icone" data-lucide="mail-check" class="w-4 h-4"></i>
+            <span id="btn-aprovar-texto">Confirmar e enviar e-mail de confirmação</span>
+          </button>
+        </div>
+
+        <!-- Botão explícito de reenvio (quando participante já possui e-mail enviado) -->
+        <button type="button" id="btn-reenviar-email" class="hidden w-full py-2 px-3 rounded-xl border border-cacto/30 text-cacto hover:bg-cacto/10 font-bold text-xs transition-colors flex items-center justify-center gap-1.5">
+          <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+          <span>Reenviar e-mail de confirmação</span>
         </button>
-        <button type="button" id="btn-aprovar-pagamento" class="flex-1 py-2.5 px-4 rounded-xl bg-cacto hover:bg-cacto-dark text-white font-bold text-xs shadow transition-colors flex items-center justify-center gap-1.5">
-          <i data-lucide="check-circle" class="w-4 h-4"></i>
-          <span>Aprovar Inscrição</span>
-        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Lightbox / Tela Cheia para Comprovantes (PDF e Imagens) -->
+  <div id="modal-lightbox-comprovante" class="fixed inset-0 bg-carvao/90 backdrop-blur-sm z-[60] hidden items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl border border-areia overflow-hidden">
+      <!-- Topo do Lightbox -->
+      <div class="p-4 border-b border-areia flex items-center justify-between bg-areia-light/50">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-chama/15 text-chama flex items-center justify-center">
+            <i id="lightbox-icon" data-lucide="file" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 id="lightbox-titulo" class="font-bold text-sm text-carvao leading-none">Comprovante de Participação</h3>
+            <p id="lightbox-subtitulo" class="text-[0.68rem] text-carvao/60 mt-0.5">Participante</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" id="lightbox-btn-nova-aba" class="text-xs bg-white hover:bg-areia border border-areia text-carvao font-semibold px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors">
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-cacto"></i>
+            <span class="hidden sm:inline">Nova Aba</span>
+          </button>
+          <button type="button" id="lightbox-btn-download" class="text-xs bg-white hover:bg-areia border border-areia text-carvao font-semibold px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-chama"></i>
+            <span class="hidden sm:inline">Baixar</span>
+          </button>
+          <button type="button" id="lightbox-fechar" class="p-2 text-carvao/60 hover:text-carvao rounded-full hover:bg-areia ml-1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Corpo do Lightbox -->
+      <div class="flex-1 p-2 sm:p-4 overflow-auto flex items-center justify-center min-h-[300px] bg-black/5">
+        <img id="lightbox-img" src="" alt="Comprovante Ampliado" class="hidden max-h-[78vh] w-auto max-w-full object-contain rounded-xl shadow-lg" />
+        <iframe id="lightbox-pdf" class="hidden w-full h-[78vh] rounded-xl border border-areia bg-white" title="PDF em Tela Cheia"></iframe>
       </div>
     </div>
   </div>
