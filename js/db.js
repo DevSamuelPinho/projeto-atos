@@ -1677,6 +1677,8 @@ class AtosDatabase {
   }
 
   _normalizeConfigForSupabase(c) {
+    // Credenciais EmailJS: aceita tanto formato plano (emailjs_*) quanto sub-objeto (email_service.*)
+    const esvc = c.email_service || {};
     return {
       id: 'cfg-global',
       nome_organizacao: c.nome_organizacao || '',
@@ -1693,6 +1695,10 @@ class AtosDatabase {
       instagram_melque: c.instagram_melque || '',
       pix_oficial: c.pix_oficial || '',
       notificacoes_email: c.notificacoes_email !== undefined ? Boolean(c.notificacoes_email) : true,
+      // Credenciais EmailJS — colunas dedicadas no Supabase
+      emailjs_service_id:  (c.emailjs_service_id  || esvc.service_id  || '').trim(),
+      emailjs_template_id: (c.emailjs_template_id || esvc.template_id || '').trim(),
+      emailjs_public_key:  (c.emailjs_public_key  || esvc.public_key  || '').trim(),
       atualizado_em: new Date().toISOString()
     };
   }
@@ -1801,7 +1807,7 @@ class AtosDatabase {
         }
       }
 
-      // 12. Sincronizar Configurações
+      // 12. Sincronizar Configurações (incluindo credenciais EmailJS)
       const { data: configNuvem, error: errConfig } = await client.from('configuracoes').select('*');
       if (!errConfig && Array.isArray(configNuvem) && configNuvem.length > 0) {
         const globalCfg = configNuvem.find(c => c.id === 'cfg-global') || configNuvem[0];
@@ -1809,6 +1815,17 @@ class AtosDatabase {
           const cleanCfg = { ...globalCfg };
           delete cleanCfg.id;
           localStorage.setItem(DB_KEYS.CONFIG, JSON.stringify(cleanCfg));
+
+          // Sincronizar também o localStorage dedicado do EmailService para retrocompatibilidade
+          const emailjsCache = {
+            PUBLIC_KEY:  (globalCfg.emailjs_public_key  || '').trim(),
+            SERVICE_ID:  (globalCfg.emailjs_service_id  || '').trim(),
+            TEMPLATE_ID: (globalCfg.emailjs_template_id || '').trim(),
+            atualizado_em: new Date().toISOString()
+          };
+          if (emailjsCache.PUBLIC_KEY || emailjsCache.SERVICE_ID || emailjsCache.TEMPLATE_ID) {
+            localStorage.setItem('atos_email_config', JSON.stringify(emailjsCache));
+          }
         }
       }
 

@@ -23,30 +23,45 @@ window.AtosEmailService = {
   _emProcessamento: new Set(),
 
   getConfig() {
+    // FONTE PRIMÁRIA: atosDB.getConfig() — sincronizado com o Supabase (colunas emailjs_*)
     try {
-      const salvo = localStorage.getItem(EMAIL_STORAGE_KEYS.CONFIG);
-      if (salvo) {
-        const parsed = JSON.parse(salvo);
-        if (parsed && typeof parsed === 'object') {
-          return {
-            PUBLIC_KEY:  (parsed.PUBLIC_KEY || '').trim(),
-            SERVICE_ID:  (parsed.SERVICE_ID || '').trim(),
-            TEMPLATE_ID: (parsed.TEMPLATE_ID || '').trim(),
-          };
+      if (window.atosDB) {
+        const dbCfg = window.atosDB.getConfig();
+        if (dbCfg) {
+          const serviceId  = (dbCfg.emailjs_service_id  || '').trim();
+          const templateId = (dbCfg.emailjs_template_id || '').trim();
+          const publicKey  = (dbCfg.emailjs_public_key  || '').trim();
+          // Também aceita o formato legado (sub-objeto email_service) se as colunas planas estiverem vazias
+          const esvc = dbCfg.email_service || {};
+          const resolvedServiceId  = serviceId  || (esvc.service_id  || '').trim();
+          const resolvedTemplateId = templateId || (esvc.template_id || '').trim();
+          const resolvedPublicKey  = publicKey  || (esvc.public_key  || '').trim();
+          // Se ao menos um campo está preenchido, essa é a fonte válida
+          if (resolvedServiceId || resolvedTemplateId || resolvedPublicKey) {
+            return {
+              PUBLIC_KEY:  resolvedPublicKey,
+              SERVICE_ID:  resolvedServiceId,
+              TEMPLATE_ID: resolvedTemplateId,
+            };
+          }
         }
       }
     } catch { /* fallback */ }
 
-    // Fallback para DB global ou constantes locais
+    // FALLBACK: localStorage dedicado (compatibilidade com dados salvos antes desta correção)
     try {
-      if (window.atosDB) {
-        const dbCfg = window.atosDB.getConfig();
-        if (dbCfg && dbCfg.email_service) {
-          return {
-            PUBLIC_KEY:  (dbCfg.email_service.public_key || '').trim(),
-            SERVICE_ID:  (dbCfg.email_service.service_id || '').trim(),
-            TEMPLATE_ID: (dbCfg.email_service.template_id || '').trim(),
+      const salvo = localStorage.getItem('atos_email_config');
+      if (salvo) {
+        const parsed = JSON.parse(salvo);
+        if (parsed && typeof parsed === 'object') {
+          const fallbackCfg = {
+            PUBLIC_KEY:  (parsed.PUBLIC_KEY  || '').trim(),
+            SERVICE_ID:  (parsed.SERVICE_ID  || '').trim(),
+            TEMPLATE_ID: (parsed.TEMPLATE_ID || '').trim(),
           };
+          if (fallbackCfg.SERVICE_ID || fallbackCfg.PUBLIC_KEY) {
+            return fallbackCfg;
+          }
         }
       }
     } catch { /* fallback */ }
@@ -55,25 +70,31 @@ window.AtosEmailService = {
   },
 
   salvarConfig(novasCredenciais) {
-    const configAtualizada = {
-      PUBLIC_KEY:   (novasCredenciais.PUBLIC_KEY || novasCredenciais.public_key || '').trim(),
-      SERVICE_ID:   (novasCredenciais.SERVICE_ID || novasCredenciais.service_id || '').trim(),
-      TEMPLATE_ID:  (novasCredenciais.TEMPLATE_ID || novasCredenciais.template_id || '').trim(),
-      atualizado_em: new Date().toISOString()
-    };
+    const serviceId  = (novasCredenciais.SERVICE_ID  || novasCredenciais.service_id  || '').trim();
+    const templateId = (novasCredenciais.TEMPLATE_ID || novasCredenciais.template_id || '').trim();
+    const publicKey  = (novasCredenciais.PUBLIC_KEY  || novasCredenciais.public_key  || '').trim();
+
     try {
-      localStorage.setItem(EMAIL_STORAGE_KEYS.CONFIG, JSON.stringify(configAtualizada));
+      // 1. Salvar no localStorage dedicado (retrocompatibilidade e acesso rápido offline)
+      const emailjsCache = {
+        PUBLIC_KEY:   publicKey,
+        SERVICE_ID:   serviceId,
+        TEMPLATE_ID:  templateId,
+        atualizado_em: new Date().toISOString()
+      };
+      localStorage.setItem('atos_email_config', JSON.stringify(emailjsCache));
+
+      // 2. Persistir como colunas planas no atosDB — isso dispara o sync com o Supabase
       if (window.atosDB) {
-        const cfg = window.atosDB.getConfig();
-        cfg.email_service = {
-          public_key: configAtualizada.PUBLIC_KEY,
-          service_id: configAtualizada.SERVICE_ID,
-          template_id: configAtualizada.TEMPLATE_ID,
-          atualizado_em: configAtualizada.atualizado_em
-        };
-        window.atosDB.updateConfig(cfg);
-        window.atosDB.registrarLog('Configurações', 'Credenciais do serviço de e-mail atualizadas.');
+        window.atosDB.updateConfig({
+          emailjs_service_id:  serviceId,
+          emailjs_template_id: templateId,
+          emailjs_public_key:  publicKey
+        });
+        window.atosDB.registrarLog('Configurações', 'Credenciais do serviço de e-mail atualizadas e sincronizadas com o banco global.');
       }
+
+      // 3. Reinicializar o EmailJS com as novas credenciais
       this.init();
       return { sucesso: true };
     } catch (e) {

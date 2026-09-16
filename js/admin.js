@@ -1869,29 +1869,32 @@ function initConfiguracoesModule() {
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      // Dados institucionais
       const dados = {
-        nome_projeto: document.getElementById('cfg-nome').value,
-        sede: document.getElementById('cfg-sede').value,
-        nome_assessoria: document.getElementById('cfg-assessoria').value,
-        whatsapp_assessoria: document.getElementById('cfg-whatsapp').value,
-        pix_oficial: document.getElementById('cfg-pix').value,
-        instagram_projeto: document.getElementById('cfg-instagram').value,
-        email_oficial: document.getElementById('cfg-email-oficial') ? document.getElementById('cfg-email-oficial').value : 'projetoatosoficial@gmail.com'
+        nome_organizacao: document.getElementById('cfg-nome') ? document.getElementById('cfg-nome').value : '',
+        sede: document.getElementById('cfg-sede') ? document.getElementById('cfg-sede').value : '',
+        nome_assessoria: document.getElementById('cfg-assessoria') ? document.getElementById('cfg-assessoria').value : '',
+        whatsapp_assessoria: document.getElementById('cfg-whatsapp') ? document.getElementById('cfg-whatsapp').value : '',
+        pix_oficial: document.getElementById('cfg-pix') ? document.getElementById('cfg-pix').value : '',
+        instagram_projeto: document.getElementById('cfg-instagram') ? document.getElementById('cfg-instagram').value : '',
+        email_oficial: document.getElementById('cfg-email-oficial') ? document.getElementById('cfg-email-oficial').value.trim() : 'projetoatosoficial@gmail.com'
       };
       window.atosDB.updateConfig(dados);
 
-      // Salvar credenciais do EmailJS no serviço de e-mail
+      // Credenciais do EmailJS: salvar via AtosEmailService para que sejam
+      // persistidas como colunas planas emailjs_* no Supabase e no localStorage
       if (window.AtosEmailService) {
         const emailServiceConfig = {
-          public_key: document.getElementById('cfg-email-public-key') ? document.getElementById('cfg-email-public-key').value.trim() : '',
-          service_id: document.getElementById('cfg-email-service-id') ? document.getElementById('cfg-email-service-id').value.trim() : '',
+          public_key:  document.getElementById('cfg-email-public-key')  ? document.getElementById('cfg-email-public-key').value.trim()  : '',
+          service_id:  document.getElementById('cfg-email-service-id')  ? document.getElementById('cfg-email-service-id').value.trim()  : '',
           template_id: document.getElementById('cfg-email-template-id') ? document.getElementById('cfg-email-template-id').value.trim() : ''
         };
         window.AtosEmailService.salvarConfig(emailServiceConfig);
       }
 
       renderConfiguracoes();
-      showToast('Configurações Salvas', 'Informações gerais e credenciais de e-mail atualizadas com sucesso.', 'check', 'cacto');
+      showToast('Configurações Salvas', 'Informações gerais e credenciais de e-mail atualizadas e sincronizadas com o banco global.', 'check', 'cacto');
     });
   }
 
@@ -1938,7 +1941,8 @@ function renderConfiguracoes() {
   const elPix = document.getElementById('cfg-pix');
   const elInsta = document.getElementById('cfg-instagram');
 
-  if (elNome) elNome.value = cfg.nome_projeto || '';
+  // Usar nome_organizacao como campo canônico (era salvo como nome_projeto por engano)
+  if (elNome) elNome.value = cfg.nome_organizacao || cfg.nome_projeto || '';
   if (elSede) elSede.value = cfg.sede || '';
   if (elAssessoria) elAssessoria.value = cfg.nome_assessoria || '';
   if (elWhats) elWhats.value = cfg.whatsapp_assessoria || '';
@@ -1947,28 +1951,39 @@ function renderConfiguracoes() {
 
   // Configuração do Serviço de E-mail
   const elEmailOficial = document.getElementById('cfg-email-oficial');
-  const elServiceId = document.getElementById('cfg-email-service-id');
-  const elTemplateId = document.getElementById('cfg-email-template-id');
-  const elPublicKey = document.getElementById('cfg-email-public-key');
-  const elStatusInd = document.getElementById('cfg-email-status-indicator');
+  const elServiceId    = document.getElementById('cfg-email-service-id');
+  const elTemplateId   = document.getElementById('cfg-email-template-id');
+  const elPublicKey    = document.getElementById('cfg-email-public-key');
+  const elStatusInd    = document.getElementById('cfg-email-status-indicator');
 
   if (elEmailOficial) elEmailOficial.value = cfg.email_oficial || 'projetoatosoficial@gmail.com';
 
-  if (window.AtosEmailService) {
-    const emailCfg = window.AtosEmailService.getConfig();
-    if (elServiceId) elServiceId.value = emailCfg.SERVICE_ID || '';
-    if (elTemplateId) elTemplateId.value = emailCfg.TEMPLATE_ID || '';
-    if (elPublicKey) elPublicKey.value = emailCfg.PUBLIC_KEY || '';
+  // Ler credenciais EmailJS diretamente do atosDB (fonte única de verdade)
+  // Suporte ao formato legado (sub-objeto email_service) como fallback
+  const esvc = cfg.email_service || {};
+  const serviceId  = (cfg.emailjs_service_id  || esvc.service_id  || '').trim();
+  const templateId = (cfg.emailjs_template_id || esvc.template_id || '').trim();
+  const publicKey  = (cfg.emailjs_public_key  || esvc.public_key  || '').trim();
 
-    const configurado = window.AtosEmailService._configurado();
-    if (elStatusInd) {
-      if (configurado) {
-        elStatusInd.innerHTML = '<span class="text-cacto font-bold flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Serviço Configurado e Ativo</span>';
-      } else {
-        elStatusInd.innerHTML = '<span class="text-chama font-semibold flex items-center gap-1"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Credenciais Pendentes</span>';
-      }
-      if (window.lucide) lucide.createIcons();
+  if (elServiceId)  elServiceId.value  = serviceId;
+  if (elTemplateId) elTemplateId.value = templateId;
+  if (elPublicKey)  elPublicKey.value  = publicKey;
+
+  // Status das credenciais: verificado a partir dos dados reais do banco (não do cache do AtosEmailService)
+  const PLACEHOLDER = 'COLE_';
+  const configurado = Boolean(
+    serviceId  && !serviceId.includes(PLACEHOLDER) &&
+    templateId && !templateId.includes(PLACEHOLDER) &&
+    publicKey  && !publicKey.includes(PLACEHOLDER)
+  );
+
+  if (elStatusInd) {
+    if (configurado) {
+      elStatusInd.innerHTML = '<span class="text-cacto font-bold flex items-center gap-1"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Serviço Configurado e Ativo</span>';
+    } else {
+      elStatusInd.innerHTML = '<span class="text-chama font-semibold flex items-center gap-1"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Credenciais Pendentes</span>';
     }
+    if (window.lucide) lucide.createIcons();
   }
 }
 
