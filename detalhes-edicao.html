@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalhes da Edição — PROJETO ATOS</title>
+  <meta name="description" content="Informações completas, fotos e memórias das missões do Projeto ATOS no sertão e cidades da Paraíba." />
+
+  <link rel="icon" href="assets/images/logo.png" type="image/png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            terra: { DEFAULT: '#6B4E2E', dark: '#4A351E', light: '#8C6842' },
+            areia: { DEFAULT: '#E8D8C8', dark: '#D4BFAC', light: '#FAF6F0' },
+            chama: { DEFAULT: '#C85A17', dark: '#A0440E', light: '#E07530' },
+            carvao: '#1C1917',
+            cacto: { DEFAULT: '#3B6E4A', dark: '#2B5136', light: '#508D63' },
+          },
+          fontFamily: {
+            display: ['"Bebas Neue"', 'Impact', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif'],
+            outfit: ['"Outfit"', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Estilos Customizados -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-areia-light text-carvao font-sans antialiased min-h-screen flex flex-col selection:bg-chama selection:text-white">
+
+  <!-- NAVBAR SIMPLIFICADA -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-areia shadow-xs transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <img src="assets/images/logo.png" alt="Logo Projeto ATOS" class="h-12 w-auto rounded-xl shadow-xs group-hover:scale-105 transition-transform" />
+        <div class="flex flex-col">
+          <span class="font-display text-2xl text-carvao tracking-wide leading-none group-hover:text-chama transition-colors">PROJETO ATOS</span>
+          <span class="text-[0.68rem] uppercase font-bold tracking-widest text-cacto">Pregação &bull; Obras Sociais</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="index.html#edicoes" class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-carvao hover:text-chama bg-areia/40 hover:bg-areia/80 px-4 py-2 rounded-full border border-areia transition-colors">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Voltar ao Início</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO DINÂMICO -->
+  <main class="flex-1 py-10 md:py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+
+      <!-- ESTADO DE CARREGANDO -->
+      <div id="edicao-loading" class="text-center py-20 space-y-4">
+        <div class="w-12 h-12 border-4 border-chama border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p class="text-sm font-semibold text-carvao/70">Carregando memórias e detalhes da missão...</p>
+      </div>
+
+      <!-- ESTADO DE NÃO ENCONTRADO -->
+      <div id="edicao-nao-encontrada" class="hidden bg-white rounded-3xl p-10 sm:p-14 text-center space-y-4 border border-areia shadow-sm">
+        <div class="w-16 h-16 rounded-2xl bg-terra/10 text-terra flex items-center justify-center mx-auto">
+          <i data-lucide="map-pin-off" class="w-8 h-8"></i>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl text-carvao">Edição não encontrada</h2>
+        <p class="text-sm text-carvao/70 max-w-md mx-auto">
+          Não localizamos os detalhes desta edição. Ela pode ter sido reorganizada ou excluída da base de dados.
+        </p>
+        <div class="pt-2">
+          <a href="index.html#edicoes" class="inline-flex items-center gap-2 bg-chama hover:bg-chama-dark text-white font-bold text-sm px-6 py-3 rounded-full shadow transition-all">
+            <i data-lucide="compass" class="w-4 h-4"></i>
+            <span>Ver Todas as Edições</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CONTEÚDO PRINCIPAL DA EDIÇÃO -->
+      <article id="edicao-conteudo" class="hidden space-y-10">
+        
+        <!-- HEADER / HERO DO DETALHE -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-areia shadow-xl relative">
+          <div class="relative w-full h-72 sm:h-96 bg-areia/40 overflow-hidden">
+            <img id="detalhe-imagem" src="assets/images/casal_1.jpg" alt="Foto da Edição" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-carvao/90 via-carvao/40 to-transparent"></div>
+            
+            <div class="absolute bottom-6 left-6 right-6 text-white space-y-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span id="detalhe-status-badge" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-cacto text-white shadow">
+                  Finalizada
+                </span>
+                <span id="detalhe-numero-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-white border border-white/20">
+                  Edição Oficial
+                </span>
+              </div>
+              <h1 id="detalhe-nome" class="font-display text-4xl sm:text-5xl md:text-6xl tracking-wide drop-shadow-md">
+                -
+              </h1>
+              <p id="detalhe-local-resumo" class="text-sm sm:text-base text-areia/95 flex items-center gap-1.5 font-medium">
+                <i data-lucide="map-pin" class="w-4 h-4 text-chama"></i>
+                <span id="detalhe-cidade-estado">-</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- BARRA DE INFORMAÇÕES RÁPIDAS -->
+          <div class="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-3 gap-6 bg-areia/20 border-t border-areia">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-chama/10 text-chama flex items-center justify-center flex-shrink-0">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <span class="block text-[0.7rem] font-bold uppercase tracking-wider text-carvao/60">Data Realizada</span>
+                <span id="detalhe-data" class="font-semibold text-sm sm:text-base text-carvao">-</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-cacto/10 text-cacto flex items-center justify-center flex-shrink-0">
+                <i data-lucide="clock" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <span class="block text-[0.7rem] font-bold uppercase tracking-wider text-carvao/60">Horário & Carga</span>
+                <span id="detalhe-horario" class="font-semibold text-sm sm:text-base text-carvao">08:00 às 18:00</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-terra/10 text-terra flex items-center justify-center flex-shrink-0">
+                <i data-lucide="navigation" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <span class="block text-[0.7rem] font-bold uppercase tracking-wider text-carvao/60">Local & Ponto de Apoio</span>
+                <span id="detalhe-local" class="font-semibold text-sm sm:text-base text-carvao">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RELATO DA MISSÃO & IMPACTO -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Coluna Principal: Sobre a Ação -->
+          <div class="lg:col-span-8 bg-white rounded-3xl p-8 sm:p-10 border border-areia shadow-md space-y-6">
+            <div class="space-y-2 border-b border-areia pb-4">
+              <span class="text-xs font-bold uppercase tracking-widest text-chama">Relatório da Missão</span>
+              <h2 class="font-display text-3xl sm:text-4xl text-carvao">O Que Deus Fez Nesta Cidade</h2>
+            </div>
+
+            <div id="detalhe-descricao" class="text-base text-carvao/80 leading-relaxed space-y-4">
+              <!-- Conteúdo da descrição -->
+            </div>
+
+            <!-- Card Informativo de Status Concluído -->
+            <div class="bg-cacto/10 border border-cacto/30 rounded-2xl p-5 flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-cacto text-white flex items-center justify-center flex-shrink-0">
+                <i data-lucide="check-check" class="w-5 h-5"></i>
+              </div>
+              <div class="space-y-1">
+                <h3 class="font-bold text-sm text-carvao">Missão Cumprida com Sucesso</h3>
+                <p class="text-xs text-carvao/75 leading-relaxed">
+                  Esta edição já foi integralmente concluída. Todas as inscrições para este evento foram encerradas e os testemunhos fazem parte do memorial de graças do Projeto ATOS.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna Lateral: Endereço, Contato & Próximos Passos -->
+          <div class="lg:col-span-4 space-y-6">
+            
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-areia shadow-md space-y-5">
+              <h3 class="font-display text-2xl text-carvao">Informações da Região</h3>
+              
+              <div class="space-y-3 text-xs sm:text-sm text-carvao/80">
+                <div class="flex items-start gap-2.5">
+                  <i data-lucide="map-pin" class="w-4 h-4 text-chama mt-0.5 flex-shrink-0"></i>
+                  <div>
+                    <strong class="block text-carvao font-semibold">Endereço de Concentração:</strong>
+                    <span id="detalhe-endereco">Sede da Ação Missionária</span>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-2.5">
+                  <i data-lucide="globe-2" class="w-4 h-4 text-cacto mt-0.5 flex-shrink-0"></i>
+                  <div>
+                    <strong class="block text-carvao font-semibold">País / Estado:</strong>
+                    <span id="detalhe-pais-estado">Brasil - Paraíba</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-areia">
+                <a href="index.html#edicoes" class="w-full inline-flex items-center justify-center gap-2 bg-chama hover:bg-chama-dark text-white font-bold text-sm px-6 py-3.5 rounded-full shadow hover:shadow-md transition-all">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                  <span>Ver Próximas Missões</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Card de Contato -->
+            <div class="bg-areia/40 rounded-3xl p-6 border border-areia space-y-3 text-center">
+              <i data-lucide="message-circle" class="w-8 h-8 text-cacto mx-auto"></i>
+              <h4 class="font-display text-xl text-carvao">Quer Levar o ATOS Para Sua Cidade?</h4>
+              <p class="text-xs text-carvao/75">
+                Entre em contato com nossa coordenação pastoral e saiba como agendar uma edição missionária.
+              </p>
+              <a href="https://wa.me/5583996713578?text=Olá!%20Gostaria%20de%20saber%20como%20levar%20o%20Projeto%20ATOS%20para%20minha%20cidade" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-cacto hover:underline">
+                <span>Falar no WhatsApp (83) 99671-3578</span>
+                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+  </main>
+
+  <!-- RODAPÉ OFICIAL -->
+  <footer class="bg-carvao text-white py-12 border-t border-terra/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+      <div class="flex items-center justify-center gap-2">
+        <img src="assets/images/logo.png" alt="Logo" class="h-8 w-auto rounded-lg" />
+        <span class="font-display text-2xl text-white">PROJETO ATOS</span>
+      </div>
+      <p class="text-xs text-areia/60 max-w-md mx-auto">
+        Pregação do Evangelho de Jesus Cristo e Obras Sociais no sertão e cidades da Paraíba. Todos os direitos reservados.
+      </p>
+      <div class="pt-2 text-[0.7rem] text-areia/40">
+        &copy; 2026 Projeto ATOS &bull; Sede ADPB Palmeira
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts do Banco e Dados -->
+  <script src="js/supabase-config.js"></script>
+  <script src="js/db.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const edicaoId = urlParams.get('id');
+
+      const elLoading = document.getElementById('edicao-loading');
+      const elNaoEncontrada = document.getElementById('edicao-nao-encontrada');
+      const elConteudo = document.getElementById('edicao-conteudo');
+
+      if (!edicaoId) {
+        if (elLoading) elLoading.classList.add('hidden');
+        if (elNaoEncontrada) elNaoEncontrada.classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+
+      // Aguarda pequena inicialização do DB se necessário
+      const carregarEdicao = () => {
+        if (!window.atosDB) return null;
+        return window.atosDB.getEdicaoById(edicaoId);
+      };
+
+      let edicao = carregarEdicao();
+
+      // Se ainda não carregou do storage/nuvem, aguarda sincronização
+      if (!edicao) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        edicao = carregarEdicao();
+      }
+
+      if (!edicao) {
+        // Tenta buscar diretamente do Supabase em caso de link direto
+        try {
+          if (typeof window.getSupabase === 'function') {
+            const sb = window.getSupabase();
+            if (sb) {
+              const { data, error } = await sb.from('edicoes').select('*').eq('id', edicaoId).single();
+              if (!error && data) {
+                edicao = data;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('Erro ao consultar Supabase diretamente:', e);
+        }
+      }
+
+      if (elLoading) elLoading.classList.add('hidden');
+
+      if (!edicao) {
+        if (elNaoEncontrada) elNaoEncontrada.classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+
+      // Preenche os campos
+      document.title = `${edicao.nome} — Detalhes da Missão | PROJETO ATOS`;
+
+      const imgEl = document.getElementById('detalhe-imagem');
+      if (imgEl) imgEl.src = edicao.imagem || 'assets/images/casal_1.jpg';
+
+      const nomeEl = document.getElementById('detalhe-nome');
+      if (nomeEl) nomeEl.textContent = edicao.nome;
+
+      const cidEstEl = document.getElementById('detalhe-cidade-estado');
+      if (cidEstEl) cidEstEl.textContent = `${edicao.cidade} • ${edicao.estado} (${edicao.pais || 'Brasil'})`;
+
+      const statusBadge = document.getElementById('detalhe-status-badge');
+      if (statusBadge) statusBadge.textContent = edicao.status || 'Concluída';
+
+      const numBadge = document.getElementById('detalhe-numero-badge');
+      if (numBadge && edicao.numero) numBadge.textContent = `${edicao.numero}ª Ação Missionária`;
+
+      // Formatar data
+      let dataFormatada = edicao.data;
+      try {
+        const partes = edicao.data.split('-');
+        if (partes.length === 3) {
+          const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+          dataFormatada = `${partes[2]} de ${meses[parseInt(partes[1]) - 1]} de ${partes[0]}`;
+        }
+      } catch {}
+
+      const dataEl = document.getElementById('detalhe-data');
+      if (dataEl) dataEl.textContent = dataFormatada;
+
+      const horEl = document.getElementById('detalhe-horario');
+      if (horEl) horEl.textContent = edicao.horario || '08:00 às 18:00';
+
+      const locEl = document.getElementById('detalhe-local');
+      if (locEl) locEl.textContent = edicao.local || `${edicao.cidade} - ${edicao.estado}`;
+
+      const descEl = document.getElementById('detalhe-descricao');
+      if (descEl) {
+        if (edicao.descricao) {
+          descEl.innerHTML = `<p>${edicao.descricao.replace(/\n/g, '</p><p class="pt-2">')}</p>`;
+        } else {
+          descEl.innerHTML = `<p>Cruzada evangelística e atendimento comunitário realizado em ${edicao.cidade}, levando a Palavra de Deus, doação de alimentos, cuidado pastoral e ações de amparo a famílias sertanejas.</p>`;
+        }
+      }
+
+      const endEl = document.getElementById('detalhe-endereco');
+      if (endEl) endEl.textContent = edicao.endereco || edicao.local || `${edicao.cidade} - ${edicao.estado}`;
+
+      const peEl = document.getElementById('detalhe-pais-estado');
+      if (peEl) peEl.textContent = `${edicao.pais || 'Brasil'} — ${edicao.estado}`;
+
+      if (elConteudo) elConteudo.classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

@@ -25,13 +25,22 @@ function initVoluntarioSystem() {
    -------------------------------------------------------------------------- */
 function renderEdicoesPublicas() {
   const container = document.getElementById('edicoes-container');
+  const realizadasSection = document.getElementById('edicoes-realizadas');
+  const realizadasTrack = document.getElementById('edicoes-realizadas-track');
+
   if (!container || !window.atosDB) return;
 
   const edicoes = window.atosDB.getEdicoes();
+  
+  const isFinalizada = (e) => (e.status === 'Finalizado' || e.status === 'Finalizada' || e.status === 'Concluída');
+
   const ativasOuBreve = edicoes.filter(e =>
-    e.status !== 'Concluída' && e.status !== 'Cancelada'
+    !isFinalizada(e) && e.status !== 'Cancelada'
   );
 
+  const finalizadas = edicoes.filter(e => isFinalizada(e));
+
+  // Renderizar próximas edições
   container.innerHTML = '';
 
   if (ativasOuBreve.length === 0) {
@@ -65,6 +74,33 @@ function renderEdicoesPublicas() {
       const card = criarCardEdicao(edicao);
       container.appendChild(card);
     });
+  }
+
+  // Renderizar edições já realizadas
+  if (realizadasSection && realizadasTrack) {
+    if (finalizadas.length > 0) {
+      realizadasSection.classList.remove('hidden');
+      realizadasTrack.innerHTML = '';
+      
+      finalizadas.forEach((edicao, index) => {
+        const slideWrapper = document.createElement('div');
+        slideWrapper.className = 'como-atuamos-slide pb-4'; // Adiciona padding embaixo pro shadow do card
+        slideWrapper.dataset.index = index;
+        
+        const card = criarCardEdicao(edicao);
+        card.classList.add('h-full'); // Garante que ocupem a mesma altura
+        
+        slideWrapper.appendChild(card);
+        realizadasTrack.appendChild(slideWrapper);
+      });
+
+      // Se a função existir globalmente ou precisarmos chamar uma init específica
+      if (typeof window.initEdicoesRealizadasCarousel === 'function') {
+        window.initEdicoesRealizadasCarousel();
+      }
+    } else {
+      realizadasSection.classList.add('hidden');
+    }
   }
 
   // Eventos dos botões "Tenho Interesse"
@@ -158,7 +194,15 @@ function criarCardEdicao(edicao) {
 
       <!-- Botão de Ação -->
       <div class="pt-2 mt-auto">
-        ${edicao.inscricoes_abertas ? `
+        ${(edicao.status === 'Finalizado' || edicao.status === 'Finalizada' || edicao.status === 'Concluída') ? `
+        <a
+          href="detalhes-edicao.html?id=${edicao.id}"
+          class="w-full inline-flex items-center justify-center gap-2.5 bg-carvao hover:bg-carvao/80 text-white font-bold text-sm px-6 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
+        >
+          <i data-lucide="info" class="w-5 h-5"></i>
+          <span>VER MAIS DETALHES</span>
+        </a>
+        ` : edicao.inscricoes_abertas ? `
         <button
           type="button"
           class="btn-tenho-interesse w-full inline-flex items-center justify-center gap-2.5 bg-chama hover:bg-chama-dark text-white font-bold text-sm px-6 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
@@ -188,6 +232,12 @@ function handleInteresse(edicaoId) {
   const usuarioAtual = window.atosDB.getCurrentUser();
   const edicao = edicaoId ? window.atosDB.getEdicaoById(edicaoId) : null;
 
+  // Bloqueio rigoroso: edições finalizadas nunca aceitam novas inscrições
+  if (edicao && (edicao.status === 'Finalizado' || edicao.status === 'Finalizada' || edicao.status === 'Concluída')) {
+    window.location.href = `detalhes-edicao.html?id=${edicao.id}`;
+    return;
+  }
+
   if (!usuarioAtual) {
     // Abre formulário de cadastro vinculado à edição
     abrirModalCadastro(edicaoId);
@@ -195,6 +245,9 @@ function handleInteresse(edicaoId) {
     // Se a edição tem processo de inscrição com pagamento
     if (edicao && edicao.tem_inscricao && edicao.tem_pagamento) {
       abrirModalPagamentoInscricao(usuarioAtual, edicao);
+    } else if (edicao && edicao.tem_inscricao && !edicao.tem_pagamento) {
+      // Inscrição gratuita: registra diretamente e mostra tela de conclusão
+      inscreverGratuitamente(usuarioAtual, edicao);
     } else {
       abrirModalAcaoEdicao(usuarioAtual, edicao);
     }
@@ -712,6 +765,52 @@ function syncPublicContentFromDB() {
 let edicaoEmInscricao = null;
 let comprovanteBase64 = null;
 
+/* --------------------------------------------------------------------------
+   INSCRIÇÃO GRATUITA (sem pagamento)
+   -------------------------------------------------------------------------- */
+function inscreverGratuitamente(usuario, edicao) {
+  // Verifica se já tem inscrição nessa edição
+  const inscricoes = window.atosDB.getInscricoes ? window.atosDB.getInscricoes() : [];
+  const jaInscrito = inscricoes.some(i =>
+    i.edicao_id === edicao.id &&
+    (i.pessoa_id === usuario.id || i.whatsapp === usuario.whatsapp)
+  );
+
+  if (jaInscrito) {
+    mostrarFeedback(
+      'INSCRIÇÃO JÁ REALIZADA!',
+      'Você já está inscrito nesta edição. Aguarde as orientações da equipe.',
+      'check-circle',
+      'cacto'
+    );
+    return;
+  }
+
+  try {
+    window.atosDB.createInscricao({
+      edicao_id: edicao.id,
+      pessoa_id: usuario.id,
+      nome: usuario.nome,
+      whatsapp: usuario.whatsapp,
+      email: usuario.email || '',
+      cidade: usuario.cidade,
+      estado: usuario.estado,
+      profissao: usuario.outra_profissao || (usuario.profissoes_areas ? usuario.profissoes_areas.join(', ') : ''),
+      comprovante: '',
+      quer_camisa: false,
+      tamanho_camisa: ''
+    });
+
+    // Inscrição gratuita confirmada automaticamente — mostrar botão do grupo
+    fecharTodosModais();
+    abrirTelaInscricaoConcluida({ status: 'concluida', edicao });
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+
+
 function abrirModalPagamentoInscricao(usuario, edicao) {
   edicaoEmInscricao = edicao;
   comprovanteBase64 = null;
@@ -850,8 +949,9 @@ function initPagamentoInscricaoModule() {
         });
 
         fecharTodosModais();
+        // Status 'analise' se exige comprovante, 'concluida' se a inscrição foi imediata
         abrirTelaInscricaoConcluida({
-          status: 'analise',
+          status: edicaoEmInscricao.exige_comprovante ? 'analise' : 'concluida',
           edicao: edicaoEmInscricao
         });
       } catch (err) {

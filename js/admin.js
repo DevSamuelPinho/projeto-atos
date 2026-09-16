@@ -2523,9 +2523,9 @@ function initNotificacoesModule() {
   if (!btn || !dropdown) return;
 
   function renderNotificacoes() {
-    const user = AtosDatabase.getAdminSessionUser();
+    const user = window.atosDB.getAdminSessionUser();
     const uid = user ? user.id : 'all';
-    const notifs = AtosDatabase.getNotificacoesComEstado(uid);
+    const notifs = window.atosDB.getNotificacoesComEstado(uid);
     const unread = notifs.filter(n => !n.lida).length;
 
     // Update badges
@@ -2574,12 +2574,12 @@ function initNotificacoesModule() {
         if (markBtn) {
           markBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            await AtosDatabase.marcarNotificacaoLida(n.id, uid);
+            await window.atosDB.marcarNotificacaoLida(n.id, uid);
             renderNotificacoes();
           });
         }
         item.querySelector('.notif-content').addEventListener('click', async () => {
-          await AtosDatabase.marcarNotificacaoLida(n.id, uid);
+          await window.atosDB.marcarNotificacaoLida(n.id, uid);
           renderNotificacoes();
           dropdown.classList.add('hidden');
         });
@@ -2607,9 +2607,9 @@ function initNotificacoesModule() {
   // Mark all as read
   if (btnMarcarTodas) {
     btnMarcarTodas.addEventListener('click', async () => {
-      const user = AtosDatabase.getAdminSessionUser();
+      const user = window.atosDB.getAdminSessionUser();
       const uid = user ? user.id : 'all';
-      await AtosDatabase.marcarTodasLidas(uid);
+      await window.atosDB.marcarTodasLidas(uid);
       renderNotificacoes();
     });
   }

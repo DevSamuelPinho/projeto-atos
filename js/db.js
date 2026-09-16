@@ -508,7 +508,8 @@ class AtosDatabase {
     }
 
     if (usuarioEncontrado) {
-      if (usuarioEncontrado.senhaHash === hashDigitado || (senha.trim() === 'atos2026' && usuarioEncontrado.senhaHash === hashLegadoAtos2026)) {
+      const hashDoUsuario = usuarioEncontrado.senha_hash || usuarioEncontrado.senhaHash;
+      if (hashDoUsuario === hashDigitado || (senha.trim() === 'atos2026' && (hashDoUsuario === hashLegadoAtos2026 || !hashDoUsuario))) {
         const session = {
           id: usuarioEncontrado.id,
           nome: usuarioEncontrado.nome,
@@ -589,6 +590,10 @@ class AtosDatabase {
     users.push(novoUser);
     localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
     this.registrarLog('Usuários', `Novo usuário cadastrado: ${novoUser.nome} (${novoUser.role})`);
+    
+    // Sync to Supabase
+    this._sbUpsert('admin_users', this._normalizeAdminUserForSupabase(novoUser));
+    
     return novoUser;
   }
 
@@ -602,11 +607,17 @@ class AtosDatabase {
     users[idx].role = dados.role || users[idx].role;
     if (dados.ativo !== undefined) users[idx].ativo = Boolean(dados.ativo);
     if (dados.senha && dados.senha.trim().length > 0) {
-      users[idx].senhaHash = await this.hashSenha(dados.senha.trim());
+      const h = await this.hashSenha(dados.senha.trim());
+      users[idx].senhaHash = h;
+      users[idx].senha_hash = h;
     }
     users[idx].atualizado_em = new Date().toISOString();
     localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
     this.registrarLog('Usuários', `Dados atualizados do usuário: ${users[idx].nome}`);
+    
+    // Sync to Supabase
+    this._sbUpsert('admin_users', this._normalizeAdminUserForSupabase(users[idx]));
+    
     return users[idx];
   }
 
@@ -620,6 +631,10 @@ class AtosDatabase {
     const filtered = users.filter(u => u.id !== id);
     localStorage.setItem(DB_KEYS.USERS, JSON.stringify(filtered));
     this.registrarLog('Usuários', `Usuário removido: ${userToDelete.nome}`);
+    
+    // Sync to Supabase
+    this._sbDelete('admin_users', 'id', id);
+    
     return true;
   }
 
@@ -1470,6 +1485,10 @@ class AtosDatabase {
     const cfg = { ...this.getConfig(), ...dados, atualizado_em: new Date().toISOString() };
     localStorage.setItem(DB_KEYS.CONFIG, JSON.stringify(cfg));
     this.registrarLog('Configurações', 'Configurações gerais atualizadas');
+    
+    // Sync to Supabase
+    this._sbUpsert('configuracoes', this._normalizeConfigForSupabase(cfg));
+    
     return cfg;
   }
 
@@ -1644,6 +1663,40 @@ class AtosDatabase {
     };
   }
 
+  _normalizeAdminUserForSupabase(u) {
+    return {
+      id: u.id,
+      nome: u.nome || '',
+      email: u.email || '',
+      role: u.role || 'Administrador',
+      ativo: u.ativo !== undefined ? Boolean(u.ativo) : true,
+      senha_hash: u.senha_hash || u.senhaHash || '',
+      criado_em: u.criado_em || new Date().toISOString(),
+      ultimo_login: u.ultimo_login || null
+    };
+  }
+
+  _normalizeConfigForSupabase(c) {
+    return {
+      id: 'cfg-global',
+      nome_organizacao: c.nome_organizacao || '',
+      slogan: c.slogan || '',
+      cnpj: c.cnpj || '',
+      sede: c.sede || '',
+      cidade_sede: c.cidade_sede || '',
+      estado_sede: c.estado_sede || '',
+      email_oficial: c.email_oficial || '',
+      telefone_assessoria: c.telefone_assessoria || '',
+      whatsapp_assessoria: c.whatsapp_assessoria || '',
+      nome_assessoria: c.nome_assessoria || '',
+      instagram_projeto: c.instagram_projeto || '',
+      instagram_melque: c.instagram_melque || '',
+      pix_oficial: c.pix_oficial || '',
+      notificacoes_email: c.notificacoes_email !== undefined ? Boolean(c.notificacoes_email) : true,
+      atualizado_em: new Date().toISOString()
+    };
+  }
+
   /* --------------------------------------------------------------------------
      SINCRONIZAÇÃO EM NUVEM (SUPABASE) & TEMPO REAL (REALTIME)
      -------------------------------------------------------------------------- */
@@ -1726,6 +1779,36 @@ class AtosDatabase {
         if (!errLidas && Array.isArray(lidasNuvem)) {
           const ids = lidasNuvem.map(r => r.notificacao_id);
           localStorage.setItem(DB_KEYS.NOTIFICACOES_LIDAS, JSON.stringify(ids));
+        }
+      }
+
+      // 11. Sincronizar Usuários Admin
+      const { data: usersNuvem, error: errUsers } = await client.from('admin_users').select('*');
+      if (!errUsers && Array.isArray(usersNuvem)) {
+        if (usersNuvem.length > 0) {
+          const mappedUsers = usersNuvem.map(u => ({
+            ...u,
+            senhaHash: u.senha_hash || u.senhaHash || ''
+          }));
+          localStorage.setItem(DB_KEYS.USERS, JSON.stringify(mappedUsers));
+        } else {
+          // Se a nuvem estiver vazia, sincroniza os usuários padrão do sistema para o Supabase
+          const localUsers = this.getAdminUsers();
+          if (localUsers.length > 0) {
+            const payloads = localUsers.map(u => this._normalizeAdminUserForSupabase(u));
+            await this._sbUpsert('admin_users', payloads);
+          }
+        }
+      }
+
+      // 12. Sincronizar Configurações
+      const { data: configNuvem, error: errConfig } = await client.from('configuracoes').select('*');
+      if (!errConfig && Array.isArray(configNuvem) && configNuvem.length > 0) {
+        const globalCfg = configNuvem.find(c => c.id === 'cfg-global') || configNuvem[0];
+        if (globalCfg) {
+          const cleanCfg = { ...globalCfg };
+          delete cleanCfg.id;
+          localStorage.setItem(DB_KEYS.CONFIG, JSON.stringify(cleanCfg));
         }
       }
 

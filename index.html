@@ -152,16 +152,6 @@
                   <span class="block text-[0.7rem] text-carvao/60 font-normal">A trajetória ministerial</span>
                 </div>
               </a>
-              <a href="#fundadores" class="nav-dropdown-item">
-                <span class="nav-dropdown-item-icon">
-                  <i data-lucide="users" class="w-3.5 h-3.5"></i>
-                </span>
-                <div>
-                  <span class="block text-carvao font-semibold">Fundadores</span>
-                  <span class="block text-[0.7rem] text-carvao/60 font-normal">Pr. Melque Silva &amp; Monique
-                    Freitas</span>
-                </div>
-              </a>
               <a href="#como-atuamos" class="nav-dropdown-item">
                 <span class="nav-dropdown-item-icon">
                   <i data-lucide="heart-handshake" class="w-3.5 h-3.5"></i>
@@ -299,11 +289,6 @@
                 class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
                 <i data-lucide="book-open" class="w-3.5 h-3.5 text-chama"></i>
                 <span>Nossa História</span>
-              </a>
-              <a href="#fundadores"
-                class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
-                <i data-lucide="users" class="w-3.5 h-3.5 text-chama"></i>
-                <span>Fundadores</span>
               </a>
               <a href="#como-atuamos"
                 class="flex items-center gap-2 py-1.5 text-sm text-carvao/80 hover:text-chama transition-colors">
@@ -458,7 +443,7 @@
           </div>
 
           <!-- Destaques Rápidos Dinâmicos -->
-          <div class="pt-4 grid grid-cols-3 gap-4 border-t border-terra/15 w-full max-w-xl">
+          <div class="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-terra/15 w-full max-w-xl">
             <div>
               <span id="hero-count-acoes" class="font-display text-3xl sm:text-4xl text-chama">18</span>
               <p class="text-xs sm:text-sm text-carvao/70 font-medium">Ações Realizadas</p>
@@ -469,7 +454,11 @@
             </div>
             <div>
               <span id="hero-count-nacoes" class="font-display text-3xl sm:text-4xl text-terra">2</span>
-              <p class="text-xs sm:text-sm text-carvao/70 font-medium">Nações Alcançadas</p>
+              <p class="text-xs sm:text-sm text-carvao/70 font-medium">Nações</p>
+            </div>
+            <div>
+              <span id="hero-count-pessoas" class="font-display text-3xl sm:text-4xl text-cacto">--</span>
+              <p class="text-xs sm:text-sm text-carvao/70 font-medium">Pessoas</p>
             </div>
           </div>
 
@@ -550,6 +539,48 @@
   </section>
 
   <!-- =========================================================================
+       EDIÇÕES JÁ REALIZADAS
+       ========================================================================= -->
+  <section id="edicoes-realizadas" class="py-16 md:py-20 bg-areia/10 border-b border-areia relative overflow-hidden hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span
+          class="inline-flex items-center gap-1.5 text-carvao font-bold text-xs uppercase tracking-widest bg-carvao/10 px-4 py-1.5 rounded-full border border-carvao/30">
+          <i data-lucide="archive" class="w-4 h-4"></i>
+          EDIÇÕES JÁ REALIZADAS
+        </span>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-carvao tracking-wide">
+          O QUE JÁ VIVEMOS
+        </h2>
+        <p class="text-base sm:text-lg text-carvao/80 max-w-2xl mx-auto leading-relaxed">
+          Relembre as missões anteriores e o impacto do Projeto ATOS em diversas cidades.
+        </p>
+      </div>
+
+      <div class="relative max-w-6xl mx-auto">
+        <!-- Controles Laterais -->
+        <button type="button" id="edicoes-prev-btn" aria-label="Edição anterior"
+          class="absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 text-carvao hover:text-chama hover:bg-white shadow-xl border border-areia flex items-center justify-center transition-all duration-200 transform hover:scale-110 focus:outline-none">
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+
+        <button type="button" id="edicoes-next-btn" aria-label="Próxima edição"
+          class="absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 text-carvao hover:text-chama hover:bg-white shadow-xl border border-areia flex items-center justify-center transition-all duration-200 transform hover:scale-110 focus:outline-none">
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Container do Carrossel -->
+        <div id="edicoes-realizadas-carousel" class="como-atuamos-carousel">
+          <div id="edicoes-realizadas-track" class="como-atuamos-track">
+            <!-- Renderizado dinamicamente pelo JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
        FAÇA PARTE DO PROJETO (DESTAQUE)
        ========================================================================= -->
   <section id="faca-parte"
@@ -606,7 +637,7 @@
       </div>
 
       <!-- Grid de Contadores Oficiais -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
 
         <!-- Card 1: 18 Ações -->
         <div class="card-atos p-7 text-center relative overflow-hidden group">
@@ -653,7 +684,22 @@
           </p>
         </div>
 
-        <!-- Card 4: 100% Voluntário -->
+                <!-- Card 5: Pessoas Alcançadas -->
+        <div class="card-atos p-7 text-center relative overflow-hidden group">
+          <div
+            class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-cacto/10 flex items-center justify-center text-cacto group-hover:scale-110 transition-transform">
+            <i data-lucide="users" class="w-7 h-7"></i>
+          </div>
+          <div class="font-display text-5xl sm:text-6xl text-carvao mb-1">
+            <span id="impacto-count-pessoas" class="counter-value" data-target="6500">0</span><span id="impacto-sufixo-pessoas">+</span>
+          </div>
+          <h3 class="font-bold text-base text-cacto uppercase tracking-wide mb-1">Pessoas Alcançadas</h3>
+          <p class="text-xs sm:text-sm text-carvao/70">
+            Total de vidas acolhidas e atendimentos diretos nas ações e cruzadas.
+          </p>
+        </div>
+
+<!-- Card 4: 100% Voluntário -->
         <div class="card-atos p-7 text-center relative overflow-hidden group">
           <div
             class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-chama/10 flex items-center justify-center text-chama group-hover:scale-110 transition-transform">
@@ -1171,9 +1217,7 @@
                 <p class="text-xs font-semibold text-cacto uppercase tracking-wider">Estado da Paraíba</p>
               </div>
             </div>
-            <span class="bg-cacto text-white font-display text-xl px-4 py-1.5 rounded-full shadow">
-              12 AÇÕES
-            </span>
+            <span id="badge-acoes-brasil" class="bg-cacto text-white font-display text-xl px-4 py-1.5 rounded-full shadow">-- AÇÕES</span>
           </div>
 
           <p class="text-sm text-carvao/75 mb-6 leading-relaxed">
@@ -1181,19 +1225,11 @@
             pregação em praças e escolas da Paraíba.
           </p>
 
-          <!-- Badges das Cidades do Brasil com o estilo do manual -->
+          <!-- Badges das Cidades do Brasil geradas dinamicamente via edições -->
           <div class="space-y-2">
             <p class="text-xs font-bold text-carvao/70 uppercase tracking-wider">Cidades Atendidas:</p>
-            <div class="flex flex-wrap gap-2.5">
-              <span class="badge-cidade">📍 Maturéia</span>
-              <span class="badge-cidade">📍 Desterro</span>
-              <span class="badge-cidade">📍 Mãe D’Água</span>
-              <span class="badge-cidade">📍 São Domingos</span>
-              <span class="badge-cidade">📍 Maria Gorete</span>
-              <span class="badge-cidade">📍 Imaculada</span>
-              <span class="badge-cidade">📍 São José do Bonfim</span>
-              <span class="badge-cidade">📍 Junco do Seridó</span>
-              <span class="badge-cidade">📍 Emas</span>
+            <div id="localidades-atendidas-brasil" class="flex flex-wrap gap-2.5">
+              <!-- Renderizado dinamicamente via edições do banco -->
             </div>
           </div>
         </div>
@@ -1209,9 +1245,7 @@
                 <p class="text-xs font-semibold text-chama uppercase tracking-wider">Expansão Missionária</p>
               </div>
             </div>
-            <span class="bg-chama text-white font-display text-xl px-4 py-1.5 rounded-full shadow">
-              NOVAS AÇÕES
-            </span>
+            <span id="badge-acoes-expansao" class="bg-chama text-white font-display text-xl px-4 py-1.5 rounded-full shadow">-- AÇÕES</span>
           </div>
 
           <p class="text-sm text-carvao/75 mb-6 leading-relaxed">
@@ -1219,21 +1253,16 @@
             cruzadas evangelísticas.
           </p>
 
-          <!-- Badges de Cidades em Planejamento -->
+          <!-- Badges de Cidades de Expansão geradas dinamicamente via edições -->
           <div class="space-y-2">
             <p class="text-xs font-bold text-carvao/70 uppercase tracking-wider">Cidades Atendidas:</p>
-            <div class="flex flex-wrap gap-2.5">
-              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Patos</span>
-              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Pombal</span>
-              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Sousa</span>
-              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Cajazeiras</span>
-              <span class="badge-cidade" style="background-color: var(--color-chama);">📍 Piancó</span>
+            <div id="localidades-atendidas-expansao" class="flex flex-wrap gap-2.5">
+              <!-- Renderizado dinamicamente via edições do banco -->
             </div>
           </div>
         </div>
 
       </div>
-
     </div>
   </section>
 
@@ -2125,7 +2154,7 @@
           <h4 class="font-display text-xl text-white tracking-wider">LINKS RÁPIDOS</h4>
           <ul class="space-y-2 text-xs sm:text-sm text-areia/80">
             <li><a href="#inicio" class="hover:text-chama transition-colors">Início</a></li>
-            <li><a href="#fundadores" class="hover:text-chama transition-colors">Sobre os Fundadores</a></li>
+            <li><a href="#nossa-historia" class="hover:text-chama transition-colors">Sobre os Fundadores</a></li>
             <li><a href="#projeto" class="hover:text-chama transition-colors">O Projeto &amp; Cidades</a></li>
             <li><a href="#impacto" class="hover:text-chama transition-colors">Histórico de Impacto</a></li>
             <li><a href="#valores" class="hover:text-chama transition-colors">Missão, Visão e Valores</a></li>

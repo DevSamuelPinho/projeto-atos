@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initVideoPlayers();
 });
 
+// Atualiza o site quando os dados forem sincronizados em tempo real com o Supabase
+window.addEventListener('atos_dados_sincronizados', () => {
+  syncDynamicImpactCounters();
+});
+
 /* --------------------------------------------------------------------------
    1. NAVBAR & MENU MOBILE COM SUPORTE A DROPDOWNS E ACORDEÕES
    -------------------------------------------------------------------------- */
@@ -93,26 +98,120 @@ function syncDynamicImpactCounters() {
 
   try {
     const dinamicos = window.atosDB.getIndicadoresDinamicos();
+    const impactos = window.atosDB.getImpacto();
+    const impPessoas = impactos.find(i => i.chave === 'pessoas_alcancadas');
+    const totalPessoas = impPessoas ? Number(impPessoas.valor) : 6500;
+    const sufixoPessoas = (impPessoas && impPessoas.sufixo !== undefined) ? impPessoas.sufixo : '+';
 
     // 1. Atualiza os números no Hero / Início
     const heroAcoes = document.getElementById('hero-count-acoes');
     const heroLoc = document.getElementById('hero-count-localidades');
     const heroNac = document.getElementById('hero-count-nacoes');
+    const heroPessoas = document.getElementById('hero-count-pessoas');
 
     if (heroAcoes) heroAcoes.textContent = dinamicos.acoes_realizadas;
     if (heroLoc) heroLoc.textContent = dinamicos.cidades_atendidas;
     if (heroNac) heroNac.textContent = dinamicos.paises_atendidos;
+    if (heroPessoas) heroPessoas.textContent = totalPessoas.toLocaleString('pt-BR') + sufixoPessoas;
 
     // 2. Atualiza os targets dos contadores animados na Seção Impacto
     const impAcoes = document.getElementById('impacto-count-acoes');
     const impLoc = document.getElementById('impacto-count-localidades');
     const impNac = document.getElementById('impacto-count-nacoes');
+    const impPessoasEl = document.getElementById('impacto-count-pessoas');
+    const impPessoasSufixo = document.getElementById('impacto-sufixo-pessoas');
 
     if (impAcoes) impAcoes.setAttribute('data-target', dinamicos.acoes_realizadas);
     if (impLoc) impLoc.setAttribute('data-target', dinamicos.cidades_atendidas);
     if (impNac) impNac.setAttribute('data-target', dinamicos.paises_atendidos);
+    if (impPessoasEl) impPessoasEl.setAttribute('data-target', totalPessoas);
+    if (impPessoasSufixo) impPessoasSufixo.textContent = sufixoPessoas;
+
+    // 3. Atualiza Chave PIX do site a partir da configuração oficial
+    const cfg = window.atosDB.getConfig();
+    const pixInput = document.getElementById('pix-key-input');
+    if (pixInput && cfg.pix_oficial) {
+      pixInput.value = cfg.pix_oficial;
+    }
+
+    // 4. Renderiza Localidades Atendidas dinamicamente a partir das edições
+    renderLocalidadesAtendidas();
   } catch (err) {
     console.warn('Erro ao sincronizar indicadores dinâmicos:', err);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   NOVO: RENDERIZAÇÃO DINÂMICA DE LOCALIDADES ATENDIDAS VIA EDIÇÕES (BANCO)
+   -------------------------------------------------------------------------- */
+function renderLocalidadesAtendidas() {
+  const containerBrasil = document.getElementById('localidades-atendidas-brasil');
+  const containerExpansao = document.getElementById('localidades-atendidas-expansao');
+  const badgeBrasil = document.getElementById('badge-acoes-brasil');
+  const badgeExpansao = document.getElementById('badge-acoes-expansao');
+
+  if (!containerBrasil || !window.atosDB) return;
+
+  const edicoes = window.atosDB.getEdicoes();
+
+  const cidadesBrasilSet = new Set();
+  const cidadesExpansaoSet = new Set();
+  let totalAcoesBrasil = 0;
+  let totalAcoesExpansao = 0;
+
+  edicoes.forEach(ed => {
+    if (ed.status === 'Cancelada') return;
+
+    const pais = (ed.pais || 'Brasil').trim().toLowerCase();
+    const cidade = (ed.cidade || '').trim();
+    if (!cidade) return;
+
+    if (pais === 'brasil') {
+      cidadesBrasilSet.add(cidade);
+      totalAcoesBrasil++;
+    } else {
+      cidadesExpansaoSet.add(cidade);
+      totalAcoesExpansao++;
+    }
+  });
+
+  // Renderiza Cidades do Brasil
+  containerBrasil.innerHTML = '';
+  const cidadesBrasil = Array.from(cidadesBrasilSet).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  if (cidadesBrasil.length === 0) {
+    containerBrasil.innerHTML = '<span class="text-xs text-carvao/60 italic">Nenhuma localidade cadastrada ainda.</span>';
+  } else {
+    cidadesBrasil.forEach(cidade => {
+      const span = document.createElement('span');
+      span.className = 'badge-cidade';
+      span.textContent = `📍 ${cidade}`;
+      containerBrasil.appendChild(span);
+    });
+  }
+  if (badgeBrasil) {
+    badgeBrasil.textContent = `${totalAcoesBrasil} ${totalAcoesBrasil === 1 ? 'AÇÃO' : 'AÇÕES'}`;
+  }
+
+  // Renderiza Cidades de Expansão / Internacional
+  if (containerExpansao) {
+    containerExpansao.innerHTML = '';
+    const cidadesExpansao = Array.from(cidadesExpansaoSet).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    if (cidadesExpansao.length === 0) {
+      containerExpansao.innerHTML = '<span class="text-xs text-carvao/60 italic">Novas missões em planejamento.</span>';
+    } else {
+      cidadesExpansao.forEach(cidade => {
+        const span = document.createElement('span');
+        span.className = 'badge-cidade';
+        span.style.backgroundColor = 'var(--color-chama)';
+        span.textContent = `📍 ${cidade}`;
+        containerExpansao.appendChild(span);
+      });
+    }
+    if (badgeExpansao) {
+      badgeExpansao.textContent = totalAcoesExpansao > 0
+        ? `${totalAcoesExpansao} ${totalAcoesExpansao === 1 ? 'AÇÃO' : 'AÇÕES'}`
+        : 'EM PLANEJAMENTO';
+    }
   }
 }
 
@@ -165,16 +264,15 @@ function initComoAtuamosCarousel() {
   const prevBtn = document.getElementById('carousel-prev-btn');
   const nextBtn = document.getElementById('carousel-next-btn');
   const dots = document.querySelectorAll('.carousel-dot');
-  const slides = document.querySelectorAll('.como-atuamos-slide');
+  const slides = track ? track.querySelectorAll('.como-atuamos-slide') : [];
 
   if (!track || slides.length === 0) return;
 
   let currentIndex = 0;
   const totalSlides = slides.length;
-  let autoplayTimer = null;
 
   function updateCarousel(index) {
-    // Garantir loop infinito nos índices
+    // Navegação puramente cíclica baseada na quantidade real de cards existentes
     if (index < 0) {
       currentIndex = totalSlides - 1;
     } else if (index >= totalSlides) {
@@ -183,7 +281,7 @@ function initComoAtuamosCarousel() {
       currentIndex = index;
     }
 
-    // Marca o slide ativo e ajusta visuais
+    // Marca o slide ativo e ajusta destaque visual
     slides.forEach((slide, idx) => {
       if (idx === currentIndex) {
         slide.classList.add('is-active');
@@ -192,7 +290,128 @@ function initComoAtuamosCarousel() {
       }
     });
 
-    // Centraliza o slide ativo no container
+    const isMobile = window.innerWidth < 640;
+    const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
+
+    let slidePercent = 100;
+    let offsetPercent = 0;
+
+    if (isTablet) {
+      slidePercent = 65;
+      offsetPercent = (100 - slidePercent) / 2;
+    } else if (!isMobile) {
+      slidePercent = 46;
+      offsetPercent = (100 - slidePercent) / 2;
+    }
+
+    // Deslocamento exato centralizado sem vazar para espaços vazios
+    const translateVal = -(currentIndex * slidePercent) + offsetPercent;
+    track.style.transform = `translateX(${translateVal}%)`;
+
+    // Atualiza os dots indicadores dinâmicos
+    dots.forEach((dot, idx) => {
+      if (idx === currentIndex) {
+        dot.classList.add('active');
+        dot.classList.remove('bg-areia');
+      } else {
+        dot.classList.remove('active');
+        dot.classList.add('bg-areia');
+      }
+    });
+  }
+
+  // Eventos dos botões (sem autoplay)
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      updateCarousel(currentIndex - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      updateCarousel(currentIndex + 1);
+    });
+  }
+
+  // Eventos dos dots
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.getAttribute('data-slide'), 10);
+      updateCarousel(idx);
+    });
+  });
+
+  // Touch / Drag suave e seguro
+  let startX = 0;
+  let isDragging = false;
+
+  track.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) updateCarousel(currentIndex + 1);
+      else updateCarousel(currentIndex - 1);
+    }
+    isDragging = false;
+  }, { passive: true });
+
+  track.addEventListener('mousedown', (e) => {
+    startX = e.clientX;
+    isDragging = true;
+  });
+
+  window.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    const diff = startX - e.clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) updateCarousel(currentIndex + 1);
+      else updateCarousel(currentIndex - 1);
+    }
+    isDragging = false;
+  });
+
+  window.addEventListener('resize', () => {
+    updateCarousel(currentIndex);
+  });
+
+  // Inicializa estático
+  updateCarousel(0);
+}
+
+window.initEdicoesRealizadasCarousel = function() {
+  const track = document.getElementById('edicoes-realizadas-track');
+  const prevBtn = document.getElementById('edicoes-prev-btn');
+  const nextBtn = document.getElementById('edicoes-next-btn');
+  const slides = track ? track.querySelectorAll('.como-atuamos-slide') : [];
+
+  if (!track || slides.length === 0) return;
+
+  let currentIndex = 0;
+  const totalSlides = slides.length;
+
+  function updateCarousel(index) {
+    // Loop circular entre registros reais
+    if (index < 0) {
+      currentIndex = totalSlides - 1;
+    } else if (index >= totalSlides) {
+      currentIndex = 0;
+    } else {
+      currentIndex = index;
+    }
+
+    slides.forEach((slide, idx) => {
+      if (idx === currentIndex) {
+        slide.classList.add('is-active');
+      } else {
+        slide.classList.remove('is-active');
+      }
+    });
+
     const isMobile = window.innerWidth < 640;
     const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
 
@@ -209,54 +428,28 @@ function initComoAtuamosCarousel() {
 
     const translateVal = -(currentIndex * slidePercent) + offsetPercent;
     track.style.transform = `translateX(${translateVal}%)`;
-
-    // Atualiza os dots
-    dots.forEach((dot, idx) => {
-      if (idx === currentIndex) {
-        dot.classList.add('active');
-        dot.classList.remove('bg-areia');
-      } else {
-        dot.classList.remove('active');
-        dot.classList.add('bg-areia');
-      }
-    });
   }
 
-  // Eventos dos botões
+  // Setas de navegação (sem autoplay)
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      stopAutoplay();
       updateCarousel(currentIndex - 1);
-      startAutoplay();
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      stopAutoplay();
       updateCarousel(currentIndex + 1);
-      startAutoplay();
     });
   }
 
-  // Eventos dos dots
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const idx = parseInt(dot.getAttribute('data-slide'), 10);
-      stopAutoplay();
-      updateCarousel(idx);
-      startAutoplay();
-    });
-  });
-
-  // Touch / Drag suporte
+  // Interação manual por touch
   let startX = 0;
   let isDragging = false;
 
   track.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     isDragging = true;
-    stopAutoplay();
   }, { passive: true });
 
   track.addEventListener('touchend', (e) => {
@@ -267,13 +460,12 @@ function initComoAtuamosCarousel() {
       else updateCarousel(currentIndex - 1);
     }
     isDragging = false;
-    startAutoplay();
   }, { passive: true });
 
+  // Interação manual por mouse / drag
   track.addEventListener('mousedown', (e) => {
     startX = e.clientX;
     isDragging = true;
-    stopAutoplay();
   });
 
   window.addEventListener('mouseup', (e) => {
@@ -284,29 +476,16 @@ function initComoAtuamosCarousel() {
       else updateCarousel(currentIndex - 1);
     }
     isDragging = false;
-    startAutoplay();
   });
-
-  // Autoplay suave a cada 5 segundos
-  function startAutoplay() {
-    stopAutoplay();
-    autoplayTimer = setInterval(() => {
-      updateCarousel(currentIndex + 1);
-    }, 5000);
-  }
-
-  function stopAutoplay() {
-    if (autoplayTimer) clearInterval(autoplayTimer);
-  }
 
   window.addEventListener('resize', () => {
     updateCarousel(currentIndex);
   });
 
-  // Inicializa
+  // Inicializa estático sem nenhum autoplay
   updateCarousel(0);
-  startAutoplay();
-}
+};
+
 
 /* --------------------------------------------------------------------------
    NOVO: BOTÃO FLUTUANTE (SOME AO CHEGAR PRÓXIMO AO FOOTER)
