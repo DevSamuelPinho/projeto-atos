@@ -2382,8 +2382,12 @@ function initComprovanteModule() {
       return;
     }
 
+    // Busca os dados reais da pessoa no banco para garantir o e-mail atualizado
+    const pessoa = window.atosDB.getPessoaById(inscricao.pessoa_id);
+    const emailReal = (inscricao.email || (pessoa ? pessoa.email : '')).trim().toLowerCase();
+    
     // Validação estrita do e-mail cadastrado
-    const emailDestino = (inscricao.email || '').trim().toLowerCase();
+    const emailDestino = emailReal;
     if (!emailDestino || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailDestino)) {
       showToast(
         'E-mail Inválido',

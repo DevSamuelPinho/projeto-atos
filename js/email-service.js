@@ -146,7 +146,8 @@ window.AtosEmailService = {
     const cfg = this.getConfig();
     if (typeof emailjs !== 'undefined' && this._configurado()) {
       try {
-        emailjs.init({ publicKey: cfg.PUBLIC_KEY });
+        // Inicializa passando a chave pública. Suporta SDK v3 (string) e v4 (objeto).
+        emailjs.init(cfg.PUBLIC_KEY);
         console.log('[EmailService] EmailJS inicializado com sucesso.');
       } catch (err) {
         console.warn('[EmailService] Erro ao inicializar EmailJS:', err);
@@ -271,6 +272,8 @@ window.AtosEmailService = {
       const logId = 'email-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6);
       const templateParams = {
         to_email:     emailLimpo,
+        email:        emailLimpo,       // Fallback caso o template espere {{email}}
+        to:           emailLimpo,       // Fallback caso o template espere {{to}}
         to_name:      nomeParticipante,
         edicao_nome:  edicaoNome || 'Missão Projeto ATOS',
         edicao_data:  edicaoData || 'A confirmar',
@@ -281,7 +284,8 @@ window.AtosEmailService = {
       };
 
       try {
-        const respostaServico = await emailjs.send(cfg.SERVICE_ID, cfg.TEMPLATE_ID, templateParams);
+        // Passa a publicKey como quarto argumento, compatível com v3 e v4
+        const respostaServico = await emailjs.send(cfg.SERVICE_ID, cfg.TEMPLATE_ID, templateParams, cfg.PUBLIC_KEY);
         const dataEnvioISO = new Date().toISOString();
 
         // 8. Registrar envio com sucesso
@@ -377,9 +381,11 @@ window.AtosEmailService = {
 
     const cfg = this.getConfig();
     try {
-      emailjs.init({ publicKey: cfg.PUBLIC_KEY });
+      emailjs.init(cfg.PUBLIC_KEY);
       const res = await emailjs.send(cfg.SERVICE_ID, cfg.TEMPLATE_ID, {
         to_email:     emailDestino,
+        email:        emailDestino,
+        to:           emailDestino,
         to_name:      'Administrador do Projeto ATOS',
         edicao_nome:  'Teste de Integração',
         edicao_data:  new Date().toLocaleDateString('pt-BR'),
@@ -387,7 +393,7 @@ window.AtosEmailService = {
         reply_to:     'projetoatosoficial@gmail.com',
         status:       'Teste Concluído',
         mensagem:     'Este é um e-mail de teste para verificar a integração do serviço de e-mail do Projeto ATOS.'
-      });
+      }, cfg.PUBLIC_KEY);
       return { sucesso: true, resposta: res };
     } catch (err) {
       const msg = err?.text || err?.message || String(err);
